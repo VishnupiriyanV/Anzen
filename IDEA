@@ -1,0 +1,80 @@
+Project Idea Documentation: AI Code Vulnerability Checker
+This document outlines the concept, technical stack, and a phased work plan for our 24-hour hackathon project: an AI-powered web application that checks GitHub repositories for code vulnerabilities.
+
+
+
+1. Project Overview
+The goal is to create a web-based tool that simplifies the process of identifying code vulnerabilities. Users will be able to submit a GitHub repository URL, and our application will use a pre-trained AI model to scan the codebase and provide a detailed report.
+
+Core Features:
+User Authentication: Secure sign-up and login for user accounts.
+
+Repository Management: A dashboard to add new repositories, view past scan results, and re-check existing ones.
+
+Vulnerability Reporting: A detailed, single-page view showing a list of vulnerabilities with their severity (high, medium, low), descriptions, and suggestions for remediation.
+
+Automated Workflow: The system will automatically clone the repository, run the AI scan, and then delete the local copy to maintain security and conserve resources.
+
+2. Technology Stack
+This project will use a modern and efficient stack, balancing rapid development with robust functionality.
+
+Frontend: React
+Reasoning: React is ideal for building dynamic, single-page applications. Its component-based architecture will allow us to quickly build the user interface for the login forms, the repository table, and the detailed vulnerability report page.
+
+Libraries: We'll use standard React hooks (useState, useEffect) for state management and fetching data from the backend. We'll use a basic client-side routing solution to navigate between pages.
+
+Backend: Flask
+Reasoning: Flask is a lightweight and flexible Python web framework. It's perfect for a hackathon because it's easy to set up and allows us to quickly build the necessary API endpoints. Since our AI model and Git interaction logic are in Python, Flask provides a seamless integration.
+
+Key Services: The Flask backend will be responsible for user authentication, API endpoints for repository management, and orchestrating the AI scanning process.
+
+Database: Google Cloud Firestore
+Reasoning: Firestore is a flexible NoSQL document database with a generous free tier, making it ideal for a hackathon. Its document-based structure is well-suited for storing our data, as we can nest vulnerability reports directly within a repository's document. The Firebase Admin SDK for Python simplifies its integration with our Flask backend.
+
+Data Models: We'll have two main collections:
+
+users: Stores user credentials (e.g., hashed passwords).
+
+repos: Stores repository metadata and the detailed vulnerability reports.
+
+AI Model & GitHub Integration:
+Our backend will use Python's subprocess module to clone GitHub repositories and the shutil module to delete them after the scan. The AI model itself will be integrated directly into the Flask application, taking the code as input and returning structured vulnerability data.
+
+3. Work Plan (24 Hours)
+This plan divides the hackathon into four-hour phases, focusing on key milestones to ensure we have a functional prototype ready for demonstration.
+
+Phase 1 (Hours 1-8): Core Backend
+Setup: Create the project directories, set up the virtual environment, and configure Flask with Firestore.
+
+Authentication: Implement the API endpoints for user signup and login.
+
+Repository Management API: Create API endpoints to add a new repository, list existing repositories for a user, and fetch detailed information about a specific repository.
+
+Checkpoint: The backend API for authentication and basic repository management is tested and functional.
+
+Phase 2 (Hours 8-16): Frontend UI & Integration
+React Setup: Initialize the React project and create the core UI components for each page (login, signup, status, view vulnerability).
+
+Frontend-Backend Connection: Connect the login/signup forms to the backend API.
+
+Dashboard: Build the Status page with a dynamic table that displays the user's repositories by fetching data from the backend. Implement the "View" button to navigate to the detailed report page.
+
+Checkpoint: The frontend is fully functional for authentication and displaying data, even with mock data.
+
+Phase 3 (Hours 16-20): AI Integration & Cleanup
+Git & AI Workflow: Modify the Flask backend's "Add Repo" and "Re-check" endpoints.
+
+Cloning & Scanning: Implement the logic to clone a GitHub repository, pass the code to the AI model, and parse the output.
+
+Cleanup: Crucially, add a step to delete the locally cloned repository after the scan is complete.
+
+Data Persistence: Save the AI-generated vulnerability report to Firestore.
+
+Checkpoint: A complete end-to-end flow is working, from adding a repo to seeing a real scan result.
+
+Phase 4 (Hours 20-24): Deployment & Polish
+Deployment: Containerize the Flask backend using Docker and deploy it to a cloud service (e.g., Google Cloud Run). Build and deploy the React frontend to a static host (e.g., Netlify).
+
+UI/UX Refinement: Add loading spinners, improve styling, and implement clear error handling.
+
+Presentation: Prepare a quick demo of the application's key features for the presentation.
