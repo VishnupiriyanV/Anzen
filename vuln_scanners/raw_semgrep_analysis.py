@@ -1,88 +1,98 @@
 import subprocess
 import json
 import os
+import sys
 
 def semgrep_analyze(directory_path, output_file, config_rules):
-    
-    print(f"analyzing files in '{directory_path}' with ruleset '{config_rules}'...")
-    
-    
-    aggregated_results = {"results": [],"errors": [],"paths": {"_comment": f"Aggregated scan report for directory '{directory_path}'"}}
-    
-    files_to_scan = []
-    for root, _, files in os.walk(directory_path):
-        if any(part.startswith('.') for part in root.split(os.sep)):
-            continue
-        for file in files:
-            files_to_scan.append(os.path.join(root, file))
+    """
+    Analyzes a directory using Semgrep with a specific ruleset and saves the results.
+    This corrected version runs Semgrep once per directory, which is much more efficient.
+    """
+    print(f"Analyzing directory '{directory_path}' with ruleset '{config_rules}'...")
 
-    if not files_to_scan:
-        print(f"No files found in '{directory_path}'. Skipping analysis for '{config_rules}'.")
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(aggregated_results, f, indent=4)
-        return
+    # Semgrep can scan a directory directly. No need to walk the file tree in Python.
+    command = [
+        "semgrep",
+        "scan",
+        "--config", config_rules,
+        "--json",          # Output results in JSON format
+        directory_path     # The target directory to scan
+    ]
 
-    is_first_scan = True
+    try:
+        # Execute the Semgrep command once for the entire directory.
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            check=False  # Don't raise an exception on non-zero exit codes
+        )
 
-    for file_path in files_to_scan:
-        print(f"  -> Scanning {file_path}...")
-        command = ["semgrep", "scan", "--config", config_rules, "--json", file_path]
-        
+        # Semgrep exit codes: 0 = no findings, 1 = findings found, >1 = error
+        if result.returncode > 1:
+            print(f"An error occurred while scanning '{directory_path}'. See details below.", file=sys.stderr)
+            print(f"Return Code: {result.returncode}", file=sys.stderr)
+            print(f"Stderr:\n{result.stderr}", file=sys.stderr)
+            return # Stop processing this config if an error occurs
+
+        # Load the JSON output to count issues and ensure it's valid.
         try:
-            result = subprocess.run(command, capture_output=True, text=True, encoding='utf-8')
-
-            if result.returncode > 1:
-                print(f"An error occurred while scanning '{file_path}'.")
-                print(f"Return Code: {result.returncode}")
-                print(f"Stderr:\n{result.stderr}")
-
-            if not result.stdout.strip():
-                continue
-
-            current_output = json.loads(result.stdout)
+            scan_results = json.loads(result.stdout)
+        except json.JSONDecodeError:
+            print("Error: Semgrep did not return valid JSON.", file=sys.stderr)
+            print(f"Raw output:\n{result.stdout}", file=sys.stderr)
+            return
             
-            if is_first_scan:
-                for key, value in current_output.items():
-                    if key not in ["results", "errors", "paths"]:
-                        aggregated_results[key] = value
-                is_first_scan = False
-
-            aggregated_results["results"].extend(current_output.get("results", []))
-            aggregated_results["errors"].extend(current_output.get("errors", []))
-            
-    
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(aggregated_results, f, indent=4)
+        # Write the complete JSON output to the file.
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(scan_results, f, indent=4)
         
-    issue_count = len(aggregated_results.get('results', []))
-    print(f"\nAnalysis for '{config_rules}' complete. Found a total of {issue_count} issues across all files.")
-    print(f"Aggregated results saved to '{output_file}'.")
+        # Count the number of issues found from the results.
+        issue_count = len(scan_results.get('results', []))
+        print(f"Analysis complete. Found a total of {issue_count} issues.")
+        print(f"Full report saved to '{output_file}'.")
+
+    except FileNotFoundError:
+        print("\nError: 'semgrep' command not found.", file=sys.stderr)
+        print("Please ensure Semgrep is installed and available in your system's PATH.", file=sys.stderr)
+        sys.exit(1) # Exit the script if Semgrep isn't installed.
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
 
 
-target_directory = "test" 
-output_directory = "result"
+def main():
+    """
+    Main function to orchestrate the Semgrep analysis workflow.
+    """
+    target_directory = "test"
+    output_directory = "result"
 
-semgrep_configs = [
-    "p/cwe-top-25",
-    "p/r2c-security-audit",
-    "p/owasp-top-ten",
-    "p/secure-defaults"
-]
+    # A list of Semgrep registry configurations to use for scanning.
+    semgrep_configs = [
+        "p/cwe-top-25",
+        "p/r2c-security-audit",
+        "p/owasp-top-ten",
+        "p/secure-defaults"
+    ]
 
-os.makedirs(output_directory, exist_ok=True)
-os.makedirs(target_directory, exist_ok=True)
-
-
-
-for config in semgrep_configs:
-    sanitized_config_name = config.replace('p/', '').replace('/', '_')
+    # Ensure the target and output directories exist.
+    os.makedirs(output_directory, exist_ok=True)
+    os.makedirs(target_directory, exist_ok=True)
     
-    output_filename = os.path.join(output_directory, f"{sanitized_config_name}_results.json")
-    
-    print(f"\nRunning analysis for: {config}")
-    semgrep_analyze(target_directory, output_filename, config)
+    # --- Main analysis loop ---
+    for config in semgrep_configs:
+        # Sanitize the config name for a clean filename (e.g., 'p/owasp-top-ten' -> 'owasp-top-ten')
+        sanitized_config_name = config.split('/')[-1]
+        output_filename = os.path.join(output_directory, f"{sanitized_config_name}_results.json")
+        
+        print("-" * 50)
+        print(f"Running analysis for ruleset: {config}")
+        semgrep_analyze(target_directory, output_filename, config)
+
     print("-" * 50)
+    print("\n✅ All Semgrep analyses are complete.")
 
-print("\nAll Semgrep analyses are complete.")
 
-
+if __name__ == "__main__":
+    main()
