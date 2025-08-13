@@ -16,31 +16,28 @@ const Signup = ({ onLogin }) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      if (password !== confirmPassword) {
-        throw new Error('Passwords do not match');
-      }
-
-      if (password.length < 8) {
-        throw new Error('Password must be at least 8 characters long');
-      }
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful signup
-      if (name && email && password) {
-        onLogin({ email, name });
-      } else {
-        throw new Error('Please fill in all fields');
-      }
+        if (password !== confirmPassword) {
+            throw new Error('Passwords do not match');
+        }
+        const response = await fetch('http://127.0.0.1:5000/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            onLogin({ email, name });
+        } else {
+            throw new Error(data.error || 'Signup failed');
+        }
     } catch (err) {
-      setError(err.message || 'Signup failed. Please try again.');
+        setError(err.message || 'Signup failed. Please try again.');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -52,7 +49,7 @@ const Signup = ({ onLogin }) => {
               <Shield className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Join VulnGuard to secure your code</p>
+            <p className="text-gray-600 dark:text-gray-300 mt-2">Join Anzen to secure your code</p>
           </div>
 
           {error && (

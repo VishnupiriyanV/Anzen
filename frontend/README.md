@@ -1,4 +1,4 @@
-# VulnGuard - AI Code Vulnerability Checker
+# Anzen - AI Code Vulnerability Checker
 
 A modern, AI-powered web application that scans GitHub repositories for security vulnerabilities and provides detailed remediation guidance.
 
@@ -31,8 +31,8 @@ A modern, AI-powered web application that scans GitHub repositories for security
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/vulnguard.git
-   cd vulnguard
+   git clone https://github.com/your-username/anzen.git
+   cd anzen
    ```
 
 2. **Install dependencies**

@@ -1,6 +1,6 @@
 # Backend Integration Guide
 
-This guide provides detailed instructions for integrating the VulnGuard frontend with the Flask backend and setting up the complete AI-powered vulnerability scanning system.
+This guide provides detailed instructions for integrating the Anzen frontend with the Flask backend and setting up the complete AI-powered vulnerability scanning system.
 
 ## 🏗️ Architecture Overview
 
@@ -131,7 +131,7 @@ def create_app():
     
     @app.route('/api/health')
     def health_check():
-        return {'status': 'healthy', 'message': 'VulnGuard API is running'}
+        return {'status': 'healthy', 'message': 'Anzen API is running'}
     
     return app
 
@@ -647,7 +647,7 @@ CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:create_app()"]
 Deploy to Google Cloud Run:
 
 ```bash
-gcloud run deploy vulnguard-api \
+gcloud run deploy anzen-api \
   --source . \
   --platform managed \
   --region us-central1 \

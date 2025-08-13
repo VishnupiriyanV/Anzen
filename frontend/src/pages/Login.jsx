@@ -13,23 +13,24 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful login
-      if (email && password) {
-        onLogin({ email, name: email.split('@')[0] });
-      } else {
-        throw new Error('Please fill in all fields');
-      }
+        const response = await fetch('http://localhost:5000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            onLogin({ email: data.user.email, name: data.user.name });
+        } else {
+            throw new Error(data.error || 'Login failed');
+        }
     } catch (err) {
-      setError(err.message || 'Login failed. Please try again.');
+        setError(err.message || 'Login failed. Please try again.');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -41,7 +42,7 @@ const Login = ({ onLogin }) => {
               <Shield className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome Back</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Sign in to your VulnGuard account</p>
+            <p className="text-gray-600 dark:text-gray-300 mt-2">Sign in to your Anzen account</p>
           </div>
 
           {error && (
