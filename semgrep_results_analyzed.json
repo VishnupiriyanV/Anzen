@@ -1,0 +1,1814 @@
+{
+  "version": "1.131.0",
+  "results": [
+    {
+      "check_id": "php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+      "path": "clonedf/14-DoS-loop.php",
+      "start": {
+        "line": 38,
+        "col": 5,
+        "offset": 830
+      },
+      "end": {
+        "line": 38,
+        "col": 64,
+        "offset": 889
+      },
+      "extra": {
+        "metavars": {
+          "$1": {
+            "start": {
+              "line": 1,
+              "col": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "col": 6,
+              "offset": 5
+            },
+            "abstract_content": "GET"
+          },
+          "$REQ": {
+            "start": {
+              "line": 38,
+              "col": 36,
+              "offset": 861
+            },
+            "end": {
+              "line": 38,
+              "col": 41,
+              "offset": 866
+            },
+            "abstract_content": "$_GET"
+          }
+        },
+        "message": "Found direct access to a PHP variable wihout HTML escaping inside an inline PHP statement setting data from `$_REQUEST[...]`. When untrusted input can be used to tamper with a web page rendering, it can lead to a Cross-site scripting (XSS) vulnerability. XSS vulnerabilities occur when untrusted input executes malicious JavaScript code, leading to issues such as account compromise and sensitive information leakage. To prevent this vulnerability, validate the user input, perform contextual output encoding or sanitize the input. In PHP you can encode or sanitize user input with `htmlspecialchars` or use automatic context-aware escaping with a template engine such as Latte.",
+        "metadata": {
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "category": "security",
+          "subcategory": [
+            "vuln"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "cwe2021-top25": true,
+          "cwe2022-top25": true,
+          "functional-categories": [
+            "web::source::http-params::lang",
+            "web::source::http-body::lang",
+            "web::sink::html-webpage::lang"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://www.php.net/manual/en/language.basic-syntax.phptags.php"
+          ],
+          "technology": [
+            "php"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+          "shortlink": "https://sg.run/RlGe",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "pro_rules",
+              "r_id": 27193,
+              "rule_id": "r6UA0y",
+              "rv_id": 947718,
+              "url": "https://semgrep.dev/playground/r/ExTg4yR/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+              "version_id": "ExTg4yR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "4135a780e4d334292e453cadc0c5b86d7f0c0336009145919c08879c3b5492f4ca89fc15b043a5a10ad30c7b28ae0086577f8a9b7ece66d62166b5babe2b32db_0",
+        "lines": "    echo \"Your link: \", InviteLink($_GET['from'], $_GET['to']);",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/14-DoS-loop.php",
+                "start": {
+                  "line": 38,
+                  "col": 36,
+                  "offset": 861
+                },
+                "end": {
+                  "line": 38,
+                  "col": 49,
+                  "offset": 874
+                }
+              },
+              "$_GET['from']"
+            ]
+          ],
+          "intermediate_vars": [],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/14-DoS-loop.php",
+                "start": {
+                  "line": 38,
+                  "col": 5,
+                  "offset": 830
+                },
+                "end": {
+                  "line": 38,
+                  "col": 64,
+                  "offset": 889
+                }
+              },
+              "echo \"Your link: \", InviteLink($_GET['from'], $_GET['to']);"
+            ]
+          ]
+        },
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nI would say that this finding is unlikely to be a false positive. The code is directly echoing user-input data (`$_GET['from']` and `$_GET['to']`) without proper sanitization or encoding, which is a common vulnerability that can lead to XSS attacks.\n\nThe code is using the `echo` statement, which is a potential way to inject malicious JavaScript code without proper encoding or escaping. This could allow an attacker to inject JavaScript code, steal sensitive data, or take over the user's session.\n\n**",
+        "llm_code_remediation": "**\nTo remediate this vulnerability, I recommend replacing the code with the following secure version:\n\n```\necho \"Your link: \", htmlspecialchars(InviteLink($_GET['from'], $_GET['to']), ENT_QUOTES, 'UTF-8');\n```\n\nIn this remediated code:\n\n1. We're using the `htmlspecialchars` function to encode special characters in the input data. This will prevent the injection of malicious JavaScript code by replacing `<` and `>` with their corresponding HTML entities (`&lt;` and `&gt;` respectively).\n2. We're setting the `ENT_QUOTES` flag to ensure that single quotes are also encoded.\n3. We're specifying the character encoding as `UTF-8` to ensure that the encoding is correct and consistent with the rest of the application.\n\nThis remediated code will produce the same output as the original code, but with the added security of properly encoding user-input data to prevent XSS attacks."
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/18-pathTraversal-improper-regex.php",
+      "start": {
+        "line": 30,
+        "col": 35,
+        "offset": 741
+      },
+      "end": {
+        "line": 30,
+        "col": 40,
+        "offset": 746
+      },
+      "extra": {
+        "metavars": {
+          "$FILENAME": {
+            "start": {
+              "line": 30,
+              "col": 35,
+              "offset": 741
+            },
+            "end": {
+              "line": 30,
+              "col": 40,
+              "offset": 746
+            },
+            "abstract_content": "$file",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 29,
+                "col": 14,
+                "offset": 660
+              },
+              "svalue_end": {
+                "line": 29,
+                "col": 59,
+                "offset": 705
+              },
+              "svalue_abstract_content": "htmlspecialchars(PathFilter($_GET['file']))"
+            }
+          }
+        },
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 16250,
+              "rule_id": "5rUpro",
+              "rv_id": 945999,
+              "url": "https://semgrep.dev/playground/r/ZRT359j/php.lang.security.injection.tainted-filename.tainted-filename",
+              "version_id": "ZRT359j"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "0c23818d4e384a8249122f276ab14999eefa3faa2bd3d3ae6fa0cb9b7242bf0dd73e82c5147c638fe221766a5b0a4287fda20901c8f0ed096803e0c680c89ce7_0",
+        "lines": "    $content = file_get_contents( $file );",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/18-pathTraversal-improper-regex.php",
+                "start": {
+                  "line": 29,
+                  "col": 43,
+                  "offset": 689
+                },
+                "end": {
+                  "line": 29,
+                  "col": 48,
+                  "offset": 694
+                }
+              },
+              "$_GET"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/18-pathTraversal-improper-regex.php",
+                "start": {
+                  "line": 29,
+                  "col": 5,
+                  "offset": 651
+                },
+                "end": {
+                  "line": 29,
+                  "col": 10,
+                  "offset": 656
+                }
+              },
+              "content": "$file"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/18-pathTraversal-improper-regex.php",
+                "start": {
+                  "line": 30,
+                  "col": 35,
+                  "offset": 741
+                },
+                "end": {
+                  "line": 30,
+                  "col": 40,
+                  "offset": 746
+                }
+              },
+              "$file"
+            ]
+          ]
+        },
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the code snippet, I believe this is likely a true positive rather than a false positive. The finding states that the file name is based on user input, which increases the risk of server-side request forgery (SSRF). The code snippet uses `file_get_contents()` with a variable `$file` as the file name, which could potentially accept user-supplied input.\n\nAlthough the regex check (`php.lang.security.injection.tainted-filename.tainted-filename`) suggests that the file name is improperly validated using a regex, my analysis of the code snippet indicates that this is a genuine security issue.\n\n**",
+        "llm_code_remediation": "**\nTo remediate this issue, the code should be modified to properly validate and sanitize the file name before using it with `file_get_contents()`. Here's a suggested secure code remediation:\n\n```php\nif (filter_var($file, FILTER_VALIDATE_PATH) === false) {\n    // Handle invalid file name\n}\nelse {\n    $content = file_get_contents($file);\n}\n```\n\nThis remediation utilizes the `filter_var()` function with the `FILTER_VALIDATE_PATH` filter to validate the file name. This filter ensures that the file name matches the expected path format and does not contain malicious characters.\n\nAlternatively, you could use a whitelist approach by defining a set of allowed file paths and only allowing access to those paths:\n\n```php\n$allowedFiles = array('path/to/file1.txt', 'path/to/file2.txt');\nif (in_array($file, $allowedFiles)) {\n    $content = file_get_contents($file);\n} else {\n    // Handle unauthorized file access\n}\n```\n\nIt's essential to note that the actual remediation strategy may vary depending on the specific requirements and constraints of the application."
+      }
+    },
+    {
+      "check_id": "python.django.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 36,
+        "col": 13,
+        "offset": 930
+      },
+      "end": {
+        "line": 38,
+        "col": 56,
+        "offset": 1024
+      },
+      "extra": {
+        "metavars": {
+          "$ANYTHING": {
+            "start": {
+              "line": 33,
+              "col": 37,
+              "offset": 840
+            },
+            "end": {
+              "line": 33,
+              "col": 41,
+              "offset": 844
+            },
+            "abstract_content": "args"
+          },
+          "$HTMLSTR": {
+            "start": {
+              "line": 36,
+              "col": 17,
+              "offset": 934
+            },
+            "end": {
+              "line": 38,
+              "col": 41,
+              "offset": 1009
+            },
+            "abstract_content": "\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">"
+          }
+        },
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "django"
+          ],
+          "references": [
+            "https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/#render",
+            "https://docs.djangoproject.com/en/3.2/topics/security/#cross-site-scripting-xss-protection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/oYj1",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 14360,
+              "rule_id": "2ZUPER",
+              "rv_id": 946179,
+              "url": "https://semgrep.dev/playground/r/l4Tx9Gr/python.django.security.injection.raw-html-format.raw-html-format",
+              "version_id": "l4Tx9Gr"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "9caad4b9eda25e718f407190ab8d9a7b4f302c54d05be962235629207ab4754ee35cd30db519f60fc3f3136c54961b97d512e34baafdcbd04bbe81661dacc178_0",
+        "lines": "    image = ('''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 29,
+                  "offset": 832
+                },
+                "end": {
+                  "line": 33,
+                  "col": 41,
+                  "offset": 844
+                }
+              },
+              "request.args"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 5,
+                  "offset": 808
+                },
+                "end": {
+                  "line": 33,
+                  "col": 13,
+                  "offset": 816
+                }
+              },
+              "content": "imageURL"
+            },
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 35,
+                  "col": 5,
+                  "offset": 864
+                },
+                "end": {
+                  "line": 35,
+                  "col": 13,
+                  "offset": 872
+                }
+              },
+              "content": "imageB64"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 36,
+                  "col": 14,
+                  "offset": 931
+                },
+                "end": {
+                  "line": 38,
+                  "col": 55,
+                  "offset": 1023
+                }
+              },
+              "'''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64"
+            ]
+          ]
+        },
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\n\nBased on the code and the finding, I believe this is a likely true positive rather than a false positive. The code is manually constructing an HTML string and inserting user input (`imageB64`) into it, which is a common way for SSRF (Server-Side Request Forgery) attacks to bypass security mechanisms. The message from Semgrep indicates that the input may be bypassing secure methods of rendering HTML, and indeed, the code snippet is doing just that. The use of manually constructed HTML and inserting user input creates a potential XSS vulnerability.\n\n**",
+        "llm_code_remediation": "**\n\nTo remediate this issue and make the code secure, I would recommend using Django's built-in `mark_safe` function to mark the HTML string as safe for rendering, or using a secure template engine like Jinja2 to render the HTML template safely. Here's the remediated code:\n\n```\nfrom django.utils.safestring import mark_safe\n\nimage = mark_safe('''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64)\n```\n\nAlternatively, you could use Django's `render` shortcut to render the HTML template safely:\n\n```\nfrom django.shortcuts import render\n\ntemplate = \"\"\"\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,{% if imageB64 %}{{ imageB64 }}{% endif %}\">\n\"\"\"\n\nrender(request, template, {'imageB64': imageB64})\n```\n\nIn both examples, the HTML string is either marked as safe or rendered using a secure template engine, which helps prevent XSS vulnerabilities."
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.raw-html-concat.raw-html-format",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 36,
+        "col": 13,
+        "offset": 930
+      },
+      "end": {
+        "line": 38,
+        "col": 56,
+        "offset": 1024
+      },
+      "extra": {
+        "metavars": {
+          "$ANYTHING": {
+            "start": {
+              "line": 33,
+              "col": 37,
+              "offset": 840
+            },
+            "end": {
+              "line": 33,
+              "col": 41,
+              "offset": 844
+            },
+            "abstract_content": "args"
+          },
+          "$HTMLSTR": {
+            "start": {
+              "line": 36,
+              "col": 17,
+              "offset": 934
+            },
+            "end": {
+              "line": 38,
+              "col": 41,
+              "offset": 1009
+            },
+            "abstract_content": "\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">"
+          }
+        },
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`flask.render_template`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/2.0.x/security/#cross-site-scripting-xss"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.raw-html-concat.raw-html-format",
+          "shortlink": "https://sg.run/Pb7e",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 14389,
+              "rule_id": "GdUrJv",
+              "rv_id": 946225,
+              "url": "https://semgrep.dev/playground/r/6xTxjPq/python.flask.security.injection.raw-html-concat.raw-html-format",
+              "version_id": "6xTxjPq"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "ab6d727c1641abef26b380df37d63469cb4f7871bbce4e6976c1b8da13921191c36bbfd9dc88e2faf945f3c9d92dc8edf993ae5abf80fb9917cfb73753ef8048_0",
+        "lines": "    image = ('''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 29,
+                  "offset": 832
+                },
+                "end": {
+                  "line": 33,
+                  "col": 41,
+                  "offset": 844
+                }
+              },
+              "request.args"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 5,
+                  "offset": 808
+                },
+                "end": {
+                  "line": 33,
+                  "col": 13,
+                  "offset": 816
+                }
+              },
+              "content": "imageURL"
+            },
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 35,
+                  "col": 5,
+                  "offset": 864
+                },
+                "end": {
+                  "line": 35,
+                  "col": 13,
+                  "offset": 872
+                }
+              },
+              "content": "imageB64"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 36,
+                  "col": 14,
+                  "offset": 931
+                },
+                "end": {
+                  "line": 38,
+                  "col": 55,
+                  "offset": 1023
+                }
+              },
+              "'''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64"
+            ]
+          ]
+        },
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\n\nI believe this is unlikely to be a false positive. The code is manually constructing an HTML string, which is a potential risk for cross-site scripting (XSS) vulnerabilities. The use of user input (`imageB64`) in the construction of the `image` variable, which is then used to form a `src` attribute in an `<img>` tag, increases the likelihood of a vulnerability.\n\nThe warning from Semgrep is specific and accurate, pointing out the potential for RAW HTML concatenation, which can be a common pattern in Flask applications.\n\n**2.",
+        "llm_code_remediation": "**\n\nTo remediate this issue, I recommend using Flask's built-in template engine to render the HTML instead of constructing it manually. Here's a secure, drop-in replacement for the original code snippet:\n```python\nfrom flask import render_template_string\n\nimage = render_template_string('''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64('{{ imageB64 }}')\">''', imageB64=imageB64)\n```\nBy using `render_template_string`, we're ensuring that any user-input data (e.g., `imageB64`) is properly sanitized and safely rendered as part of the HTML template. This approach eliminates the risk of RAW HTML concatenation and potential XSS vulnerabilities.\n\nNote that this remediation assumes that `imageB64` is a trusted, user-input value. If it's not, additional validation and sanitization steps may be necessary."
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 43,
+        "col": 5,
+        "offset": 1113
+      },
+      "end": {
+        "line": 43,
+        "col": 51,
+        "offset": 1159
+      },
+      "extra": {
+        "metavars": {},
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9532,
+              "rule_id": "L1Uy1n",
+              "rv_id": 946204,
+              "url": "https://semgrep.dev/playground/r/7ZTrQkG/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+              "version_id": "7ZTrQkG"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "c4b11cda0542cc91386ad020bdc6621c0b76300edb215b172459e9e11b2b45f978d132f7434ed0d0dcbd12ef3cdd4b586baeb654f393090e6b8caf4b76764f7e_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\n\nBased on the code snippet, it's unlikely a false positive. The finding suggests that `app.run` with `host='0.0.0.0'` exposes the server publicly, which is a valid concern. In a production environment, it's generally recommended to bind the server to a specific IP address or hostname instead of `0.0.0.0`, which is a wildcard address that listens on all available network interfaces.\n\n**",
+        "llm_code_remediation": "**\n\nTo remediate this issue, you can replace the `app.run` statement with a more secure configuration. A drop-in replacement could be:\n```\nif DEBUG:\n    app.run(host='127.0.0.1', port=1337, debug=True)\nelse:\n    app.run(host='localhost', port=1337)\n```\nIn this remediation, when `DEBUG` is `True`, the application runs on `127.0.0.1` (localhost), which is the local machine's IP address, and then switches to `localhost` when `DEBUG` is `False`. This ensures that the server is not exposed publicly in a production environment.\n\nAlternatively, if you don't use a `DEBUG` flag, you can hardcode the `host` parameter to a specific IP address or hostname:\n```\napp.run(host='localhost', port=1337)\n```\nNote that in a production environment, it's also essential to ensure that your firewall and network configuration restrict access to the server accordingly."
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 43,
+        "col": 5,
+        "offset": 1113
+      },
+      "end": {
+        "line": 43,
+        "col": 51,
+        "offset": 1159
+      },
+      "extra": {
+        "metavars": {
+          "$APP": {
+            "start": {
+              "line": 43,
+              "col": 5,
+              "offset": 1113
+            },
+            "end": {
+              "line": 43,
+              "col": 8,
+              "offset": 1116
+            },
+            "abstract_content": "app",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 5,
+                "col": 7,
+                "offset": 136
+              },
+              "svalue_end": {
+                "line": 5,
+                "col": 90,
+                "offset": 219
+              },
+              "svalue_abstract_content": "design.Design(Flask(__name__)__file__'Vsnippet #32 - Format injection classic')"
+            }
+          }
+        },
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9534,
+              "rule_id": "gxU1bd",
+              "rv_id": 946206,
+              "url": "https://semgrep.dev/playground/r/8KTKjwR/python.flask.security.audit.debug-enabled.debug-enabled",
+              "version_id": "8KTKjwR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "51ab286b8a25913e5754bfb3b4fe43e7c708506beab20e9f5b79698e742dcb7d4602b38861388e02fa49d64e49c949f1dfb7baa834e92db750de246b8f1b5c4b_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nThis finding is unlikely to be a false positive. The `debug=True` flag in Flask enables debug mode, which allows for inspection and modification of variables during runtime. This can indeed lead to information disclosure, as stated in the finding. The presence of `debug=True` is a direct indicator of an insecure configuration, making this a legitimate security concern.\n\n**2.",
+        "llm_code_remediation": "**\nTo remediate this issue, consider setting the `debug` parameter using environment variables or configuration files, as recommended. Here's a secure drop-in replacement for the snippet:\n```python\nimport os\n\nif os.environ.get('FLASK_DEBUG', 'false').lower() == 'true':\n    app.run(host='0.0.0.0', port=1337, debug=True)\nelse:\n    app.run(host='0.0.0.0', port=1337)\n```\nIn this revised code:\n\n*   We check the `FLASK_DEBUG` environment variable and set `debug=True` if it's set to `true` (case-insensitive).\n*   If the environment variable is not set or set to anything else, we run the Flask app in production mode (debug mode disabled).\nThis remediation approach allows you to control the debug mode from the environment or configuration files, rather than hardcoding it in the code."
+      }
+    },
+    {
+      "check_id": "cpp.lang.security.strings.unbounded-copy-to-stack-buffer.unbounded-copy-to-stack-buffer",
+      "path": "clonedf/23-bof-classic.c",
+      "start": {
+        "line": 22,
+        "col": 9,
+        "offset": 354
+      },
+      "end": {
+        "line": 22,
+        "col": 13,
+        "offset": 358
+      },
+      "extra": {
+        "metavars": {
+          "$TY": {
+            "start": {
+              "line": 17,
+              "col": 5,
+              "offset": 218
+            },
+            "end": {
+              "line": 17,
+              "col": 9,
+              "offset": 222
+            },
+            "abstract_content": "char"
+          },
+          "$SIZE": {
+            "start": {
+              "line": 17,
+              "col": 17,
+              "offset": 230
+            },
+            "end": {
+              "line": 17,
+              "col": 18,
+              "offset": 231
+            },
+            "abstract_content": "4"
+          },
+          "$FUN": {
+            "start": {
+              "line": 22,
+              "col": 9,
+              "offset": 354
+            },
+            "end": {
+              "line": 22,
+              "col": 13,
+              "offset": 358
+            },
+            "abstract_content": "gets"
+          },
+          "$BUF": {
+            "start": {
+              "line": 22,
+              "col": 14,
+              "offset": 359
+            },
+            "end": {
+              "line": 22,
+              "col": 20,
+              "offset": 365
+            },
+            "abstract_content": "tryOTP"
+          }
+        },
+        "message": "The function `gets` does not impose any size limitation to what it writes to `tryOTP`. That may lead to a stack buffer overflow if there is no validation on the size of the input.",
+        "metadata": {
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "MEDIUM",
+          "category": "security",
+          "subcategory": [
+            "vuln"
+          ],
+          "cert": [
+            "C",
+            "C++",
+            "L1",
+            "STR31-C"
+          ],
+          "cwe": [
+            "CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
+          ],
+          "display-name": "Buffer Overflow",
+          "functional-categories": [
+            "memory::sink::buffer-overflow"
+          ],
+          "references": [
+            "https://wiki.sei.cmu.edu/confluence/display/c/STR31-C.+Guarantee+that+storage+for+strings+has+sufficient+space+for+character+data+and+the+null+terminator"
+          ],
+          "technology": [
+            "cpp"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/cpp.lang.security.strings.unbounded-copy-to-stack-buffer.unbounded-copy-to-stack-buffer",
+          "shortlink": "https://sg.run/GdYYy",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "pro_rules",
+              "r_id": 114892,
+              "rule_id": "qNU2OOW",
+              "rv_id": 947259,
+              "url": "https://semgrep.dev/playground/r/LjTX4QW/cpp.lang.security.strings.unbounded-copy-to-stack-buffer.unbounded-copy-to-stack-buffer",
+              "version_id": "LjTX4QW"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "efb46bc0607f312419fc0f1f93c10c3f588a89539a20e07cd233b7944b5c4b11e066199e987a771085989ef926e217c21884e229bd3667dfe9a3be78f0a88366_0",
+        "lines": "        gets(tryOTP);",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nIn this case, I'd say that this is likely to be a true positive finding. The `gets` function is notorious for its lack of bounds checking, which can lead to stack buffer overflows. The code snippet provided is an exact match for the vulnerability described in the finding.\n\nThe `gets` function is also deprecated since 1990, and its use is strongly discouraged. It's possible that this might be an older codebase or a deliberate attempt to demonstrate a vulnerability.\n\n**2.",
+        "llm_code_remediation": "**\nA secure remediation for this code snippet would be to replace the `gets` function with a newer, safer alternative. A suitable replacement would be the `fgets` function, which allows for specifying a buffer size and provides better input validation.\n\nHere's a drop-in replacement remediation snippet:\n\n```c\nchar buffer[256];\nfgets(buffer, sizeof(buffer), stdin);\n```\n\nIn this remediation, we're using `fgets` to read input from `stdin` into a buffer of size 256. This ensures that the input is limited to a maximum of 256 characters, preventing potential buffer overflows.\n\nIt's worth noting that if the intention of the original code was to read a line of input without specifying a maximum length, a more modern alternative like `fread` or `getline` should be considered, depending on the specific requirements and environment."
+      }
+    },
+    {
+      "check_id": "c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+      "path": "clonedf/23-bof-classic.c",
+      "start": {
+        "line": 22,
+        "col": 9,
+        "offset": 354
+      },
+      "end": {
+        "line": 22,
+        "col": 21,
+        "offset": 366
+      },
+      "extra": {
+        "metavars": {},
+        "message": "Avoid 'gets()'. This function does not consider buffer boundaries and can lead to buffer overflows. Use 'fgets()' or 'gets_s()' instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-676: Use of Potentially Dangerous Function"
+          ],
+          "references": [
+            "https://us-cert.cisa.gov/bsi/articles/knowledge/coding-practices/fgets-and-gets_s"
+          ],
+          "category": "security",
+          "technology": [
+            "c"
+          ],
+          "confidence": "MEDIUM",
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Dangerous Method or Function"
+          ],
+          "source": "https://semgrep.dev/r/c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+          "shortlink": "https://sg.run/dKqX",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 8834,
+              "rule_id": "GdU7OE",
+              "rv_id": 945170,
+              "url": "https://semgrep.dev/playground/r/YDTvRlQ/c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+              "version_id": "YDTvRlQ"
+            }
+          }
+        },
+        "severity": "ERROR",
+        "fingerprint": "dce26586613347808e2a2af8f780a78fb1afd80fd31788034e471bf294dfff79818667fd984f7494793ba2b2db9449ea29b9cac97965ed1370da05be45edd566_0",
+        "lines": "        gets(tryOTP);",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the code snippet, it appears that this is not a likely false positive. The `gets()` function is explicitly used in the code, and the warning mentions the potential for buffer overflows, which is a valid concern when using `gets()`.\n\n**2.",
+        "llm_code_remediation": "**\nThis is a true positive, and the `gets()` function should be avoided. Here's a secure code remediation that provides a drop-in replacement:\n```\nfgets(tryOTP, sizeof(tryOTP), stdin);\n```\nThis code uses `fgets()` instead of `gets()`, which is recommended. `fgets()` reads a line from the standard input (e.g., keyboard) and stores it in the `tryOTP` buffer. The `sizeof(tryOTP)` argument ensures that the buffer is not overread, and the `stdin` argument specifies the input source.\n\nBy using `fgets()`, we mitigated the risk of buffer overflows associated with `gets()`, making the code more secure."
+      }
+    },
+    {
+      "check_id": "php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+      "path": "clonedf/26-pathTraversal-replace-limit.php",
+      "start": {
+        "line": 41,
+        "col": 1,
+        "offset": 769
+      },
+      "end": {
+        "line": 41,
+        "col": 43,
+        "offset": 811
+      },
+      "extra": {
+        "metavars": {
+          "$1": {
+            "start": {
+              "line": 1,
+              "col": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "col": 6,
+              "offset": 5
+            },
+            "abstract_content": "GET"
+          },
+          "$REQ": {
+            "start": {
+              "line": 37,
+              "col": 13,
+              "offset": 649
+            },
+            "end": {
+              "line": 37,
+              "col": 18,
+              "offset": 654
+            },
+            "abstract_content": "$_GET"
+          }
+        },
+        "message": "Found direct access to a PHP variable wihout HTML escaping inside an inline PHP statement setting data from `$_REQUEST[...]`. When untrusted input can be used to tamper with a web page rendering, it can lead to a Cross-site scripting (XSS) vulnerability. XSS vulnerabilities occur when untrusted input executes malicious JavaScript code, leading to issues such as account compromise and sensitive information leakage. To prevent this vulnerability, validate the user input, perform contextual output encoding or sanitize the input. In PHP you can encode or sanitize user input with `htmlspecialchars` or use automatic context-aware escaping with a template engine such as Latte.",
+        "metadata": {
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "category": "security",
+          "subcategory": [
+            "vuln"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "cwe2021-top25": true,
+          "cwe2022-top25": true,
+          "functional-categories": [
+            "web::source::http-params::lang",
+            "web::source::http-body::lang",
+            "web::sink::html-webpage::lang"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://www.php.net/manual/en/language.basic-syntax.phptags.php"
+          ],
+          "technology": [
+            "php"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+          "shortlink": "https://sg.run/RlGe",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "pro_rules",
+              "r_id": 27193,
+              "rule_id": "r6UA0y",
+              "rv_id": 947718,
+              "url": "https://semgrep.dev/playground/r/ExTg4yR/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+              "version_id": "ExTg4yR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "d42eb8f9b0100c8fe3e902065df93aebfc7c0d014bde5b37b50c18d1b54d67d557672e9d67715016db528100c417db3d90175c137313cab5670dc3d669ecab4a_0",
+        "lines": "echo file_get_contents(\"./account/$page\");",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 13,
+                  "offset": 649
+                },
+                "end": {
+                  "line": 37,
+                  "col": 26,
+                  "offset": 662
+                }
+              },
+              "$_GET[\"page\"]"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 5,
+                  "offset": 641
+                },
+                "end": {
+                  "line": 37,
+                  "col": 10,
+                  "offset": 646
+                }
+              },
+              "content": "$page"
+            },
+            {
+              "location": {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 41,
+                  "col": 24,
+                  "offset": 792
+                },
+                "end": {
+                  "line": 41,
+                  "col": 25,
+                  "offset": 793
+                }
+              },
+              "content": "\""
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 41,
+                  "col": 1,
+                  "offset": 769
+                },
+                "end": {
+                  "line": 41,
+                  "col": 43,
+                  "offset": 811
+                }
+              },
+              "echo file_get_contents(\"./account/$page\");"
+            ]
+          ]
+        },
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "** Based on the code and the finding, this is unlikely to be a false positive. The code snippet `echo file_get_contents(\"./account/$page\");` suggests that it is reading and echoing the contents of a file relative to the current directory, which could potentially lead to a path traversal vulnerability. The use of `$_REQUEST['page']` as a variable in the file path creates a possibility of an untrusted input being used to tamper with the file path, which could result in reading a sensitive or unintended file.\n\n**",
+        "llm_code_remediation": "** To remediate this vulnerability, it's recommended to use a secure method to construct the file path, such as using a whitelist of allowed paths, or using a directory traversal safe function like `realpath()` or `pathinfo()`. Here's a drop-in replacement for the snippet that uses `realpath()` to ensure the file path is not traversable:\n\n```\necho file_get_contents(realpath(\"./account/\" . $page));\n```\n\nAlternatively, you could also use a more secure method to construct the file path, such as using a whitelist of allowed paths and validating the input against that list:\n\n```\n$allowedPaths = array('/account/page1', '/account/page2');\n$filePath = \"./account/\" . $page;\nif (in_array($filePath, $allowedPaths)) {\n    echo file_get_contents($filePath);\n} else {\n    // handle invalid file path\n}\n```\n\nIt's also important to validate the input `$page` variable to ensure it matches the expected format and doesn't contain any malicious characters. You can use a regular expression or a whitelist of allowed characters to achieve this."
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/26-pathTraversal-replace-limit.php",
+      "start": {
+        "line": 41,
+        "col": 24,
+        "offset": 792
+      },
+      "end": {
+        "line": 41,
+        "col": 41,
+        "offset": 809
+      },
+      "extra": {
+        "metavars": {
+          "$FILENAME": {
+            "start": {
+              "line": 41,
+              "col": 24,
+              "offset": 792
+            },
+            "end": {
+              "line": 41,
+              "col": 41,
+              "offset": 809
+            },
+            "abstract_content": "\"\"./account/$page\""
+          }
+        },
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 16250,
+              "rule_id": "5rUpro",
+              "rv_id": 945999,
+              "url": "https://semgrep.dev/playground/r/ZRT359j/php.lang.security.injection.tainted-filename.tainted-filename",
+              "version_id": "ZRT359j"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "480ef23bbbc7b9780a12f259aeda40c6582bc036297c486113882f66e0a1c26734e0cfa0e688e1ad22641f551f9269b182524b65bd16119afe2571cb2cd58f91_0",
+        "lines": "echo file_get_contents(\"./account/$page\");",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 13,
+                  "offset": 649
+                },
+                "end": {
+                  "line": 37,
+                  "col": 18,
+                  "offset": 654
+                }
+              },
+              "$_GET"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 5,
+                  "offset": 641
+                },
+                "end": {
+                  "line": 37,
+                  "col": 10,
+                  "offset": 646
+                }
+              },
+              "content": "$page"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 41,
+                  "col": 24,
+                  "offset": 792
+                },
+                "end": {
+                  "line": 41,
+                  "col": 41,
+                  "offset": 809
+                }
+              },
+              "\"./account/$page\""
+            ]
+          ]
+        },
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "** Based on the code snippet, this is likely not a false positive. The file_get_contents function is being used with a hardcoded path \"./account/$page\" which is concatenating the path with a variable $page. This allows user input to influence the file access, making it vulnerable to path traversal attacks. The Semgrep check is correctly identifying this as a security issue.\n\n**",
+        "llm_code_remediation": "** Here's a secure code remediation that is a drop-in replacement for the snippet:\n\n```\necho file_get_contents(__DIR__ . \"/account/\". $page);\n```\n\nIn this remediated code:\n\n*   The `__DIR__` constant is used to ensure that the path is rooted from the script's directory, which makes it impossible for users to traverse outside of the \"account\" directory.\n*   The variable `$page` is still concatenated with the path, but now the path is secure and cannot be exploited for path traversal attacks.\n\nThis remediation does not sanitize the `$page` variable, as it's not necessary to do so. The file system will not allow a user-provided path to access arbitrary files in the system."
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/34-DoS-regex.py",
+      "start": {
+        "line": 35,
+        "col": 5,
+        "offset": 1077
+      },
+      "end": {
+        "line": 35,
+        "col": 51,
+        "offset": 1123
+      },
+      "extra": {
+        "metavars": {},
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9532,
+              "rule_id": "L1Uy1n",
+              "rv_id": 946204,
+              "url": "https://semgrep.dev/playground/r/7ZTrQkG/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+              "version_id": "7ZTrQkG"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "9bfcb59e3025e0db9ba5a34d501fccb752f0a9ed0417214c941bf57db6f89090a97efb4e9544bf173bfab3d6322e80f6c4f65b67712304a5d84840c5337614ce_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the code snippet, it's unlikely to be a false positive. The finding is specifically looking for running Flask apps with a host IP that exposes the server publicly. In this case, the code explicitly sets the host to `'0.0.0.0'`, which is the loopback interface, and not a publicly accessible IP. This is a common practice in development environments, allowing the Flask app to be run on a local machine and not exposing it publicly. Therefore, it's a legitimate use case, and the finding is likely to be a true positive.\n\n**",
+        "llm_code_remediation": "**\nTo remediate this issue, you can change the `host` parameter to a specific IP address or a host name that is not publicly accessible. For example, you can use `127.0.0.1` or a private IP address that is not routed on the internet. You can also use a environment variable or a configuration file to set the host IP instead of hardcoding it.\n\nHere's a secure code remediation as a drop-in replacement:\n\n```\nimport os\n\napp_host = os.environ.get('APP_HOST', '127.0.0.1')\n\napp.run(host=app_host, port=1337, debug=True)\n```\n\nIn this remediation, we're using the `os.environ.get` function to retrieve an environment variable `APP_HOST` and set it as the `host` parameter for the Flask app. This allows you to configure the host IP from outside the code, for example, by setting the `APP_HOST` environment variable when running the app."
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/34-DoS-regex.py",
+      "start": {
+        "line": 35,
+        "col": 5,
+        "offset": 1077
+      },
+      "end": {
+        "line": 35,
+        "col": 51,
+        "offset": 1123
+      },
+      "extra": {
+        "metavars": {
+          "$APP": {
+            "start": {
+              "line": 35,
+              "col": 5,
+              "offset": 1077
+            },
+            "end": {
+              "line": 35,
+              "col": 8,
+              "offset": 1080
+            },
+            "abstract_content": "app",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 5,
+                "col": 7,
+                "offset": 130
+              },
+              "svalue_end": {
+                "line": 5,
+                "col": 110,
+                "offset": 233
+              },
+              "svalue_abstract_content": "design.Design(Flask(__name__)__file__'Vsnippet #34 - Regular expression Denial of Service (ReDoS)')"
+            }
+          }
+        },
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9534,
+              "rule_id": "gxU1bd",
+              "rv_id": 946206,
+              "url": "https://semgrep.dev/playground/r/8KTKjwR/python.flask.security.audit.debug-enabled.debug-enabled",
+              "version_id": "8KTKjwR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "b9d9561870062788b0ac71558e1eec7136e12fd4180b21c7740abdc575b070be38d687b201b0e0ee7edaf007c037c20f55f0c91e09d07aff924306d97304c681_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the code and the finding, it is unlikely a false positive. The code explicitly sets `debug=True` when running the Flask app, which is a known vulnerability. The message from Semgrep is accurate, as setting `debug=True` can expose sensitive information in a production environment.\n\n**2.",
+        "llm_code_remediation": "**\nA secure code remediation would be to set `debug=False` by default, or use a more secure configuration method. Here's a drop-in replacement snippet:\n\n```\n    app.run(host='0.0.0.0', port=1337, debug=False)\n```\n\nAlternatively, you can use environment variables to configure the debug mode. For example, you can set `FLASK_DEBUG=1` in your environment to enable debug mode or `FLASK_DEBUG=0` to disable it:\n\n```\n    app.run(host='0.0.0.0', port=1337, debug=os.environ.get('FLASK_DEBUG', 'false') == 'true')\n```\n\nThis way, you can ensure that debug mode is disabled in production environments, while still allowing it to be enabled for development or testing purposes.\n\nNote that it's generally recommended to keep debug mode disabled in production environments to prevent information leaks and potential security vulnerabilities."
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 33,
+        "col": 4,
+        "offset": 593
+      },
+      "end": {
+        "line": 33,
+        "col": 27,
+        "offset": 616
+      },
+      "extra": {
+        "metavars": {
+          "$PRINTF": {
+            "start": {
+              "line": 33,
+              "col": 8,
+              "offset": 597
+            },
+            "end": {
+              "line": 33,
+              "col": 16,
+              "offset": 605
+            },
+            "abstract_content": "Fprintln"
+          },
+          "$WRITER": {
+            "start": {
+              "line": 33,
+              "col": 17,
+              "offset": 606
+            },
+            "end": {
+              "line": 33,
+              "col": 18,
+              "offset": 607
+            },
+            "abstract_content": "w"
+          }
+        },
+        "message": "Detected 'Fprintf' or similar writing to 'http.ResponseWriter'. This bypasses HTML escaping that prevents cross-site scripting vulnerabilities. Instead, use the 'html/template' package to render data to users.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://blogtitle.github.io/robn-go-security-pearls-cross-site-scripting-xss/"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "LOW",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+          "shortlink": "https://sg.run/7oqR",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9138,
+              "rule_id": "ReUgyJ",
+              "rv_id": 945598,
+              "url": "https://semgrep.dev/playground/r/7ZTrQPA/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+              "version_id": "7ZTrQPA"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "7fa388fad1bbba512f44bca0eeb790b33efa8d348eb456d062dc519a1fb5b535071211646161a241fe8b0608921193d54dcca4df8e53d786d498c8d84331c6c6_0",
+        "lines": "\t\t\tfmt.Fprintln(w, html())",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\n\nBased on the code snippet provided, it is highly unlikely that this is a false positive. The code explicitly calls `fmt.Fprintln` with the `http.ResponseWriter` object (`w`) as the second argument. This is exactly the scenario that the Semgrep check is looking for - writing unescaped data to a response writer, which could lead to a cross-site scripting (XSS) vulnerability.\n\nWhile it's possible that the `html()` function returns sanitized data, the fact that it's being written directly to the response writer without any escape processing suggests a high likelihood of XSS.\n\n**2.",
+        "llm_code_remediation": "**\n\nTo remediate this issue, you should replace the vulnerable code with a secure drop-in replacement. Here's an example:\n\nInstead of:\n```\nfmt.Fprintln(w, html())\n```\n\nUse:\n```\nt, _ := template.New(\"template\").Parse(html())\nt.Execute(w, nil)\n```\n\nThis code uses the `html/template` package to render the `html()` output to the response writer, ensuring that any sensitive data is properly escaped to prevent XSS attacks.\n\nThe remediated code assumes that the `html()` function returns a template with placeholders for dynamic data. The `template.Execute` function renders the template with the provided context (in this case, `nil`) and writes the escaped output to the response writer."
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 38,
+        "col": 7,
+        "offset": 787
+      },
+      "end": {
+        "line": 38,
+        "col": 45,
+        "offset": 825
+      },
+      "extra": {
+        "metavars": {
+          "$PRINTF": {
+            "start": {
+              "line": 38,
+              "col": 11,
+              "offset": 791
+            },
+            "end": {
+              "line": 38,
+              "col": 19,
+              "offset": 799
+            },
+            "abstract_content": "Fprintln"
+          },
+          "$WRITER": {
+            "start": {
+              "line": 38,
+              "col": 20,
+              "offset": 800
+            },
+            "end": {
+              "line": 38,
+              "col": 21,
+              "offset": 801
+            },
+            "abstract_content": "w"
+          }
+        },
+        "message": "Detected 'Fprintf' or similar writing to 'http.ResponseWriter'. This bypasses HTML escaping that prevents cross-site scripting vulnerabilities. Instead, use the 'html/template' package to render data to users.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://blogtitle.github.io/robn-go-security-pearls-cross-site-scripting-xss/"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "LOW",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+          "shortlink": "https://sg.run/7oqR",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9138,
+              "rule_id": "ReUgyJ",
+              "rv_id": 945598,
+              "url": "https://semgrep.dev/playground/r/7ZTrQPA/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+              "version_id": "7ZTrQPA"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "7fa388fad1bbba512f44bca0eeb790b33efa8d348eb456d062dc519a1fb5b535071211646161a241fe8b0608921193d54dcca4df8e53d786d498c8d84331c6c6_1",
+        "lines": "\t\t\t\t\t\tfmt.Fprintln(w, html_AdminDashboard())",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the code snippet, I would say that this is a likely true positive. The code uses `fmt.Fprintln` to write HTML content to the response writer, which does not perform any HTML escaping. This allows for potential cross-site scripting (XSS) vulnerabilities if user-input data is used in the HTML content. The Semgrep rule is detecting this potential vulnerability correctly.\n\n**2.",
+        "llm_code_remediation": "**\nA secure drop-in replacement for the snippet would be:\n\n```\npackage main\n\nimport (\n\t\"log\"\n\t\"text/template\"\n\n\t\"net/http\"\n)\n\nfunc html_AdminDashboard() string {\n\t// your template logic goes here\n\treturn \"Admin dashboard content\"\n}\n\nfunc HandleAdminDashboardResponse(w http.ResponseWriter) {\n\t// escape HTML content\n\ttem := template.New(\"temp\")\n\ttem, err := tem.Parse(html_AdminDashboard())\n\tif err != nil {\n\t\tlog.Println(err)\n\t\treturn\n\t}\n\terr = tem.Execute(w, nil)\n\tif err != nil {\n\t\tlog.Println(err)\n\t}\n}\n```\n\nIn this remediated code, we use the Go `text/template` package to render the HTML content. This package provides automatic HTML escaping, preventing XSS vulnerabilities. The `HandleAdminDashboardResponse` function sets up a new template, parses the HTML content, and executes it to write the rendered HTML to the response writer. This is a secure and recommended way to generate HTML content for users."
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.net.use-tls.use-tls",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 61,
+        "col": 2,
+        "offset": 1218
+      },
+      "end": {
+        "line": 61,
+        "col": 32,
+        "offset": 1248
+      },
+      "extra": {
+        "metavars": {
+          "$ADDR": {
+            "start": {
+              "line": 61,
+              "col": 22,
+              "offset": 1238
+            },
+            "end": {
+              "line": 61,
+              "col": 26,
+              "offset": 1242
+            },
+            "abstract_content": "addr",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 59,
+                "col": 10,
+                "offset": 1130
+              },
+              "svalue_end": {
+                "line": 59,
+                "col": 41,
+                "offset": 1161
+              },
+              "svalue_abstract_content": "fmt.Sprintf(\"0.0.0.0:%d\"port)"
+            }
+          },
+          "$HANDLER": {
+            "start": {
+              "line": 61,
+              "col": 28,
+              "offset": 1244
+            },
+            "end": {
+              "line": 61,
+              "col": 31,
+              "offset": 1247
+            },
+            "abstract_content": "nil"
+          }
+        },
+        "message": "Found an HTTP server without TLS. Use 'http.ListenAndServeTLS' instead. See https://golang.org/pkg/net/http/#ListenAndServeTLS for more information.",
+        "fix": "http.ListenAndServeTLS(addr, certFile, keyFile, nil)",
+        "metadata": {
+          "cwe": [
+            "CWE-319: Cleartext Transmission of Sensitive Information"
+          ],
+          "owasp": [
+            "A03:2017 - Sensitive Data Exposure",
+            "A02:2021 - Cryptographic Failures"
+          ],
+          "references": [
+            "https://golang.org/pkg/net/http/#ListenAndServeTLS"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "MEDIUM",
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Mishandled Sensitive Information"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.net.use-tls.use-tls",
+          "shortlink": "https://sg.run/dKbY",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9134,
+              "rule_id": "PeUZ8X",
+              "rv_id": 945587,
+              "url": "https://semgrep.dev/playground/r/NdTqkJK/go.lang.security.audit.net.use-tls.use-tls",
+              "version_id": "NdTqkJK"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "475d2c13b65305d4db8a508d5e1c7525a5d4c6305261b2ff2b9942d853c02922f0b793b44f263f495fe53e6e50ba399d82be740789e83925ab8bf6f1dd81c568_0",
+        "lines": "\thttp.ListenAndServe(addr, nil)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "** Based on the code and the finding, this is likely a true positive. The finding suggests that the code is using the `http.ListenAndServe` function, which does not enable TLS encryption by default. This is a security vulnerability as it allows an attacker to intercept and modify plain text communications between the client and server.\n\nThere is no indication in the code snippet that TLS is intentionally being disabled or that an alternative secure method is being used. The fact that the code is missing the `http.ListenAndServeTLS` function, which is explicitly designed for use with TLS, suggests that this is a genuine security issue.\n\n**",
+        "llm_code_remediation": "** To remediate this true positive, the code should be modified to use `http.ListenAndServeTLS` instead of `http.ListenAndServe`. This will enable TLS encryption and secure the communications between the client and server.\n\nHere is a drop-in replacement for the snippet:\n```\n\thttp.ListenAndServeTLS(addr, certFile, keyFile, nil)\n```\nReplace `certFile` and `keyFile` with the actual paths to the server's TLS certificate and private key files, respectively. This code will start an HTTPS server on the specified `addr` using the provided certificate and key files."
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 2,
+      "level": "warn",
+      "type": "Internal matching error",
+      "rule_id": "javascript.crypto-js.cryptojs-weak-algorithm.cryptojs-weak-algorithm",
+      "message": "Internal matching error when running javascript.crypto-js.cryptojs-weak-algorithm.cryptojs-weak-algorithm on clonedf/checkLogout.js:\n An error occurred while invoking the Semgrep engine. Please help us fix this by creating an issue at https://github.com/semgrep/semgrep\n\nmetavariable-name:module(s) operator is only supported in the Pro engine",
+      "path": "clonedf/checkLogout.js"
+    }
+  ],
+  "paths": {
+    "scanned": [
+      "clonedf/14-DoS-loop.php",
+      "clonedf/18-pathTraversal-improper-regex.php",
+      "clonedf/19-open-redirect-url-fragment.php",
+      "clonedf/2-ssrf-regex-bypass.py",
+      "clonedf/22-open-redirect-classic.php",
+      "clonedf/23-bof-classic.c",
+      "clonedf/26-pathTraversal-replace-limit.php",
+      "clonedf/34-DoS-regex.py",
+      "clonedf/37-ssrf-XFH-header.php",
+      "clonedf/5-broken-auth-spoof.go",
+      "clonedf/9-open-redirect-invalid-regex.php",
+      "clonedf/checkLogout.js",
+      "clonedf/design.php",
+      "clonedf/design.py",
+      "clonedf/design_1.php",
+      "clonedf/design_1.py",
+      "clonedf/design_2.php",
+      "clonedf/design_3.php",
+      "clonedf/design_4.php",
+      "clonedf/design_5.php",
+      "clonedf/design_6.php",
+      "clonedf/items.json"
+    ]
+  },
+  "time": {
+    "rules": [],
+    "rules_parse_time": 14.018561124801636,
+    "profiling_times": {
+      "config_time": 18.257545948028564,
+      "core_time": 17.00005555152893,
+      "ignores_time": 0.003375530242919922,
+      "total_time": 35.26181650161743
+    },
+    "parsing_time": {
+      "total_time": 0.1973118782043457,
+      "per_file_time": {
+        "mean": 0.008968721736561169,
+        "std_dev": 4.1732902826793136e-05
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "scanning_time": {
+      "total_time": 2.006422281265259,
+      "per_file_time": {
+        "mean": 0.030400337594928176,
+        "std_dev": 0.006287275725246105
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "matching_time": {
+      "total_time": 0.45799756050109863,
+      "per_file_and_rule_time": {
+        "mean": 0.0012974435141674182,
+        "std_dev": 5.239269632145476e-06
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_rules_on_files": []
+    },
+    "tainting_time": {
+      "total_time": 0.09954190254211426,
+      "per_def_and_rule_time": {
+        "mean": 0.00020028551819338886,
+        "std_dev": 4.0212982425205396e-08
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_rules_on_defs": []
+    },
+    "targets": [],
+    "total_bytes": 0,
+    "max_memory_bytes": 8748771776
+  },
+  "engine_requested": "OSS",
+  "interfile_languages_used": [],
+  "skipped_rules": []
+}

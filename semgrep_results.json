@@ -1,0 +1,1784 @@
+{
+  "version": "1.131.0",
+  "results": [
+    {
+      "check_id": "php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+      "path": "clonedf/14-DoS-loop.php",
+      "start": {
+        "line": 38,
+        "col": 5,
+        "offset": 830
+      },
+      "end": {
+        "line": 38,
+        "col": 64,
+        "offset": 889
+      },
+      "extra": {
+        "metavars": {
+          "$1": {
+            "start": {
+              "line": 1,
+              "col": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "col": 6,
+              "offset": 5
+            },
+            "abstract_content": "GET"
+          },
+          "$REQ": {
+            "start": {
+              "line": 38,
+              "col": 36,
+              "offset": 861
+            },
+            "end": {
+              "line": 38,
+              "col": 41,
+              "offset": 866
+            },
+            "abstract_content": "$_GET"
+          }
+        },
+        "message": "Found direct access to a PHP variable wihout HTML escaping inside an inline PHP statement setting data from `$_REQUEST[...]`. When untrusted input can be used to tamper with a web page rendering, it can lead to a Cross-site scripting (XSS) vulnerability. XSS vulnerabilities occur when untrusted input executes malicious JavaScript code, leading to issues such as account compromise and sensitive information leakage. To prevent this vulnerability, validate the user input, perform contextual output encoding or sanitize the input. In PHP you can encode or sanitize user input with `htmlspecialchars` or use automatic context-aware escaping with a template engine such as Latte.",
+        "metadata": {
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "category": "security",
+          "subcategory": [
+            "vuln"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "cwe2021-top25": true,
+          "cwe2022-top25": true,
+          "functional-categories": [
+            "web::source::http-params::lang",
+            "web::source::http-body::lang",
+            "web::sink::html-webpage::lang"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://www.php.net/manual/en/language.basic-syntax.phptags.php"
+          ],
+          "technology": [
+            "php"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+          "shortlink": "https://sg.run/RlGe",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "pro_rules",
+              "r_id": 27193,
+              "rule_id": "r6UA0y",
+              "rv_id": 947718,
+              "url": "https://semgrep.dev/playground/r/ExTg4yR/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+              "version_id": "ExTg4yR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "4135a780e4d334292e453cadc0c5b86d7f0c0336009145919c08879c3b5492f4ca89fc15b043a5a10ad30c7b28ae0086577f8a9b7ece66d62166b5babe2b32db_0",
+        "lines": "    echo \"Your link: \", InviteLink($_GET['from'], $_GET['to']);",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/14-DoS-loop.php",
+                "start": {
+                  "line": 38,
+                  "col": 36,
+                  "offset": 861
+                },
+                "end": {
+                  "line": 38,
+                  "col": 49,
+                  "offset": 874
+                }
+              },
+              "$_GET['from']"
+            ]
+          ],
+          "intermediate_vars": [],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/14-DoS-loop.php",
+                "start": {
+                  "line": 38,
+                  "col": 5,
+                  "offset": 830
+                },
+                "end": {
+                  "line": 38,
+                  "col": 64,
+                  "offset": 889
+                }
+              },
+              "echo \"Your link: \", InviteLink($_GET['from'], $_GET['to']);"
+            ]
+          ]
+        },
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/18-pathTraversal-improper-regex.php",
+      "start": {
+        "line": 30,
+        "col": 35,
+        "offset": 741
+      },
+      "end": {
+        "line": 30,
+        "col": 40,
+        "offset": 746
+      },
+      "extra": {
+        "metavars": {
+          "$FILENAME": {
+            "start": {
+              "line": 30,
+              "col": 35,
+              "offset": 741
+            },
+            "end": {
+              "line": 30,
+              "col": 40,
+              "offset": 746
+            },
+            "abstract_content": "$file",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 29,
+                "col": 14,
+                "offset": 660
+              },
+              "svalue_end": {
+                "line": 29,
+                "col": 59,
+                "offset": 705
+              },
+              "svalue_abstract_content": "htmlspecialchars(PathFilter($_GET['file']))"
+            }
+          }
+        },
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 16250,
+              "rule_id": "5rUpro",
+              "rv_id": 945999,
+              "url": "https://semgrep.dev/playground/r/ZRT359j/php.lang.security.injection.tainted-filename.tainted-filename",
+              "version_id": "ZRT359j"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "0c23818d4e384a8249122f276ab14999eefa3faa2bd3d3ae6fa0cb9b7242bf0dd73e82c5147c638fe221766a5b0a4287fda20901c8f0ed096803e0c680c89ce7_0",
+        "lines": "    $content = file_get_contents( $file );",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/18-pathTraversal-improper-regex.php",
+                "start": {
+                  "line": 29,
+                  "col": 43,
+                  "offset": 689
+                },
+                "end": {
+                  "line": 29,
+                  "col": 48,
+                  "offset": 694
+                }
+              },
+              "$_GET"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/18-pathTraversal-improper-regex.php",
+                "start": {
+                  "line": 29,
+                  "col": 5,
+                  "offset": 651
+                },
+                "end": {
+                  "line": 29,
+                  "col": 10,
+                  "offset": 656
+                }
+              },
+              "content": "$file"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/18-pathTraversal-improper-regex.php",
+                "start": {
+                  "line": 30,
+                  "col": 35,
+                  "offset": 741
+                },
+                "end": {
+                  "line": 30,
+                  "col": 40,
+                  "offset": 746
+                }
+              },
+              "$file"
+            ]
+          ]
+        },
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.django.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 36,
+        "col": 13,
+        "offset": 930
+      },
+      "end": {
+        "line": 38,
+        "col": 56,
+        "offset": 1024
+      },
+      "extra": {
+        "metavars": {
+          "$ANYTHING": {
+            "start": {
+              "line": 33,
+              "col": 37,
+              "offset": 840
+            },
+            "end": {
+              "line": 33,
+              "col": 41,
+              "offset": 844
+            },
+            "abstract_content": "args"
+          },
+          "$HTMLSTR": {
+            "start": {
+              "line": 36,
+              "col": 17,
+              "offset": 934
+            },
+            "end": {
+              "line": 38,
+              "col": 41,
+              "offset": 1009
+            },
+            "abstract_content": "\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">"
+          }
+        },
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "django"
+          ],
+          "references": [
+            "https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/#render",
+            "https://docs.djangoproject.com/en/3.2/topics/security/#cross-site-scripting-xss-protection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/oYj1",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 14360,
+              "rule_id": "2ZUPER",
+              "rv_id": 946179,
+              "url": "https://semgrep.dev/playground/r/l4Tx9Gr/python.django.security.injection.raw-html-format.raw-html-format",
+              "version_id": "l4Tx9Gr"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "9caad4b9eda25e718f407190ab8d9a7b4f302c54d05be962235629207ab4754ee35cd30db519f60fc3f3136c54961b97d512e34baafdcbd04bbe81661dacc178_0",
+        "lines": "    image = ('''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 29,
+                  "offset": 832
+                },
+                "end": {
+                  "line": 33,
+                  "col": 41,
+                  "offset": 844
+                }
+              },
+              "request.args"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 5,
+                  "offset": 808
+                },
+                "end": {
+                  "line": 33,
+                  "col": 13,
+                  "offset": 816
+                }
+              },
+              "content": "imageURL"
+            },
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 35,
+                  "col": 5,
+                  "offset": 864
+                },
+                "end": {
+                  "line": 35,
+                  "col": 13,
+                  "offset": 872
+                }
+              },
+              "content": "imageB64"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 36,
+                  "col": 14,
+                  "offset": 931
+                },
+                "end": {
+                  "line": 38,
+                  "col": 55,
+                  "offset": 1023
+                }
+              },
+              "'''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64"
+            ]
+          ]
+        },
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.raw-html-concat.raw-html-format",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 36,
+        "col": 13,
+        "offset": 930
+      },
+      "end": {
+        "line": 38,
+        "col": 56,
+        "offset": 1024
+      },
+      "extra": {
+        "metavars": {
+          "$ANYTHING": {
+            "start": {
+              "line": 33,
+              "col": 37,
+              "offset": 840
+            },
+            "end": {
+              "line": 33,
+              "col": 41,
+              "offset": 844
+            },
+            "abstract_content": "args"
+          },
+          "$HTMLSTR": {
+            "start": {
+              "line": 36,
+              "col": 17,
+              "offset": 934
+            },
+            "end": {
+              "line": 38,
+              "col": 41,
+              "offset": 1009
+            },
+            "abstract_content": "\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">"
+          }
+        },
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`flask.render_template`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/2.0.x/security/#cross-site-scripting-xss"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.raw-html-concat.raw-html-format",
+          "shortlink": "https://sg.run/Pb7e",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 14389,
+              "rule_id": "GdUrJv",
+              "rv_id": 946225,
+              "url": "https://semgrep.dev/playground/r/6xTxjPq/python.flask.security.injection.raw-html-concat.raw-html-format",
+              "version_id": "6xTxjPq"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "ab6d727c1641abef26b380df37d63469cb4f7871bbce4e6976c1b8da13921191c36bbfd9dc88e2faf945f3c9d92dc8edf993ae5abf80fb9917cfb73753ef8048_0",
+        "lines": "    image = ('''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 29,
+                  "offset": 832
+                },
+                "end": {
+                  "line": 33,
+                  "col": 41,
+                  "offset": 844
+                }
+              },
+              "request.args"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 33,
+                  "col": 5,
+                  "offset": 808
+                },
+                "end": {
+                  "line": 33,
+                  "col": 13,
+                  "offset": 816
+                }
+              },
+              "content": "imageURL"
+            },
+            {
+              "location": {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 35,
+                  "col": 5,
+                  "offset": 864
+                },
+                "end": {
+                  "line": 35,
+                  "col": 13,
+                  "offset": 872
+                }
+              },
+              "content": "imageB64"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/2-ssrf-regex-bypass.py",
+                "start": {
+                  "line": 36,
+                  "col": 14,
+                  "offset": 931
+                },
+                "end": {
+                  "line": 38,
+                  "col": 55,
+                  "offset": 1023
+                }
+              },
+              "'''\n    <h1>Here is your image!!</h1>\n    <img src=\"data:image/jpg;base64,%s\">''' % imageB64"
+            ]
+          ]
+        },
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 43,
+        "col": 5,
+        "offset": 1113
+      },
+      "end": {
+        "line": 43,
+        "col": 51,
+        "offset": 1159
+      },
+      "extra": {
+        "metavars": {},
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9532,
+              "rule_id": "L1Uy1n",
+              "rv_id": 946204,
+              "url": "https://semgrep.dev/playground/r/7ZTrQkG/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+              "version_id": "7ZTrQkG"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "c4b11cda0542cc91386ad020bdc6621c0b76300edb215b172459e9e11b2b45f978d132f7434ed0d0dcbd12ef3cdd4b586baeb654f393090e6b8caf4b76764f7e_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 43,
+        "col": 5,
+        "offset": 1113
+      },
+      "end": {
+        "line": 43,
+        "col": 51,
+        "offset": 1159
+      },
+      "extra": {
+        "metavars": {
+          "$APP": {
+            "start": {
+              "line": 43,
+              "col": 5,
+              "offset": 1113
+            },
+            "end": {
+              "line": 43,
+              "col": 8,
+              "offset": 1116
+            },
+            "abstract_content": "app",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 5,
+                "col": 7,
+                "offset": 136
+              },
+              "svalue_end": {
+                "line": 5,
+                "col": 90,
+                "offset": 219
+              },
+              "svalue_abstract_content": "design.Design(Flask(__name__)__file__'Vsnippet #32 - Format injection classic')"
+            }
+          }
+        },
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9534,
+              "rule_id": "gxU1bd",
+              "rv_id": 946206,
+              "url": "https://semgrep.dev/playground/r/8KTKjwR/python.flask.security.audit.debug-enabled.debug-enabled",
+              "version_id": "8KTKjwR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "51ab286b8a25913e5754bfb3b4fe43e7c708506beab20e9f5b79698e742dcb7d4602b38861388e02fa49d64e49c949f1dfb7baa834e92db750de246b8f1b5c4b_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "cpp.lang.security.strings.unbounded-copy-to-stack-buffer.unbounded-copy-to-stack-buffer",
+      "path": "clonedf/23-bof-classic.c",
+      "start": {
+        "line": 22,
+        "col": 9,
+        "offset": 354
+      },
+      "end": {
+        "line": 22,
+        "col": 13,
+        "offset": 358
+      },
+      "extra": {
+        "metavars": {
+          "$TY": {
+            "start": {
+              "line": 17,
+              "col": 5,
+              "offset": 218
+            },
+            "end": {
+              "line": 17,
+              "col": 9,
+              "offset": 222
+            },
+            "abstract_content": "char"
+          },
+          "$SIZE": {
+            "start": {
+              "line": 17,
+              "col": 17,
+              "offset": 230
+            },
+            "end": {
+              "line": 17,
+              "col": 18,
+              "offset": 231
+            },
+            "abstract_content": "4"
+          },
+          "$FUN": {
+            "start": {
+              "line": 22,
+              "col": 9,
+              "offset": 354
+            },
+            "end": {
+              "line": 22,
+              "col": 13,
+              "offset": 358
+            },
+            "abstract_content": "gets"
+          },
+          "$BUF": {
+            "start": {
+              "line": 22,
+              "col": 14,
+              "offset": 359
+            },
+            "end": {
+              "line": 22,
+              "col": 20,
+              "offset": 365
+            },
+            "abstract_content": "tryOTP"
+          }
+        },
+        "message": "The function `gets` does not impose any size limitation to what it writes to `tryOTP`. That may lead to a stack buffer overflow if there is no validation on the size of the input.",
+        "metadata": {
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "MEDIUM",
+          "category": "security",
+          "subcategory": [
+            "vuln"
+          ],
+          "cert": [
+            "C",
+            "C++",
+            "L1",
+            "STR31-C"
+          ],
+          "cwe": [
+            "CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
+          ],
+          "display-name": "Buffer Overflow",
+          "functional-categories": [
+            "memory::sink::buffer-overflow"
+          ],
+          "references": [
+            "https://wiki.sei.cmu.edu/confluence/display/c/STR31-C.+Guarantee+that+storage+for+strings+has+sufficient+space+for+character+data+and+the+null+terminator"
+          ],
+          "technology": [
+            "cpp"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/cpp.lang.security.strings.unbounded-copy-to-stack-buffer.unbounded-copy-to-stack-buffer",
+          "shortlink": "https://sg.run/GdYYy",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "pro_rules",
+              "r_id": 114892,
+              "rule_id": "qNU2OOW",
+              "rv_id": 947259,
+              "url": "https://semgrep.dev/playground/r/LjTX4QW/cpp.lang.security.strings.unbounded-copy-to-stack-buffer.unbounded-copy-to-stack-buffer",
+              "version_id": "LjTX4QW"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "efb46bc0607f312419fc0f1f93c10c3f588a89539a20e07cd233b7944b5c4b11e066199e987a771085989ef926e217c21884e229bd3667dfe9a3be78f0a88366_0",
+        "lines": "        gets(tryOTP);",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+      "path": "clonedf/23-bof-classic.c",
+      "start": {
+        "line": 22,
+        "col": 9,
+        "offset": 354
+      },
+      "end": {
+        "line": 22,
+        "col": 21,
+        "offset": 366
+      },
+      "extra": {
+        "metavars": {},
+        "message": "Avoid 'gets()'. This function does not consider buffer boundaries and can lead to buffer overflows. Use 'fgets()' or 'gets_s()' instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-676: Use of Potentially Dangerous Function"
+          ],
+          "references": [
+            "https://us-cert.cisa.gov/bsi/articles/knowledge/coding-practices/fgets-and-gets_s"
+          ],
+          "category": "security",
+          "technology": [
+            "c"
+          ],
+          "confidence": "MEDIUM",
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Dangerous Method or Function"
+          ],
+          "source": "https://semgrep.dev/r/c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+          "shortlink": "https://sg.run/dKqX",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 8834,
+              "rule_id": "GdU7OE",
+              "rv_id": 945170,
+              "url": "https://semgrep.dev/playground/r/YDTvRlQ/c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+              "version_id": "YDTvRlQ"
+            }
+          }
+        },
+        "severity": "ERROR",
+        "fingerprint": "dce26586613347808e2a2af8f780a78fb1afd80fd31788034e471bf294dfff79818667fd984f7494793ba2b2db9449ea29b9cac97965ed1370da05be45edd566_0",
+        "lines": "        gets(tryOTP);",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+      "path": "clonedf/26-pathTraversal-replace-limit.php",
+      "start": {
+        "line": 41,
+        "col": 1,
+        "offset": 769
+      },
+      "end": {
+        "line": 41,
+        "col": 43,
+        "offset": 811
+      },
+      "extra": {
+        "metavars": {
+          "$1": {
+            "start": {
+              "line": 1,
+              "col": 3,
+              "offset": 2
+            },
+            "end": {
+              "line": 1,
+              "col": 6,
+              "offset": 5
+            },
+            "abstract_content": "GET"
+          },
+          "$REQ": {
+            "start": {
+              "line": 37,
+              "col": 13,
+              "offset": 649
+            },
+            "end": {
+              "line": 37,
+              "col": 18,
+              "offset": 654
+            },
+            "abstract_content": "$_GET"
+          }
+        },
+        "message": "Found direct access to a PHP variable wihout HTML escaping inside an inline PHP statement setting data from `$_REQUEST[...]`. When untrusted input can be used to tamper with a web page rendering, it can lead to a Cross-site scripting (XSS) vulnerability. XSS vulnerabilities occur when untrusted input executes malicious JavaScript code, leading to issues such as account compromise and sensitive information leakage. To prevent this vulnerability, validate the user input, perform contextual output encoding or sanitize the input. In PHP you can encode or sanitize user input with `htmlspecialchars` or use automatic context-aware escaping with a template engine such as Latte.",
+        "metadata": {
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "category": "security",
+          "subcategory": [
+            "vuln"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "cwe2021-top25": true,
+          "cwe2022-top25": true,
+          "functional-categories": [
+            "web::source::http-params::lang",
+            "web::source::http-body::lang",
+            "web::sink::html-webpage::lang"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://www.php.net/manual/en/language.basic-syntax.phptags.php"
+          ],
+          "technology": [
+            "php"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+          "shortlink": "https://sg.run/RlGe",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "pro_rules",
+              "r_id": 27193,
+              "rule_id": "r6UA0y",
+              "rv_id": 947718,
+              "url": "https://semgrep.dev/playground/r/ExTg4yR/php.lang.security.taint-unsafe-echo-tag.taint-unsafe-echo-tag",
+              "version_id": "ExTg4yR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "d42eb8f9b0100c8fe3e902065df93aebfc7c0d014bde5b37b50c18d1b54d67d557672e9d67715016db528100c417db3d90175c137313cab5670dc3d669ecab4a_0",
+        "lines": "echo file_get_contents(\"./account/$page\");",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 13,
+                  "offset": 649
+                },
+                "end": {
+                  "line": 37,
+                  "col": 26,
+                  "offset": 662
+                }
+              },
+              "$_GET[\"page\"]"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 5,
+                  "offset": 641
+                },
+                "end": {
+                  "line": 37,
+                  "col": 10,
+                  "offset": 646
+                }
+              },
+              "content": "$page"
+            },
+            {
+              "location": {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 41,
+                  "col": 24,
+                  "offset": 792
+                },
+                "end": {
+                  "line": 41,
+                  "col": 25,
+                  "offset": 793
+                }
+              },
+              "content": "\""
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 41,
+                  "col": 1,
+                  "offset": 769
+                },
+                "end": {
+                  "line": 41,
+                  "col": 43,
+                  "offset": 811
+                }
+              },
+              "echo file_get_contents(\"./account/$page\");"
+            ]
+          ]
+        },
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/26-pathTraversal-replace-limit.php",
+      "start": {
+        "line": 41,
+        "col": 24,
+        "offset": 792
+      },
+      "end": {
+        "line": 41,
+        "col": 41,
+        "offset": 809
+      },
+      "extra": {
+        "metavars": {
+          "$FILENAME": {
+            "start": {
+              "line": 41,
+              "col": 24,
+              "offset": 792
+            },
+            "end": {
+              "line": 41,
+              "col": 41,
+              "offset": 809
+            },
+            "abstract_content": "\"\"./account/$page\""
+          }
+        },
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 16250,
+              "rule_id": "5rUpro",
+              "rv_id": 945999,
+              "url": "https://semgrep.dev/playground/r/ZRT359j/php.lang.security.injection.tainted-filename.tainted-filename",
+              "version_id": "ZRT359j"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "480ef23bbbc7b9780a12f259aeda40c6582bc036297c486113882f66e0a1c26734e0cfa0e688e1ad22641f551f9269b182524b65bd16119afe2571cb2cd58f91_0",
+        "lines": "echo file_get_contents(\"./account/$page\");",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "dataflow_trace": {
+          "taint_source": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 13,
+                  "offset": 649
+                },
+                "end": {
+                  "line": 37,
+                  "col": 18,
+                  "offset": 654
+                }
+              },
+              "$_GET"
+            ]
+          ],
+          "intermediate_vars": [
+            {
+              "location": {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 37,
+                  "col": 5,
+                  "offset": 641
+                },
+                "end": {
+                  "line": 37,
+                  "col": 10,
+                  "offset": 646
+                }
+              },
+              "content": "$page"
+            }
+          ],
+          "taint_sink": [
+            "CliLoc",
+            [
+              {
+                "path": "clonedf/26-pathTraversal-replace-limit.php",
+                "start": {
+                  "line": 41,
+                  "col": 24,
+                  "offset": 792
+                },
+                "end": {
+                  "line": 41,
+                  "col": 41,
+                  "offset": 809
+                }
+              },
+              "\"./account/$page\""
+            ]
+          ]
+        },
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/34-DoS-regex.py",
+      "start": {
+        "line": 35,
+        "col": 5,
+        "offset": 1077
+      },
+      "end": {
+        "line": 35,
+        "col": 51,
+        "offset": 1123
+      },
+      "extra": {
+        "metavars": {},
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9532,
+              "rule_id": "L1Uy1n",
+              "rv_id": 946204,
+              "url": "https://semgrep.dev/playground/r/7ZTrQkG/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+              "version_id": "7ZTrQkG"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "9bfcb59e3025e0db9ba5a34d501fccb752f0a9ed0417214c941bf57db6f89090a97efb4e9544bf173bfab3d6322e80f6c4f65b67712304a5d84840c5337614ce_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/34-DoS-regex.py",
+      "start": {
+        "line": 35,
+        "col": 5,
+        "offset": 1077
+      },
+      "end": {
+        "line": 35,
+        "col": 51,
+        "offset": 1123
+      },
+      "extra": {
+        "metavars": {
+          "$APP": {
+            "start": {
+              "line": 35,
+              "col": 5,
+              "offset": 1077
+            },
+            "end": {
+              "line": 35,
+              "col": 8,
+              "offset": 1080
+            },
+            "abstract_content": "app",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 5,
+                "col": 7,
+                "offset": 130
+              },
+              "svalue_end": {
+                "line": 5,
+                "col": 110,
+                "offset": 233
+              },
+              "svalue_abstract_content": "design.Design(Flask(__name__)__file__'Vsnippet #34 - Regular expression Denial of Service (ReDoS)')"
+            }
+          }
+        },
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9534,
+              "rule_id": "gxU1bd",
+              "rv_id": 946206,
+              "url": "https://semgrep.dev/playground/r/8KTKjwR/python.flask.security.audit.debug-enabled.debug-enabled",
+              "version_id": "8KTKjwR"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "b9d9561870062788b0ac71558e1eec7136e12fd4180b21c7740abdc575b070be38d687b201b0e0ee7edaf007c037c20f55f0c91e09d07aff924306d97304c681_0",
+        "lines": "    app.run(host='0.0.0.0', port=1337, debug=True)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 33,
+        "col": 4,
+        "offset": 593
+      },
+      "end": {
+        "line": 33,
+        "col": 27,
+        "offset": 616
+      },
+      "extra": {
+        "metavars": {
+          "$PRINTF": {
+            "start": {
+              "line": 33,
+              "col": 8,
+              "offset": 597
+            },
+            "end": {
+              "line": 33,
+              "col": 16,
+              "offset": 605
+            },
+            "abstract_content": "Fprintln"
+          },
+          "$WRITER": {
+            "start": {
+              "line": 33,
+              "col": 17,
+              "offset": 606
+            },
+            "end": {
+              "line": 33,
+              "col": 18,
+              "offset": 607
+            },
+            "abstract_content": "w"
+          }
+        },
+        "message": "Detected 'Fprintf' or similar writing to 'http.ResponseWriter'. This bypasses HTML escaping that prevents cross-site scripting vulnerabilities. Instead, use the 'html/template' package to render data to users.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://blogtitle.github.io/robn-go-security-pearls-cross-site-scripting-xss/"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "LOW",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+          "shortlink": "https://sg.run/7oqR",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9138,
+              "rule_id": "ReUgyJ",
+              "rv_id": 945598,
+              "url": "https://semgrep.dev/playground/r/7ZTrQPA/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+              "version_id": "7ZTrQPA"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "7fa388fad1bbba512f44bca0eeb790b33efa8d348eb456d062dc519a1fb5b535071211646161a241fe8b0608921193d54dcca4df8e53d786d498c8d84331c6c6_0",
+        "lines": "\t\t\tfmt.Fprintln(w, html())",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 38,
+        "col": 7,
+        "offset": 787
+      },
+      "end": {
+        "line": 38,
+        "col": 45,
+        "offset": 825
+      },
+      "extra": {
+        "metavars": {
+          "$PRINTF": {
+            "start": {
+              "line": 38,
+              "col": 11,
+              "offset": 791
+            },
+            "end": {
+              "line": 38,
+              "col": 19,
+              "offset": 799
+            },
+            "abstract_content": "Fprintln"
+          },
+          "$WRITER": {
+            "start": {
+              "line": 38,
+              "col": 20,
+              "offset": 800
+            },
+            "end": {
+              "line": 38,
+              "col": 21,
+              "offset": 801
+            },
+            "abstract_content": "w"
+          }
+        },
+        "message": "Detected 'Fprintf' or similar writing to 'http.ResponseWriter'. This bypasses HTML escaping that prevents cross-site scripting vulnerabilities. Instead, use the 'html/template' package to render data to users.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://blogtitle.github.io/robn-go-security-pearls-cross-site-scripting-xss/"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "LOW",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+          "shortlink": "https://sg.run/7oqR",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9138,
+              "rule_id": "ReUgyJ",
+              "rv_id": 945598,
+              "url": "https://semgrep.dev/playground/r/7ZTrQPA/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+              "version_id": "7ZTrQPA"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "7fa388fad1bbba512f44bca0eeb790b33efa8d348eb456d062dc519a1fb5b535071211646161a241fe8b0608921193d54dcca4df8e53d786d498c8d84331c6c6_1",
+        "lines": "\t\t\t\t\t\tfmt.Fprintln(w, html_AdminDashboard())",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.net.use-tls.use-tls",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 61,
+        "col": 2,
+        "offset": 1218
+      },
+      "end": {
+        "line": 61,
+        "col": 32,
+        "offset": 1248
+      },
+      "extra": {
+        "metavars": {
+          "$ADDR": {
+            "start": {
+              "line": 61,
+              "col": 22,
+              "offset": 1238
+            },
+            "end": {
+              "line": 61,
+              "col": 26,
+              "offset": 1242
+            },
+            "abstract_content": "addr",
+            "propagated_value": {
+              "svalue_start": {
+                "line": 59,
+                "col": 10,
+                "offset": 1130
+              },
+              "svalue_end": {
+                "line": 59,
+                "col": 41,
+                "offset": 1161
+              },
+              "svalue_abstract_content": "fmt.Sprintf(\"0.0.0.0:%d\"port)"
+            }
+          },
+          "$HANDLER": {
+            "start": {
+              "line": 61,
+              "col": 28,
+              "offset": 1244
+            },
+            "end": {
+              "line": 61,
+              "col": 31,
+              "offset": 1247
+            },
+            "abstract_content": "nil"
+          }
+        },
+        "message": "Found an HTTP server without TLS. Use 'http.ListenAndServeTLS' instead. See https://golang.org/pkg/net/http/#ListenAndServeTLS for more information.",
+        "fix": "http.ListenAndServeTLS(addr, certFile, keyFile, nil)",
+        "metadata": {
+          "cwe": [
+            "CWE-319: Cleartext Transmission of Sensitive Information"
+          ],
+          "owasp": [
+            "A03:2017 - Sensitive Data Exposure",
+            "A02:2021 - Cryptographic Failures"
+          ],
+          "references": [
+            "https://golang.org/pkg/net/http/#ListenAndServeTLS"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "MEDIUM",
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Mishandled Sensitive Information"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.net.use-tls.use-tls",
+          "shortlink": "https://sg.run/dKbY",
+          "semgrep.dev": {
+            "rule": {
+              "origin": "community",
+              "r_id": 9134,
+              "rule_id": "PeUZ8X",
+              "rv_id": 945587,
+              "url": "https://semgrep.dev/playground/r/NdTqkJK/go.lang.security.audit.net.use-tls.use-tls",
+              "version_id": "NdTqkJK"
+            }
+          }
+        },
+        "severity": "WARNING",
+        "fingerprint": "475d2c13b65305d4db8a508d5e1c7525a5d4c6305261b2ff2b9942d853c02922f0b793b44f263f495fe53e6e50ba399d82be740789e83925ab8bf6f1dd81c568_0",
+        "lines": "\thttp.ListenAndServe(addr, nil)",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 2,
+      "level": "warn",
+      "type": "Internal matching error",
+      "rule_id": "javascript.crypto-js.cryptojs-weak-algorithm.cryptojs-weak-algorithm",
+      "message": "Internal matching error when running javascript.crypto-js.cryptojs-weak-algorithm.cryptojs-weak-algorithm on clonedf/checkLogout.js:\n An error occurred while invoking the Semgrep engine. Please help us fix this by creating an issue at https://github.com/semgrep/semgrep\n\nmetavariable-name:module(s) operator is only supported in the Pro engine",
+      "path": "clonedf/checkLogout.js"
+    }
+  ],
+  "paths": {
+    "scanned": [
+      "clonedf/14-DoS-loop.php",
+      "clonedf/18-pathTraversal-improper-regex.php",
+      "clonedf/19-open-redirect-url-fragment.php",
+      "clonedf/2-ssrf-regex-bypass.py",
+      "clonedf/22-open-redirect-classic.php",
+      "clonedf/23-bof-classic.c",
+      "clonedf/26-pathTraversal-replace-limit.php",
+      "clonedf/34-DoS-regex.py",
+      "clonedf/37-ssrf-XFH-header.php",
+      "clonedf/5-broken-auth-spoof.go",
+      "clonedf/9-open-redirect-invalid-regex.php",
+      "clonedf/checkLogout.js",
+      "clonedf/design.php",
+      "clonedf/design.py",
+      "clonedf/design_1.php",
+      "clonedf/design_1.py",
+      "clonedf/design_2.php",
+      "clonedf/design_3.php",
+      "clonedf/design_4.php",
+      "clonedf/design_5.php",
+      "clonedf/design_6.php",
+      "clonedf/items.json"
+    ]
+  },
+  "time": {
+    "rules": [],
+    "rules_parse_time": 14.018561124801636,
+    "profiling_times": {
+      "config_time": 18.257545948028564,
+      "core_time": 17.00005555152893,
+      "ignores_time": 0.003375530242919922,
+      "total_time": 35.26181650161743
+    },
+    "parsing_time": {
+      "total_time": 0.1973118782043457,
+      "per_file_time": {
+        "mean": 0.008968721736561169,
+        "std_dev": 4.1732902826793136e-05
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "scanning_time": {
+      "total_time": 2.006422281265259,
+      "per_file_time": {
+        "mean": 0.030400337594928176,
+        "std_dev": 0.006287275725246105
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "matching_time": {
+      "total_time": 0.45799756050109863,
+      "per_file_and_rule_time": {
+        "mean": 0.0012974435141674182,
+        "std_dev": 5.239269632145476e-06
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_rules_on_files": []
+    },
+    "tainting_time": {
+      "total_time": 0.09954190254211426,
+      "per_def_and_rule_time": {
+        "mean": 0.00020028551819338886,
+        "std_dev": 4.0212982425205396e-08
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_rules_on_defs": []
+    },
+    "targets": [],
+    "total_bytes": 0,
+    "max_memory_bytes": 8748771776
+  },
+  "engine_requested": "OSS",
+  "interfile_languages_used": [],
+  "skipped_rules": []
+}
