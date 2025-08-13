@@ -58,5 +58,5 @@ result = subprocess.run(cmd, capture_output=True, text=True, check=True)
 # Save JSON output
 with open(output_file, "w") as f:
     json.dump(json.loads(result.stdout), f, indent=2)
-
+    
 print(f"Scan complete. Results saved to {output_file}")
