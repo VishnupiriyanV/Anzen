@@ -1,16 +1,13 @@
 import json
 import os
 from groq import Groq
-from dotenv import load_dotenv
+import subprocess
 
-load_dotenv()
-os.environ["GROK_API_KEY"] = os.getenv("GROK_API_KEY", "")
+os.environ["GROK_API_KEY"] = "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"
 
-try:
-    client = Groq()
-except Exception as e:
-    print(f"Error initializing Groq client: {e}")
-    pass
+# Initialize Groq client
+client = Groq(api_key=os.environ["GROK_API_KEY"])
+print("Groq client initialized successfully!")
 
 INPUT_FILENAME = 'semgrep_results.json'
 OUTPUT_FILENAME = 'semgrep_results_analyzed.json'
