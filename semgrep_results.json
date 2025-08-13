@@ -1719,18 +1719,18 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 14.018561124801636,
+    "rules_parse_time": 22.036232948303223,
     "profiling_times": {
-      "config_time": 18.257545948028564,
-      "core_time": 17.00005555152893,
-      "ignores_time": 0.003375530242919922,
-      "total_time": 35.26181650161743
+      "config_time": 26.12186312675476,
+      "core_time": 26.212159395217896,
+      "ignores_time": 0.005254507064819336,
+      "total_time": 52.34111475944519
     },
     "parsing_time": {
-      "total_time": 0.1973118782043457,
+      "total_time": 0.36055803298950195,
       "per_file_time": {
-        "mean": 0.008968721736561169,
-        "std_dev": 4.1732902826793136e-05
+        "mean": 0.016389001499522816,
+        "std_dev": 0.00014102357509400914
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -1739,10 +1739,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 2.006422281265259,
+      "total_time": 3.3767294883728027,
       "per_file_time": {
-        "mean": 0.030400337594928176,
-        "std_dev": 0.006287275725246105
+        "mean": 0.05116256800564853,
+        "std_dev": 0.017247525441706102
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -1751,10 +1751,10 @@
       "very_slow_files": []
     },
     "matching_time": {
-      "total_time": 0.45799756050109863,
+      "total_time": 0.7389461994171143,
       "per_file_and_rule_time": {
-        "mean": 0.0012974435141674182,
-        "std_dev": 5.239269632145476e-06
+        "mean": 0.002093332009680211,
+        "std_dev": 1.3499212422767512e-05
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -1763,10 +1763,10 @@
       "very_slow_rules_on_files": []
     },
     "tainting_time": {
-      "total_time": 0.09954190254211426,
+      "total_time": 0.1633613109588623,
       "per_def_and_rule_time": {
-        "mean": 0.00020028551819338886,
-        "std_dev": 4.0212982425205396e-08
+        "mean": 0.0003286947906616948,
+        "std_dev": 1.182528288804719e-07
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -1776,7 +1776,7 @@
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 8748771776
+    "max_memory_bytes": 8760140608
   },
   "engine_requested": "OSS",
   "interfile_languages_used": [],
