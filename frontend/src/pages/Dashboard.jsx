@@ -202,14 +202,14 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-700 transition-colors duration-300">
           <div className="flex items-center">
-            <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <GitBranch className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="p-3 bg-blue-900/30 rounded-lg">
+              <GitBranch className="w-6 h-6 text-blue-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Repositories</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{repositories.length}</p>
+              <p className="text-sm font-medium text-gray-400">Total Repositories</p>
+              <p className="text-2xl font-bold text-white">{repositories.length}</p>
             </div>
           </div>
         </div>
@@ -328,7 +328,7 @@ const Dashboard = () => {
                     {repo.status === 'completed' && (
                       <Link
                         to={`/repository/${repo.id}`}
-                        className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200"
+                        className="inline-flex items-center px-3 py-2 border border-gray-600 rounded-md text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200"
                       >
                         <Eye className="w-4 h-4 mr-1" />
                         View
