@@ -2,102 +2,89 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, GitBranch, AlertTriangle, CheckCircle, Clock, Eye, RefreshCw, Search } from 'lucide-react';
 
-// Mock data for demonstration
-const mockRepositories = [
-  {
-    id: '1',
-    name: 'web-app',
-    url: 'https://github.com/user/web-app',
-    status: 'completed',
-    lastScan: '2024-01-15T10:30:00Z',
-    vulnerabilities: {
-      high: 3,
-      medium: 7,
-      low: 12
-    },
-    totalVulnerabilities: 22
-  },
-  {
-    id: '2',
-    name: 'api-service',
-    url: 'https://github.com/user/api-service',
-    status: 'scanning',
-    lastScan: '2024-01-15T11:45:00Z',
-    vulnerabilities: null,
-    totalVulnerabilities: 0
-  },
-  {
-    id: '3',
-    name: 'mobile-client',
-    url: 'https://github.com/user/mobile-client',
-    status: 'completed',
-    lastScan: '2024-01-14T15:20:00Z',
-    vulnerabilities: {
-      high: 1,
-      medium: 3,
-      low: 8
-    },
-    totalVulnerabilities: 12
-  },
-  {
-    id: '4',
-    name: 'data-pipeline',
-    url: 'https://github.com/user/data-pipeline',
-    status: 'error',
-    lastScan: '2024-01-14T09:15:00Z',
-    vulnerabilities: null,
-    totalVulnerabilities: 0
-  }
-];
-
 const Dashboard = () => {
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Simulate API call
     const loadRepositories = async () => {
       setLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setRepositories(mockRepositories);
-      setLoading(false);
+      setError('');
+      try {
+        // Fetch repositories for the logged-in user (Flask session handles user_id)
+        const response = await fetch('http://localhost:5000/api/repositories', {
+          credentials: 'include' // <--- ADDED THIS LINE
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch repositories.');
+        }
+        const data = await response.json();
+        // Frontend expects 'id' for Link, use 'url' from backend for unique key
+        const formattedData = data.map(repo => ({
+            ...repo,
+            id: encodeURIComponent(repo.url) // Use encoded URL as ID for routing
+        }));
+        setRepositories(formattedData);
+      } catch (err) {
+        setError(err.message || 'Failed to load repositories.');
+        console.error("Error fetching repositories:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadRepositories();
-  }, []);
+  }, []); // Empty dependency array means this runs once on component mount
 
   const filteredRepositories = repositories.filter(repo =>
     repo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     repo.url.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleRescan = (repoId) => {
+  const handleRescan = async (repoUrl) => {
+    // Optimistically update status to 'scanning'
     setRepositories(repos =>
       repos.map(repo =>
-        repo.id === repoId ? { ...repo, status: 'scanning' } : repo
+        repo.url === repoUrl ? { ...repo, status: 'scanning' } : repo
       )
     );
+    try {
+        // Call the backend rescan endpoint (create one in app.py if needed)
+        // For now, re-use add_repository for simplicity, assuming it triggers a rescan
+        const response = await fetch('http://localhost:5000/api/add_repository', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ repoUrl }),
+            credentials: 'include' // <--- ADDED THIS LINE
+        });
 
-    // Simulate rescan completion
-    setTimeout(() => {
-      setRepositories(repos =>
-        repos.map(repo =>
-          repo.id === repoId
-            ? {
-                ...repo,
-                status: 'completed',
-                lastScan: new Date().toISOString(),
-                vulnerabilities: {
-                  high: Math.floor(Math.random() * 5),
-                  medium: Math.floor(Math.random() * 10),
-                  low: Math.floor(Math.random() * 15)
-                }
-              }
-            : repo
-        )
-      );
-    }, 3000);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to rescan repository.');
+        }
+        // After successful rescan, refetch repositories to update data
+        const updatedResponse = await fetch('http://localhost:5000/api/repositories', {
+          credentials: 'include' // <--- ADDED THIS LINE
+        });
+        const updatedData = await updatedResponse.json();
+        const formattedUpdatedData = updatedData.map(repo => ({
+            ...repo,
+            id: encodeURIComponent(repo.url)
+        }));
+        setRepositories(formattedUpdatedData);
+
+    } catch (err) {
+        setError(err.message || 'Rescan failed. Please try again.');
+        console.error("Error during rescan:", err);
+        // Revert status on error
+        setRepositories(repos =>
+            repos.map(repo =>
+                repo.url === repoUrl ? { ...repo, status: 'error' } : repo
+            )
+        );
+    }
   };
 
   const getStatusBadge = (status) => {
@@ -147,6 +134,7 @@ const Dashboard = () => {
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   };
@@ -179,12 +167,19 @@ const Dashboard = () => {
     );
   }
 
-  const totalVulnerabilities = repositories.reduce((acc, repo) => acc + repo.totalVulnerabilities, 0);
+  const totalVulnerabilities = repositories.reduce((acc, repo) => acc + (repo.totalVulnerabilities || 0), 0);
   const completedScans = repositories.filter(repo => repo.status === 'completed').length;
   const activeScans = repositories.filter(repo => repo.status === 'scanning').length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Error Display */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
         <div>
@@ -327,7 +322,7 @@ const Dashboard = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                     {repo.status === 'completed' && (
                       <Link
-                        to={`/repository/${repo.id}`}
+                        to={`/repository/${encodeURIComponent(repo.url)}`}
                         className="inline-flex items-center px-3 py-2 border border-gray-600 rounded-md text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200"
                       >
                         <Eye className="w-4 h-4 mr-1" />
@@ -335,7 +330,7 @@ const Dashboard = () => {
                       </Link>
                     )}
                     <button
-                      onClick={() => handleRescan(repo.id)}
+                      onClick={() => handleRescan(repo.url)}
                       disabled={repo.status === 'scanning'}
                       className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >

@@ -2,146 +2,84 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, GitBranch, AlertTriangle, Clock, CheckCircle, ExternalLink, FileText, Shield, RefreshCw } from 'lucide-react';
 
-// Mock vulnerability data
-const mockVulnerabilities = [
-  {
-    id: '1',
-    severity: 'high',
-    title: 'SQL Injection Vulnerability',
-    description: 'Potential SQL injection found in user input handling',
-    file: 'src/database/queries.js',
-    line: 45,
-    cve: 'CVE-2024-1234',
-    remediation: 'Use parameterized queries or prepared statements to prevent SQL injection attacks. Replace direct string concatenation with parameter binding.',
-    example: `// Vulnerable code:
-const query = "SELECT * FROM users WHERE id = '" + userId + "'";
-
-// Fixed code:
-const query = "SELECT * FROM users WHERE id = ?";
-db.query(query, [userId]);`
-  },
-  {
-    id: '2',
-    severity: 'high',
-    title: 'Cross-Site Scripting (XSS)',
-    description: 'Reflected XSS vulnerability in search functionality',
-    file: 'src/components/SearchResults.jsx',
-    line: 28,
-    cve: 'CVE-2024-5678',
-    remediation: 'Sanitize user input before displaying it in the DOM. Use proper encoding for output in different contexts.',
-    example: `// Vulnerable code:
-element.innerHTML = userInput;
-
-// Fixed code:
-element.textContent = userInput;
-// or use a sanitization library like DOMPurify`
-  },
-  {
-    id: '3',
-    severity: 'medium',
-    title: 'Insecure Randomness',
-    description: 'Using Math.random() for security-sensitive operations',
-    file: 'src/utils/token.js',
-    line: 12,
-    cve: null,
-    remediation: 'Use cryptographically secure random number generation for tokens and sensitive operations.',
-    example: `// Vulnerable code:
-const token = Math.random().toString(36);
-
-// Fixed code:
-const crypto = require('crypto');
-const token = crypto.randomBytes(32).toString('hex');`
-  },
-  {
-    id: '4',
-    severity: 'medium',
-    title: 'Weak Password Policy',
-    description: 'Password validation allows weak passwords',
-    file: 'src/validation/auth.js',
-    line: 67,
-    cve: null,
-    remediation: 'Implement stronger password requirements including minimum length, character diversity, and common password checking.',
-    example: `// Current validation:
-password.length >= 6
-
-// Improved validation:
-const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$/;
-strongPassword.test(password);`
-  },
-  {
-    id: '5',
-    severity: 'low',
-    title: 'Information Disclosure',
-    description: 'Detailed error messages expose sensitive information',
-    file: 'src/middleware/errorHandler.js',
-    line: 15,
-    cve: null,
-    remediation: 'Log detailed errors internally but return generic error messages to users.',
-    example: `// Vulnerable code:
-res.status(500).json({ error: error.message, stack: error.stack });
-
-// Fixed code:
-logger.error(error); // Log internally
-res.status(500).json({ error: 'Internal server error' });`
-  },
-  {
-    id: '6',
-    severity: 'low',
-    title: 'Missing Security Headers',
-    description: 'HTTP security headers not configured',
-    file: 'src/server.js',
-    line: 8,
-    cve: null,
-    remediation: 'Add security headers like CSP, HSTS, X-Frame-Options to protect against various attacks.',
-    example: `// Add security headers:
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"]
-    }
-  }
-}));`
-  }
-];
-
 const RepositoryDetail = () => {
-  const { id } = useParams();
+  const { repoUrlEncoded } = useParams(); // Get the URL from the route parameter
   const navigate = useNavigate();
   const [repository, setRepository] = useState(null);
   const [vulnerabilities, setVulnerabilities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [selectedSeverity, setSelectedSeverity] = useState('all');
   const [selectedVulnerability, setSelectedVulnerability] = useState(null);
 
   useEffect(() => {
     const loadRepositoryData = async () => {
       setLoading(true);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock repository data
-      setRepository({
-        id,
-        name: 'web-app',
-        url: 'https://github.com/user/web-app',
-        status: 'completed',
-        lastScan: '2024-01-15T10:30:00Z',
-        vulnerabilities: {
-          high: 2,
-          medium: 2,
-          low: 2
-        },
-        totalVulnerabilities: 6
-      });
-      
-      setVulnerabilities(mockVulnerabilities);
-      setLoading(false);
+      setError('');
+      try {
+        const repoUrl = decodeURIComponent(repoUrlEncoded); // Decode the URL
+        // Ensure credentials are included for session management
+        const response = await fetch(`http://localhost:5000/api/repository_details?repo_url_encoded=${encodeURIComponent(repoUrlEncoded)}`, {
+          credentials: 'include' // Crucial for sending session cookies
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch repository details.');
+        }
+        const data = await response.json();
+        setRepository(data.repository);
+        // Assign a unique 'id' to each vulnerability for React's key prop
+        const vulnerabilitiesWithIds = data.vulnerabilities.map((v, index) => ({
+          ...v,
+          id: `${v.file}-${v.line}-${index}` // Simple unique ID
+        }));
+        setVulnerabilities(vulnerabilitiesWithIds);
+      } catch (err) {
+        setError(err.message || 'Failed to load repository details.');
+        console.error("Error fetching repository details:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadRepositoryData();
-  }, [id]);
+  }, [repoUrlEncoded]); // Rerun when repoUrlEncoded changes
+
+  const handleRescan = async (repoUrl) => {
+    // Implement rescan logic here, similar to Dashboard.jsx's handleRescan
+    // For now, it will just log and set an error
+    setError('');
+    try {
+      // Assuming add_repository also triggers a rescan and updates the DB
+      const response = await fetch('http://localhost:5000/api/add_repository', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ repoUrl }),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to rescan repository.');
+      }
+      // After successful rescan, reload the data for this detail page
+      const updatedResponse = await fetch(`http://localhost:5000/api/repository_details?repo_url_encoded=${encodeURIComponent(repoUrlEncoded)}`, {
+        credentials: 'include'
+      });
+      const updatedData = await updatedResponse.json();
+      setRepository(updatedData.repository);
+      const vulnerabilitiesWithIds = updatedData.vulnerabilities.map((v, index) => ({
+        ...v,
+        id: `${v.file}-${v.line}-${index}`
+      }));
+      setVulnerabilities(vulnerabilitiesWithIds);
+
+    } catch (err) {
+      setError(err.message || 'Rescan failed. Please try again.');
+      console.error("Error during rescan:", err);
+    }
+  };
+
 
   const handleBack = () => {
     navigate('/dashboard');
@@ -178,6 +116,7 @@ const RepositoryDetail = () => {
     : vulnerabilities.filter(v => v.severity === selectedSeverity);
 
   const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString();
   };
@@ -208,6 +147,23 @@ const RepositoryDetail = () => {
             </div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
+        </div>
+        <button
+          onClick={handleBack}
+          className="flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200 mt-4"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to Dashboard
+        </button>
       </div>
     );
   }
@@ -311,7 +267,7 @@ const RepositoryDetail = () => {
             <div className="space-y-4">
               {filteredVulnerabilities.map((vuln) => (
                 <div
-                  key={vuln.id}
+                  key={vuln.id} // Using the generated unique ID
                   className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer bg-white dark:bg-gray-800"
                   onClick={() => setSelectedVulnerability(vuln)}
                 >
@@ -388,7 +344,10 @@ const RepositoryDetail = () => {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-300">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Actions</h3>
             <div className="space-y-3">
-              <button className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center">
+              <button 
+                onClick={() => handleRescan(repository?.url)}
+                className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center"
+              >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Rescan Repository
               </button>
@@ -454,7 +413,7 @@ const RepositoryDetail = () => {
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
                   <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
                     <FileText className="w-4 h-4 mr-2" />
-                    <span className="font-mono">{selectedVulnerability.file}:{selectedVulnerability.line}</span>
+                    <span>{selectedVulnerability.file}:{selectedVulnerability.line}</span>
                   </div>
                 </div>
               </div>
@@ -471,6 +430,13 @@ const RepositoryDetail = () => {
                   </div>
                 )}
               </div>
+               {/* New: False Positive Analysis */}
+               {selectedVulnerability.false_positive_analysis && (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">False Positive Analysis</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{selectedVulnerability.false_positive_analysis}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

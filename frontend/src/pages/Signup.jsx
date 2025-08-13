@@ -22,13 +22,16 @@ const Signup = ({ onLogin }) => {
             throw new Error('Passwords do not match');
         }
         const response = await fetch('http://127.0.0.1:5000/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password }),
-        });
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: name, email, password }),
+        credentials: 'include' // <--- ADDED THIS LINE
+      });
+            
+        
         const data = await response.json();
         if (response.ok) {
-            onLogin({ email, name });
+            onLogin({ email, name }); // Assuming onLogin expects email and name
         } else {
             throw new Error(data.error || 'Signup failed');
         }

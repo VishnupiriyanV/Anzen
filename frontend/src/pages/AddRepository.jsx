@@ -30,10 +30,12 @@ const AddRepository = () => {
 
     setLoading(true);
     try {
+      // The backend will now automatically pick up the user_id from the Flask session
       const response = await fetch('http://localhost:5000/api/add_repository', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ repoUrl })
+        body: JSON.stringify({ repoUrl }),
+        credentials: 'include' // <--- ADDED THIS LINE
       });
 
       const data = await response.json();

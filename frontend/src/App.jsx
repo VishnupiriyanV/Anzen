@@ -12,7 +12,9 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate checking for stored auth token
+    // In a real application, you might verify the session with the backend here
+    // or use a more persistent token. For this setup, we rely on Flask's session.
+    // Simulate checking for stored auth token (though Flask session is server-side)
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -22,12 +24,22 @@ function App() {
 
   const login = (userData) => {
     setUser(userData);
+    // While Flask manages the session, we keep user data in localStorage for client-side state
     localStorage.setItem('user', JSON.stringify(userData));
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
     localStorage.removeItem('user');
+    // Call backend logout endpoint to clear Flask session
+    try {
+      await fetch('http://localhost:5000/api/logout', {
+        method: 'POST',
+        credentials: 'include' // Important: Send session cookie to clear it
+      });
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   if (loading) {
@@ -41,6 +53,7 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 transition-colors duration-300">
+        {/* Navbar is shown only if user is logged in */}
         {user && <Navbar user={user} onLogout={logout} />}
         
         <Routes>
@@ -56,13 +69,14 @@ function App() {
             path="/signup" 
             element={user ? <Navigate to="/dashboard" /> : <Signup onLogin={login} />} 
           />
+          {/* Protected Routes: Only accessible if user is logged in */}
           <Route 
             path="/dashboard" 
             element={user ? <Dashboard /> : <Navigate to="/login" />} 
           />
-          <Route 
-            path="/repository/:id" 
-            element={user ? <RepositoryDetail /> : <Navigate to="/login" />} 
+          <Route
+            path="/repository/:repoUrlEncoded" /* Changed to use repoUrlEncoded */
+            element={user ? <RepositoryDetail /> : <Navigate to="/login" />}
           />
           <Route 
             path="/add-repository" 

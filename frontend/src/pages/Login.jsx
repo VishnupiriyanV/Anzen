@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import Logo from '../components/Logo';
+import Logo from '../components/Logo'; // Assuming you have a Logo component
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -19,10 +19,12 @@ const Login = ({ onLogin }) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
+            credentials: 'include' // <--- IMPORTANT: This ensures session cookies are sent
         });
         const data = await response.json();
         if (response.ok) {
-            onLogin({ email: data.user.email, name: data.user.name });
+            // Assuming the backend returns user data including 'id', 'email', 'name', 'username'
+            onLogin({ id: data.user.id, email: data.user.email, name: data.user.username || data.user.name });
         } else {
             throw new Error(data.error || 'Login failed');
         }
@@ -116,8 +118,8 @@ const Login = ({ onLogin }) => {
           <div className="mt-8 text-center">
             <p className="text-gray-600 dark:text-gray-300">
               Don't have an account?{' '}
-              <Link 
-                to="/signup" 
+              <Link
+                to="/signup"
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
               >
                 Sign up now
