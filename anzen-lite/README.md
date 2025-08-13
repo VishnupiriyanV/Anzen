@@ -1,6 +1,6 @@
 # Anzen Lite
 
-Runs locally, a lite version of Anzen without AI features. Install using the VSIX file.
+Extension for VS Code that runs locally, a lite version of Anzen without AI features. Install using the VSIX file.
 
 ## Usage
 1. Install Dependency:
