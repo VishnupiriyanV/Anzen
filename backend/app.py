@@ -30,6 +30,8 @@ app.config['MYSQL_DB'] = 'vulnguard'
 
 mysql = MySQL(app)
 
+url = ""
+
 # Create tables if they don't exist
 def init_db():
     try:
@@ -174,6 +176,7 @@ def add_repository():
 
         # Validate GitHub URL format
         github_regex = r'^https://github\.com/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)/?$'
+        url = repo_url
         match = re.match(github_regex, repo_url)
         if not match:
             logging.warning("Repository add failed: Invalid GitHub URL format for %s by user %s", repo_url, user_email)
@@ -192,16 +195,15 @@ def add_repository():
             logging.error("Repository add failed: Could not connect to GitHub API for %s by user %s. Error: %s", repo_url, user_email, str(req_ex))
             return jsonify({'error': 'Could not connect to GitHub API. Please check your internet connection or try again later.'}), 500
 
-        # Create a temporary working directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            old_cwd = os.getcwd()
-            os.chdir(temp_dir)
+        
             
             try:
                 # Define paths for scripts
-                main_git_script_path = os.path.join(old_cwd, "main-git.py")
-                ai_main_script_path = os.path.join(old_cwd, "ai", "ai-main.py")
-                score_gen_path = os.path.join(old_cwd, "score_gen.py")
+                parent_dir = os.path.dirname(os.path.dirname(__file__))
+                main_path = os.path.join(parent_dir, "main-git.py")
+                main_git_script_path = main_path
+                ai_main_script_path = parent_dir + "ai/ai-main.py"
+                score_gen_path = parent_dir + "score_gen.py"
 
                 # Step 1: Run main-git.py with repo url
                 logging.info("Running main-git.py for repo: %s (User: %s)", repo_url, user_email)
