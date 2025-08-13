@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, GitBranch, Plus, AlertCircle } from 'lucide-react';
 
 const AddRepository = () => {
-  const [repoUrl, asetRepoUrl] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [repoUrl, setRepoUrl] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
+  // Simple GitHub URL validation
   const validateGitHubUrl = (url) => {
-    const githubRegex = /^https:\/\/github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+\/?$/;
-    return githubRegex.test(url);
+    const regex = /^https:\/\/github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+\/?$/;
+    return regex.test(url);
   };
 
   const handleSubmit = async (e) => {
@@ -21,20 +23,26 @@ const AddRepository = () => {
       setError('Please enter a repository URL');
       return;
     }
-
     if (!validateGitHubUrl(repoUrl)) {
       setError('Please enter a valid GitHub repository URL (e.g., https://github.com/username/repository)');
       return;
     }
 
     setLoading(true);
-
     try {
-      // Simulate API call to add repository
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Mock successful addition
-      navigate('/dashboard');
+      const response = await fetch('http://localhost:5000/api/add_repository', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ repoUrl })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Failed to add repository. Please try again.');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError('Failed to add repository. Please try again.');
     } finally {
