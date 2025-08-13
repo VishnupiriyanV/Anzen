@@ -1,7 +1,7 @@
 {
   "name": "anzen-lite",
   "displayName": "Anzen Lite",
-  "description": "Runs locally with Semgrep — a lite version of Anzen without the Direct AI features.",
+  "description": "Extension for VS Code that runs locally, a lite version of Anzen without AI features.",
   "version": "0.0.1",
   "icon": "icon.png",
   "publisher": "Blag Flag",
