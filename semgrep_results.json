@@ -1,0 +1,3677 @@
+{
+  "version": "1.131.0",
+  "results": [
+    {
+      "check_id": "php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+      "path": "clonedf/1-sqli-escape-invalid-blacklist-order.php",
+      "start": {
+        "line": 24,
+        "col": 27,
+        "offset": 493
+      },
+      "end": {
+        "line": 24,
+        "col": 79,
+        "offset": 545
+      },
+      "extra": {
+        "message": "User data flows into this manually-constructed SQL string. User data can be safely inserted into SQL strings using prepared statements or an object-relational mapper (ORM). Manually-constructed SQL strings is a possible indicator of SQL injection, which could let an attacker steal or manipulate data from the database. Instead, use prepared statements (`$mysqli->prepare(\"INSERT INTO test(id, label) VALUES (?, ?)\");`) or a safe library.",
+        "metadata": {
+          "cwe": [
+            "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+          ],
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://owasp.org/www-community/attacks/SQL_Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "SQL Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+          "shortlink": "https://sg.run/lZYG"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+      "path": "clonedf/11-cors-classic.js",
+      "start": {
+        "line": 5,
+        "col": 7,
+        "offset": 88
+      },
+      "end": {
+        "line": 5,
+        "col": 22,
+        "offset": 103
+      },
+      "extra": {
+        "message": "A CSRF middleware was not detected in your express application. Ensure you are either using one such as `csurf` or `csrf` (see rule references) and/or you are properly doing CSRF validation in your routes with a token or cookies.",
+        "metadata": {
+          "category": "security",
+          "references": [
+            "https://www.npmjs.com/package/csurf",
+            "https://www.npmjs.com/package/csrf",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe": [
+            "CWE-352: Cross-Site Request Forgery (CSRF)"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "technology": [
+            "javascript",
+            "typescript",
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site Request Forgery (CSRF)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+          "shortlink": "https://sg.run/BxzR"
+        },
+        "severity": "INFO",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring",
+      "path": "clonedf/11-cors-classic.js",
+      "start": {
+        "line": 37,
+        "col": 17,
+        "offset": 1025
+      },
+      "end": {
+        "line": 37,
+        "col": 34,
+        "offset": 1042
+      },
+      "extra": {
+        "message": "Detected string concatenation with a non-literal variable in a util.format / console.log function. If an attacker injects a format specifier in the string, it will forge the log message. Try to use constant values for the format string.",
+        "metadata": {
+          "cwe": [
+            "CWE-134: Use of Externally-Controlled Format String"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "javascript"
+          ],
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "LOW",
+          "confidence": "LOW",
+          "references": [
+            "https://cwe.mitre.org/data/definitions/134.html"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Improper Validation"
+          ],
+          "source": "https://semgrep.dev/r/javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring",
+          "shortlink": "https://sg.run/7Y5R"
+        },
+        "severity": "INFO",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.path-traversal-open.path-traversal-open",
+      "path": "clonedf/13-FileUpload_CodeInjection.py",
+      "start": {
+        "line": 19,
+        "col": 12,
+        "offset": 486
+      },
+      "end": {
+        "line": 19,
+        "col": 60,
+        "offset": 534
+      },
+      "extra": {
+        "message": "Found request data in a call to 'open'. Ensure the request data is validated or sanitized, otherwise it could result in path traversal attacks.",
+        "metadata": {
+          "cwe": [
+            "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+          ],
+          "owasp": [
+            "A05:2017 - Broken Access Control",
+            "A01:2021 - Broken Access Control"
+          ],
+          "references": [
+            "https://owasp.org/www-community/attacks/Path_Traversal"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "HIGH",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Path Traversal"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.path-traversal-open.path-traversal-open",
+          "shortlink": "https://sg.run/PJRW"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.directly-returned-format-string.directly-returned-format-string",
+      "path": "clonedf/13-FileUpload_CodeInjection.py",
+      "start": {
+        "line": 33,
+        "col": 9,
+        "offset": 840
+      },
+      "end": {
+        "line": 35,
+        "col": 84,
+        "offset": 999
+      },
+      "extra": {
+        "message": "Detected Flask route directly returning a formatted string. This is subject to cross-site scripting if user input can reach the string. Consider using the template engine instead and rendering pages with 'render_template()'.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A03_2021-Injection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.directly-returned-format-string.directly-returned-format-string",
+          "shortlink": "https://sg.run/Zv6o"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.django.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/13-FileUpload_CodeInjection.py",
+      "start": {
+        "line": 33,
+        "col": 16,
+        "offset": 847
+      },
+      "end": {
+        "line": 35,
+        "col": 84,
+        "offset": 999
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "django"
+          ],
+          "references": [
+            "https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/#render",
+            "https://docs.djangoproject.com/en/3.2/topics/security/#cross-site-scripting-xss-protection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/oYj1"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.raw-html-concat.raw-html-format",
+      "path": "clonedf/13-FileUpload_CodeInjection.py",
+      "start": {
+        "line": 33,
+        "col": 16,
+        "offset": 847
+      },
+      "end": {
+        "line": 35,
+        "col": 84,
+        "offset": 999
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`flask.render_template`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/2.0.x/security/#cross-site-scripting-xss"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.raw-html-concat.raw-html-format",
+          "shortlink": "https://sg.run/Pb7e"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/13-FileUpload_CodeInjection.py",
+      "start": {
+        "line": 41,
+        "col": 5,
+        "offset": 1093
+      },
+      "end": {
+        "line": 41,
+        "col": 51,
+        "offset": 1139
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/13-FileUpload_CodeInjection.py",
+      "start": {
+        "line": 41,
+        "col": 5,
+        "offset": 1093
+      },
+      "end": {
+        "line": 41,
+        "col": 51,
+        "offset": 1139
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.insecure-deserialization.insecure-deserialization",
+      "path": "clonedf/17-deserialization-classic.py",
+      "start": {
+        "line": 41,
+        "col": 20,
+        "offset": 889
+      },
+      "end": {
+        "line": 41,
+        "col": 38,
+        "offset": 907
+      },
+      "extra": {
+        "message": "Detected the use of an insecure deserialization library in a Flask route. These libraries are prone to code execution vulnerabilities. Ensure user data does not enter this function. To fix this, try to avoid serializing whole objects. Consider instead using a serializer such as JSON.",
+        "metadata": {
+          "owasp": [
+            "A08:2017 - Insecure Deserialization",
+            "A08:2021 - Software and Data Integrity Failures"
+          ],
+          "cwe": [
+            "CWE-502: Deserialization of Untrusted Data"
+          ],
+          "references": [
+            "https://docs.python.org/3/library/pickle.html"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Insecure Deserialization "
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.insecure-deserialization.insecure-deserialization",
+          "shortlink": "https://sg.run/N45z"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "path": "clonedf/17-deserialization-classic.py",
+      "start": {
+        "line": 41,
+        "col": 20,
+        "offset": 889
+      },
+      "end": {
+        "line": 41,
+        "col": 38,
+        "offset": 907
+      },
+      "extra": {
+        "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+        "metadata": {
+          "owasp": [
+            "A08:2017 - Insecure Deserialization",
+            "A08:2021 - Software and Data Integrity Failures"
+          ],
+          "cwe": [
+            "CWE-502: Deserialization of Untrusted Data"
+          ],
+          "references": [
+            "https://docs.python.org/3/library/pickle.html"
+          ],
+          "category": "security",
+          "technology": [
+            "python"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Insecure Deserialization "
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.deserialization.pickle.avoid-pickle",
+          "shortlink": "https://sg.run/OPwB"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.secure-set-cookie.secure-set-cookie",
+      "path": "clonedf/17-deserialization-classic.py",
+      "start": {
+        "line": 51,
+        "col": 9,
+        "offset": 1270
+      },
+      "end": {
+        "line": 51,
+        "col": 60,
+        "offset": 1321
+      },
+      "extra": {
+        "message": "Found a Flask cookie with insecurely configured properties.  By default the secure, httponly and samesite ar configured insecurely. cookies should be handled securely by setting `secure=True`, `httponly=True`, and `samesite='Lax'` in response.set_cookie(...). If these parameters are not properly set, your cookies are not properly protected and are at risk of being stolen by an attacker. Include the `secure=True`, `httponly=True`, `samesite='Lax'` arguments or set these to be true in the Flask configuration.",
+        "metadata": {
+          "cwe": [
+            "CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute"
+          ],
+          "owasp": [
+            "A05:2021 - Security Misconfiguration"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/3.0.x/api/#flask.Response.set_cookie",
+            "https://flask.palletsprojects.com/en/3.0.x/security/#set-cookie-options"
+          ],
+          "category": "security",
+          "technology": [
+            "python",
+            "flask"
+          ],
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "LOW",
+          "confidence": "LOW",
+          "functional-categories": [
+            "web::search::cookie-config::flask"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cookie Security"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.secure-set-cookie.secure-set-cookie",
+          "shortlink": "https://sg.run/gLkZ"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/17-deserialization-classic.py",
+      "start": {
+        "line": 56,
+        "col": 5,
+        "offset": 1383
+      },
+      "end": {
+        "line": 56,
+        "col": 51,
+        "offset": 1429
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/17-deserialization-classic.py",
+      "start": {
+        "line": 56,
+        "col": 5,
+        "offset": 1383
+      },
+      "end": {
+        "line": 56,
+        "col": 51,
+        "offset": 1429
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/18-pathTraversal-improper-regex.php",
+      "start": {
+        "line": 30,
+        "col": 35,
+        "offset": 741
+      },
+      "end": {
+        "line": 30,
+        "col": 40,
+        "offset": 746
+      },
+      "extra": {
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.django.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 36,
+        "col": 13,
+        "offset": 930
+      },
+      "end": {
+        "line": 38,
+        "col": 56,
+        "offset": 1024
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "django"
+          ],
+          "references": [
+            "https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/#render",
+            "https://docs.djangoproject.com/en/3.2/topics/security/#cross-site-scripting-xss-protection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/oYj1"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.raw-html-concat.raw-html-format",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 36,
+        "col": 13,
+        "offset": 930
+      },
+      "end": {
+        "line": 38,
+        "col": 56,
+        "offset": 1024
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`flask.render_template`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/2.0.x/security/#cross-site-scripting-xss"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.raw-html-concat.raw-html-format",
+          "shortlink": "https://sg.run/Pb7e"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 43,
+        "col": 5,
+        "offset": 1113
+      },
+      "end": {
+        "line": 43,
+        "col": 51,
+        "offset": 1159
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/2-ssrf-regex-bypass.py",
+      "start": {
+        "line": 43,
+        "col": 5,
+        "offset": 1113
+      },
+      "end": {
+        "line": 43,
+        "col": 51,
+        "offset": 1159
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+      "path": "clonedf/20-sqli-login.js",
+      "start": {
+        "line": 10,
+        "col": 7,
+        "offset": 236
+      },
+      "end": {
+        "line": 10,
+        "col": 22,
+        "offset": 251
+      },
+      "extra": {
+        "message": "A CSRF middleware was not detected in your express application. Ensure you are either using one such as `csurf` or `csrf` (see rule references) and/or you are properly doing CSRF validation in your routes with a token or cookies.",
+        "metadata": {
+          "category": "security",
+          "references": [
+            "https://www.npmjs.com/package/csurf",
+            "https://www.npmjs.com/package/csrf",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe": [
+            "CWE-352: Cross-Site Request Forgery (CSRF)"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "technology": [
+            "javascript",
+            "typescript",
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site Request Forgery (CSRF)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+          "shortlink": "https://sg.run/BxzR"
+        },
+        "severity": "INFO",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.lang.security.audit.incomplete-sanitization.incomplete-sanitization",
+      "path": "clonedf/20-sqli-login.js",
+      "start": {
+        "line": 20,
+        "col": 22,
+        "offset": 474
+      },
+      "end": {
+        "line": 20,
+        "col": 56,
+        "offset": 508
+      },
+      "extra": {
+        "message": "`req.body.username.replace` method will only replace the first occurrence when used with a string argument ('\"'). If this method is used for escaping of dangerous data then there is a possibility for a bypass. Try to use sanitization library instead or use a Regex with a global flag.",
+        "metadata": {
+          "cwe": [
+            "CWE-116: Improper Encoding or Escaping of Output"
+          ],
+          "category": "security",
+          "technology": [
+            "javascript"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "LOW",
+          "confidence": "LOW",
+          "references": [
+            "https://owasp.org/Top10/A03_2021-Injection"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Improper Encoding"
+          ],
+          "source": "https://semgrep.dev/r/javascript.lang.security.audit.incomplete-sanitization.incomplete-sanitization",
+          "shortlink": "https://sg.run/1GbQ"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+      "path": "clonedf/23-bof-classic.c",
+      "start": {
+        "line": 22,
+        "col": 9,
+        "offset": 354
+      },
+      "end": {
+        "line": 22,
+        "col": 21,
+        "offset": 366
+      },
+      "extra": {
+        "message": "Avoid 'gets()'. This function does not consider buffer boundaries and can lead to buffer overflows. Use 'fgets()' or 'gets_s()' instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-676: Use of Potentially Dangerous Function"
+          ],
+          "references": [
+            "https://us-cert.cisa.gov/bsi/articles/knowledge/coding-practices/fgets-and-gets_s"
+          ],
+          "category": "security",
+          "technology": [
+            "c"
+          ],
+          "confidence": "MEDIUM",
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Dangerous Method or Function"
+          ],
+          "source": "https://semgrep.dev/r/c.lang.security.insecure-use-gets-fn.insecure-use-gets-fn",
+          "shortlink": "https://sg.run/dKqX"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+      "path": "clonedf/24-sqli-column.php",
+      "start": {
+        "line": 49,
+        "col": 8,
+        "offset": 1130
+      },
+      "end": {
+        "line": 49,
+        "col": 77,
+        "offset": 1199
+      },
+      "extra": {
+        "message": "User data flows into this manually-constructed SQL string. User data can be safely inserted into SQL strings using prepared statements or an object-relational mapper (ORM). Manually-constructed SQL strings is a possible indicator of SQL injection, which could let an attacker steal or manipulate data from the database. Instead, use prepared statements (`$mysqli->prepare(\"INSERT INTO test(id, label) VALUES (?, ?)\");`) or a safe library.",
+        "metadata": {
+          "cwe": [
+            "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+          ],
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://owasp.org/www-community/attacks/SQL_Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "SQL Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+          "shortlink": "https://sg.run/lZYG"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/26-idor-rest-api.py",
+      "start": {
+        "line": 41,
+        "col": 5,
+        "offset": 787
+      },
+      "end": {
+        "line": 41,
+        "col": 51,
+        "offset": 833
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/26-idor-rest-api.py",
+      "start": {
+        "line": 41,
+        "col": 5,
+        "offset": 787
+      },
+      "end": {
+        "line": 41,
+        "col": 51,
+        "offset": 833
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/26-pathTraversal-replace-limit.php",
+      "start": {
+        "line": 41,
+        "col": 24,
+        "offset": 792
+      },
+      "end": {
+        "line": 41,
+        "col": 41,
+        "offset": 809
+      },
+      "extra": {
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.django.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/27-cache-poisoning-classic.py",
+      "start": {
+        "line": 23,
+        "col": 19,
+        "offset": 506
+      },
+      "end": {
+        "line": 28,
+        "col": 79,
+        "offset": 719
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "django"
+          ],
+          "references": [
+            "https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/#render",
+            "https://docs.djangoproject.com/en/3.2/topics/security/#cross-site-scripting-xss-protection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/oYj1"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.raw-html-concat.raw-html-format",
+      "path": "clonedf/27-cache-poisoning-classic.py",
+      "start": {
+        "line": 23,
+        "col": 19,
+        "offset": 506
+      },
+      "end": {
+        "line": 28,
+        "col": 79,
+        "offset": 719
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`flask.render_template`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/2.0.x/security/#cross-site-scripting-xss"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.raw-html-concat.raw-html-format",
+          "shortlink": "https://sg.run/Pb7e"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/27-cache-poisoning-classic.py",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 818
+      },
+      "end": {
+        "line": 33,
+        "col": 51,
+        "offset": 864
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/27-cache-poisoning-classic.py",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 818
+      },
+      "end": {
+        "line": 33,
+        "col": 51,
+        "offset": 864
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.django.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/28-business-logic-money-transfer.py",
+      "start": {
+        "line": 41,
+        "col": 23,
+        "offset": 1142
+      },
+      "end": {
+        "line": 41,
+        "col": 111,
+        "offset": 1230
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "django"
+          ],
+          "references": [
+            "https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/#render",
+            "https://docs.djangoproject.com/en/3.2/topics/security/#cross-site-scripting-xss-protection"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/oYj1"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.raw-html-concat.raw-html-format",
+      "path": "clonedf/28-business-logic-money-transfer.py",
+      "start": {
+        "line": 41,
+        "col": 23,
+        "offset": 1142
+      },
+      "end": {
+        "line": 41,
+        "col": 111,
+        "offset": 1230
+      },
+      "extra": {
+        "message": "Detected user input flowing into a manually constructed HTML string. You may be accidentally bypassing secure methods of rendering HTML by manually constructing HTML and this could create a cross-site scripting vulnerability, which could let attackers steal sensitive user data. To be sure this is safe, check that the HTML is rendered safely. Otherwise, use templates (`flask.render_template`) which will safely render HTML instead.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://flask.palletsprojects.com/en/2.0.x/security/#cross-site-scripting-xss"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.raw-html-concat.raw-html-format",
+          "shortlink": "https://sg.run/Pb7e"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/28-business-logic-money-transfer.py",
+      "start": {
+        "line": 54,
+        "col": 5,
+        "offset": 1521
+      },
+      "end": {
+        "line": 54,
+        "col": 51,
+        "offset": 1567
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/28-business-logic-money-transfer.py",
+      "start": {
+        "line": 54,
+        "col": 5,
+        "offset": 1521
+      },
+      "end": {
+        "line": 54,
+        "col": 51,
+        "offset": 1567
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.exec-use.exec-use",
+      "path": "clonedf/30-deserialization-wakeup.php",
+      "start": {
+        "line": 22,
+        "col": 9,
+        "offset": 498
+      },
+      "end": {
+        "line": 22,
+        "col": 56,
+        "offset": 545
+      },
+      "extra": {
+        "message": "Executing non-constant commands. This can lead to command injection.",
+        "metadata": {
+          "cwe": [
+            "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+          ],
+          "references": [
+            "https://github.com/FloeDesignTechnologies/phpcs-security-audit/blob/master/Security/Sniffs/BadFunctions/SystemExecFunctionsSniff.php"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "cwe2022-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Code Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.exec-use.exec-use",
+          "shortlink": "https://sg.run/5Q1j"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.unserialize-use.unserialize-use",
+      "path": "clonedf/30-deserialization-wakeup.php",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 865
+      },
+      "end": {
+        "line": 33,
+        "col": 30,
+        "offset": 890
+      },
+      "extra": {
+        "message": "Calling `unserialize()` with user input in the pattern can lead to arbitrary code execution. Consider using JSON or structured data approaches (e.g. Google Protocol Buffers).",
+        "metadata": {
+          "references": [
+            "https://www.php.net/manual/en/function.unserialize.php",
+            "https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization.html"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "owasp": [
+            "A08:2017 - Insecure Deserialization",
+            "A08:2021 - Software and Data Integrity Failures"
+          ],
+          "cwe": [
+            "CWE-502: Deserialization of Untrusted Data"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "LOW",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Insecure Deserialization "
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.unserialize-use.unserialize-use",
+          "shortlink": "https://sg.run/b24E"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/32-format-injection-classic.py",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 878
+      },
+      "end": {
+        "line": 33,
+        "col": 51,
+        "offset": 924
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/32-format-injection-classic.py",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 878
+      },
+      "end": {
+        "line": 33,
+        "col": 51,
+        "offset": 924
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/34-DoS-regex.py",
+      "start": {
+        "line": 35,
+        "col": 5,
+        "offset": 1077
+      },
+      "end": {
+        "line": 35,
+        "col": 51,
+        "offset": 1123
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/34-DoS-regex.py",
+      "start": {
+        "line": 35,
+        "col": 5,
+        "offset": 1077
+      },
+      "end": {
+        "line": 35,
+        "col": 51,
+        "offset": 1123
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/38-codeinjection-file-write.php",
+      "start": {
+        "line": 18,
+        "col": 19,
+        "offset": 341
+      },
+      "end": {
+        "line": 18,
+        "col": 24,
+        "offset": 346
+      },
+      "extra": {
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+      "path": "clonedf/38-codeinjection-file-write.php",
+      "start": {
+        "line": 29,
+        "col": 25,
+        "offset": 558
+      },
+      "end": {
+        "line": 29,
+        "col": 30,
+        "offset": 563
+      },
+      "extra": {
+        "message": "File name based on user input risks server-side request forgery.",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "category": "security",
+          "cwe": [
+            "CWE-918: Server-Side Request Forgery (SSRF)"
+          ],
+          "owasp": [
+            "A10:2021 - Server-Side Request Forgery (SSRF)"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "impact": "MEDIUM",
+          "likelihood": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Server-Side Request Forgery (SSRF)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-filename.tainted-filename",
+          "shortlink": "https://sg.run/Ayqp"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/4-xss-script-tag.py",
+      "start": {
+        "line": 34,
+        "col": 5,
+        "offset": 744
+      },
+      "end": {
+        "line": 34,
+        "col": 51,
+        "offset": 790
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/4-xss-script-tag.py",
+      "start": {
+        "line": 34,
+        "col": 5,
+        "offset": 744
+      },
+      "end": {
+        "line": 34,
+        "col": 51,
+        "offset": 790
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.exec-use.exec-use",
+      "path": "clonedf/41-command-injection-escapeshellcmd.php",
+      "start": {
+        "line": 17,
+        "col": 5,
+        "offset": 437
+      },
+      "end": {
+        "line": 17,
+        "col": 98,
+        "offset": 530
+      },
+      "extra": {
+        "message": "Executing non-constant commands. This can lead to command injection.",
+        "metadata": {
+          "cwe": [
+            "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+          ],
+          "references": [
+            "https://github.com/FloeDesignTechnologies/phpcs-security-audit/blob/master/Security/Sniffs/BadFunctions/SystemExecFunctionsSniff.php"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "cwe2022-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Code Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.exec-use.exec-use",
+          "shortlink": "https://sg.run/5Q1j"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.tainted-exec.tainted-exec",
+      "path": "clonedf/41-command-injection-escapeshellcmd.php",
+      "start": {
+        "line": 17,
+        "col": 10,
+        "offset": 442
+      },
+      "end": {
+        "line": 17,
+        "col": 97,
+        "offset": 529
+      },
+      "extra": {
+        "message": "Executing non-constant commands. This can lead to command injection. You should use `escapeshellarg()` when using command.",
+        "metadata": {
+          "cwe": [
+            "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+          ],
+          "references": [
+            "https://www.stackhawk.com/blog/php-command-injection/",
+            "https://brightsec.com/blog/code-injection-php/",
+            "https://www.acunetix.com/websitesecurity/php-security-2/"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "cwe2022-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "HIGH",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Code Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.tainted-exec.tainted-exec",
+          "shortlink": "https://sg.run/JAkP"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/41-idor-basic-role.py",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 1001
+      },
+      "end": {
+        "line": 33,
+        "col": 51,
+        "offset": 1047
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/41-idor-basic-role.py",
+      "start": {
+        "line": 33,
+        "col": 5,
+        "offset": 1001
+      },
+      "end": {
+        "line": 33,
+        "col": 51,
+        "offset": 1047
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.lang.security.dangerous-system-call.dangerous-system-call",
+      "path": "clonedf/42-command-injection-classic.py",
+      "start": {
+        "line": 21,
+        "col": 53,
+        "offset": 684
+      },
+      "end": {
+        "line": 21,
+        "col": 103,
+        "offset": 734
+      },
+      "extra": {
+        "message": "Found user-controlled data used in a system call. This could allow a malicious actor to execute commands. Use the 'subprocess' module instead, which is easier to use without accidentally exposing a command injection vulnerability.",
+        "metadata": {
+          "source-rule-url": "https://bandit.readthedocs.io/en/latest/plugins/b605_start_process_with_a_shell.html",
+          "cwe": [
+            "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+          ],
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://semgrep.dev/docs/cheat-sheets/python-command-injection/"
+          ],
+          "asvs": {
+            "control_id": "5.2.4 Dyanmic Code Execution Features",
+            "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+            "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+            "version": "4"
+          },
+          "category": "security",
+          "technology": [
+            "python"
+          ],
+          "confidence": "MEDIUM",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Command Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.dangerous-system-call.dangerous-system-call",
+          "shortlink": "https://sg.run/k0W7"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/42-command-injection-classic.py",
+      "start": {
+        "line": 38,
+        "col": 5,
+        "offset": 1084
+      },
+      "end": {
+        "line": 38,
+        "col": 51,
+        "offset": 1130
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/42-command-injection-classic.py",
+      "start": {
+        "line": 38,
+        "col": 5,
+        "offset": 1084
+      },
+      "end": {
+        "line": 38,
+        "col": 51,
+        "offset": 1130
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "ruby.rails.security.audit.xss.manual-template-creation.manual-template-creation",
+      "path": "clonedf/42-ssti-classic-erb.rb",
+      "start": {
+        "line": 13,
+        "col": 18,
+        "offset": 372
+      },
+      "end": {
+        "line": 13,
+        "col": 83,
+        "offset": 437
+      },
+      "extra": {
+        "message": "Detected manual creation of an ERB template. Manual creation of templates may expose your application to server-side template injection (SSTI) or cross-site scripting (XSS) attacks if user input is used to create the template. Instead, create a '.erb' template file and use 'render'.",
+        "metadata": {
+          "source-rule-url": "https://github.com/presidentbeef/brakeman/blob/main/lib/brakeman/checks/check_template_injection.rb",
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://github.com/presidentbeef/brakeman/blob/main/docs/warning_types/template_injection/index.markdown"
+          ],
+          "category": "security",
+          "technology": [
+            "rails"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/ruby.rails.security.audit.xss.manual-template-creation.manual-template-creation",
+          "shortlink": "https://sg.run/L01L"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "ruby.rails.security.audit.xss.manual-template-creation.manual-template-creation",
+      "path": "clonedf/42-ssti-classic-erb.rb",
+      "start": {
+        "line": 19,
+        "col": 21,
+        "offset": 571
+      },
+      "end": {
+        "line": 19,
+        "col": 59,
+        "offset": 609
+      },
+      "extra": {
+        "message": "Detected manual creation of an ERB template. Manual creation of templates may expose your application to server-side template injection (SSTI) or cross-site scripting (XSS) attacks if user input is used to create the template. Instead, create a '.erb' template file and use 'render'.",
+        "metadata": {
+          "source-rule-url": "https://github.com/presidentbeef/brakeman/blob/main/lib/brakeman/checks/check_template_injection.rb",
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://github.com/presidentbeef/brakeman/blob/main/docs/warning_types/template_injection/index.markdown"
+          ],
+          "category": "security",
+          "technology": [
+            "rails"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/ruby.rails.security.audit.xss.manual-template-creation.manual-template-creation",
+          "shortlink": "https://sg.run/L01L"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 33,
+        "col": 4,
+        "offset": 593
+      },
+      "end": {
+        "line": 33,
+        "col": 27,
+        "offset": 616
+      },
+      "extra": {
+        "message": "Detected 'Fprintf' or similar writing to 'http.ResponseWriter'. This bypasses HTML escaping that prevents cross-site scripting vulnerabilities. Instead, use the 'html/template' package to render data to users.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://blogtitle.github.io/robn-go-security-pearls-cross-site-scripting-xss/"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "LOW",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+          "shortlink": "https://sg.run/7oqR"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 38,
+        "col": 7,
+        "offset": 787
+      },
+      "end": {
+        "line": 38,
+        "col": 45,
+        "offset": 825
+      },
+      "extra": {
+        "message": "Detected 'Fprintf' or similar writing to 'http.ResponseWriter'. This bypasses HTML escaping that prevents cross-site scripting vulnerabilities. Instead, use the 'html/template' package to render data to users.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://blogtitle.github.io/robn-go-security-pearls-cross-site-scripting-xss/"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "LOW",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.xss.no-fprintf-to-responsewriter.no-fprintf-to-responsewriter",
+          "shortlink": "https://sg.run/7oqR"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "go.lang.security.audit.net.use-tls.use-tls",
+      "path": "clonedf/5-broken-auth-spoof.go",
+      "start": {
+        "line": 61,
+        "col": 2,
+        "offset": 1218
+      },
+      "end": {
+        "line": 61,
+        "col": 32,
+        "offset": 1248
+      },
+      "extra": {
+        "message": "Found an HTTP server without TLS. Use 'http.ListenAndServeTLS' instead. See https://golang.org/pkg/net/http/#ListenAndServeTLS for more information.",
+        "fix": "http.ListenAndServeTLS(addr, certFile, keyFile, nil)",
+        "metadata": {
+          "cwe": [
+            "CWE-319: Cleartext Transmission of Sensitive Information"
+          ],
+          "owasp": [
+            "A03:2017 - Sensitive Data Exposure",
+            "A02:2021 - Cryptographic Failures"
+          ],
+          "references": [
+            "https://golang.org/pkg/net/http/#ListenAndServeTLS"
+          ],
+          "category": "security",
+          "technology": [
+            "go"
+          ],
+          "confidence": "MEDIUM",
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Mishandled Sensitive Information"
+          ],
+          "source": "https://semgrep.dev/r/go.lang.security.audit.net.use-tls.use-tls",
+          "shortlink": "https://sg.run/dKbY"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.dangerous-template-string.dangerous-template-string",
+      "path": "clonedf/6-ssti-classic.py",
+      "start": {
+        "line": 18,
+        "col": 5,
+        "offset": 411
+      },
+      "end": {
+        "line": 22,
+        "col": 64,
+        "offset": 590
+      },
+      "extra": {
+        "message": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
+        "metadata": {
+          "cwe": [
+            "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
+            "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Code Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
+          "shortlink": "https://sg.run/b79E"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.render-template-string.render-template-string",
+      "path": "clonedf/6-ssti-classic.py",
+      "start": {
+        "line": 22,
+        "col": 12,
+        "offset": 538
+      },
+      "end": {
+        "line": 22,
+        "col": 64,
+        "offset": 590
+      },
+      "extra": {
+        "message": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
+        "metadata": {
+          "cwe": [
+            "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Code Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.render-template-string.render-template-string",
+          "shortlink": "https://sg.run/8yjE"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "path": "clonedf/6-ssti-classic.py",
+      "start": {
+        "line": 45,
+        "col": 5,
+        "offset": 1086
+      },
+      "end": {
+        "line": 45,
+        "col": 51,
+        "offset": 1132
+      },
+      "extra": {
+        "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+        "metadata": {
+          "cwe": [
+            "CWE-668: Exposure of Resource to Wrong Sphere"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Other"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+          "shortlink": "https://sg.run/eLby"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf/6-ssti-classic.py",
+      "start": {
+        "line": 45,
+        "col": 5,
+        "offset": 1086
+      },
+      "end": {
+        "line": 45,
+        "col": 51,
+        "offset": 1132
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+      "path": "clonedf/7-sqli-blind-variable-mixup.php",
+      "start": {
+        "line": 29,
+        "col": 38,
+        "offset": 732
+      },
+      "end": {
+        "line": 29,
+        "col": 121,
+        "offset": 815
+      },
+      "extra": {
+        "message": "User data flows into this manually-constructed SQL string. User data can be safely inserted into SQL strings using prepared statements or an object-relational mapper (ORM). Manually-constructed SQL strings is a possible indicator of SQL injection, which could let an attacker steal or manipulate data from the database. Instead, use prepared statements (`$mysqli->prepare(\"INSERT INTO test(id, label) VALUES (?, ?)\");`) or a safe library.",
+        "metadata": {
+          "cwe": [
+            "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+          ],
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://owasp.org/www-community/attacks/SQL_Injection"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "SQL Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+          "shortlink": "https://sg.run/lZYG"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.exec-use.exec-use",
+      "path": "clonedf/command-injection-saint_patrick.php",
+      "start": {
+        "line": 21,
+        "col": 5,
+        "offset": 579
+      },
+      "end": {
+        "line": 21,
+        "col": 32,
+        "offset": 606
+      },
+      "extra": {
+        "message": "Executing non-constant commands. This can lead to command injection.",
+        "metadata": {
+          "cwe": [
+            "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+          ],
+          "references": [
+            "https://github.com/FloeDesignTechnologies/phpcs-security-audit/blob/master/Security/Sniffs/BadFunctions/SystemExecFunctionsSniff.php"
+          ],
+          "category": "security",
+          "technology": [
+            "php"
+          ],
+          "owasp": [
+            "A03:2021 - Injection"
+          ],
+          "cwe2022-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Code Injection"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.exec-use.exec-use",
+          "shortlink": "https://sg.run/5Q1j"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+      "path": "clonedf/index.js",
+      "start": {
+        "line": 4,
+        "col": 7,
+        "offset": 115
+      },
+      "end": {
+        "line": 4,
+        "col": 22,
+        "offset": 130
+      },
+      "extra": {
+        "message": "A CSRF middleware was not detected in your express application. Ensure you are either using one such as `csurf` or `csrf` (see rule references) and/or you are properly doing CSRF validation in your routes with a token or cookies.",
+        "metadata": {
+          "category": "security",
+          "references": [
+            "https://www.npmjs.com/package/csurf",
+            "https://www.npmjs.com/package/csrf",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe": [
+            "CWE-352: Cross-Site Request Forgery (CSRF)"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "technology": [
+            "javascript",
+            "typescript",
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site Request Forgery (CSRF)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+          "shortlink": "https://sg.run/BxzR"
+        },
+        "severity": "INFO",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.audit.xss.direct-response-write.direct-response-write",
+      "path": "clonedf/index.js",
+      "start": {
+        "line": 51,
+        "col": 12,
+        "offset": 1679
+      },
+      "end": {
+        "line": 70,
+        "col": 3,
+        "offset": 2294
+      },
+      "extra": {
+        "message": "Detected directly writing to a Response object from user-defined input. This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting (XSS) vulnerability. Instead, use 'resp.render()' to render safely escaped HTML.",
+        "metadata": {
+          "interfile": true,
+          "references": [
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "category": "security",
+          "technology": [
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "source": "https://semgrep.dev/r/javascript.express.security.audit.xss.direct-response-write.direct-response-write",
+          "shortlink": "https://sg.run/vzGl"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/index.js",
+      "start": {
+        "line": 61,
+        "col": 1,
+        "offset": 1937
+      },
+      "end": {
+        "line": 62,
+        "col": 1,
+        "offset": 1978
+      },
+      "extra": {
+        "message": "User data flows into the host portion of this manually-constructed HTML. This can introduce a Cross-Site-Scripting (XSS) vulnerability if this comes from user-provided input. Consider using a sanitization library such as DOMPurify to sanitize the HTML within.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+          ],
+          "category": "security",
+          "technology": [
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.express.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/5DO3"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.lang.security.audit.unknown-value-with-script-tag.unknown-value-with-script-tag",
+      "path": "clonedf/index.js",
+      "start": {
+        "line": 61,
+        "col": 20,
+        "offset": 1956
+      },
+      "end": {
+        "line": 61,
+        "col": 29,
+        "offset": 1965
+      },
+      "extra": {
+        "message": "Cannot determine what 'childName' is and it is used with a '<script>' tag. This could be susceptible to cross-site scripting (XSS). Ensure 'childName' is not externally controlled, or sanitize this data.",
+        "metadata": {
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "references": [
+            "https://www.developsec.com/2017/11/09/xss-in-a-script-tag/",
+            "https://github.com/juice-shop/juice-shop/blob/1ceb8751e986dacd3214a618c37e7411be6bc11a/routes/videoHandler.ts#L68"
+          ],
+          "category": "security",
+          "technology": [
+            "javascript"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "LOW",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.lang.security.audit.unknown-value-with-script-tag.unknown-value-with-script-tag",
+          "shortlink": "https://sg.run/1Zy1"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.injection.raw-html-format.raw-html-format",
+      "path": "clonedf/index.js",
+      "start": {
+        "line": 64,
+        "col": 1,
+        "offset": 2088
+      },
+      "end": {
+        "line": 65,
+        "col": 1,
+        "offset": 2137
+      },
+      "extra": {
+        "message": "User data flows into the host portion of this manually-constructed HTML. This can introduce a Cross-Site-Scripting (XSS) vulnerability if this comes from user-provided input. Consider using a sanitization library such as DOMPurify to sanitize the HTML within.",
+        "metadata": {
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection"
+          ],
+          "references": [
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+          ],
+          "category": "security",
+          "technology": [
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.express.security.injection.raw-html-format.raw-html-format",
+          "shortlink": "https://sg.run/5DO3"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "path": "clonedf/payloadGen.py",
+      "start": {
+        "line": 25,
+        "col": 28,
+        "offset": 583
+      },
+      "end": {
+        "line": 25,
+        "col": 51,
+        "offset": 606
+      },
+      "extra": {
+        "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+        "metadata": {
+          "owasp": [
+            "A08:2017 - Insecure Deserialization",
+            "A08:2021 - Software and Data Integrity Failures"
+          ],
+          "cwe": [
+            "CWE-502: Deserialization of Untrusted Data"
+          ],
+          "references": [
+            "https://docs.python.org/3/library/pickle.html"
+          ],
+          "category": "security",
+          "technology": [
+            "python"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Insecure Deserialization "
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.deserialization.pickle.avoid-pickle",
+          "shortlink": "https://sg.run/OPwB"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+      "path": "clonedf/pp-classic.js",
+      "start": {
+        "line": 9,
+        "col": 7,
+        "offset": 204
+      },
+      "end": {
+        "line": 9,
+        "col": 22,
+        "offset": 219
+      },
+      "extra": {
+        "message": "A CSRF middleware was not detected in your express application. Ensure you are either using one such as `csurf` or `csrf` (see rule references) and/or you are properly doing CSRF validation in your routes with a token or cookies.",
+        "metadata": {
+          "category": "security",
+          "references": [
+            "https://www.npmjs.com/package/csurf",
+            "https://www.npmjs.com/package/csrf",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe": [
+            "CWE-352: Cross-Site Request Forgery (CSRF)"
+          ],
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "technology": [
+            "javascript",
+            "typescript",
+            "express"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "HIGH",
+          "confidence": "LOW",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site Request Forgery (CSRF)"
+          ],
+          "source": "https://semgrep.dev/r/javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+          "shortlink": "https://sg.run/BxzR"
+        },
+        "severity": "INFO",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    }
+  ],
+  "errors": [],
+  "paths": {
+    "scanned": [
+      "clonedf/1-sqli-escape-invalid-blacklist-order.php",
+      "clonedf/11-cors-classic.js",
+      "clonedf/13-FileUpload_CodeInjection.py",
+      "clonedf/1337.json",
+      "clonedf/14-DoS-loop.php",
+      "clonedf/15-Exploit.py",
+      "clonedf/15-exploit.py",
+      "clonedf/15-idor-password-reset.php",
+      "clonedf/16-idor-invalid-if-statement.php",
+      "clonedf/17-deserialization-classic.py",
+      "clonedf/18-pathTraversal-improper-regex.php",
+      "clonedf/19-open-redirect-url-fragment.php",
+      "clonedf/2-ssrf-regex-bypass.py",
+      "clonedf/20-sqli-login.js",
+      "clonedf/21-xss-dom-postmessage.php",
+      "clonedf/22-open-redirect-classic.php",
+      "clonedf/23-bof-classic.c",
+      "clonedf/24-sqli-column.php",
+      "clonedf/25-xss-csp-bypass.php",
+      "clonedf/26-idor-rest-api.py",
+      "clonedf/26-pathTraversal-replace-limit.php",
+      "clonedf/27-cache-poisoning-classic.py",
+      "clonedf/28-business-logic-money-transfer.py",
+      "clonedf/3-LFI-log-injection.php",
+      "clonedf/30-deserialization-wakeup.php",
+      "clonedf/31-LFI-to-rce.php",
+      "clonedf/32-format-injection-classic.py",
+      "clonedf/33-sqli-secound-order.php",
+      "clonedf/34-DoS-regex.py",
+      "clonedf/36-file-upload-unrestricted.php",
+      "clonedf/37-ssrf-XFH-header.php",
+      "clonedf/38-codeinjection-file-write.php",
+      "clonedf/39-LFI-static-extension-php7.2.php",
+      "clonedf/39-exploit_LFIStaticExtension.php7.2.py",
+      "clonedf/39-exploit_LFIStaticExtension.php7.2_1.py",
+      "clonedf/4-xss-script-tag.py",
+      "clonedf/40-file-upload-extension-blacklist.php",
+      "clonedf/41-command-injection-escapeshellcmd.php",
+      "clonedf/41-idor-basic-role.py",
+      "clonedf/42-command-injection-classic.py",
+      "clonedf/42-ssti-classic-erb.rb",
+      "clonedf/4242.json",
+      "clonedf/5-broken-auth-spoof.go",
+      "clonedf/6-ssti-classic.py",
+      "clonedf/7-sqli-blind-variable-mixup.php",
+      "clonedf/8-CSRF-change-email.php",
+      "clonedf/9-open-redirect-invalid-regex.php",
+      "clonedf/about.php",
+      "clonedf/checkLogout.js",
+      "clonedf/checkLogout_1.js",
+      "clonedf/command-injection-saint_patrick.php",
+      "clonedf/contact.php",
+      "clonedf/customLog.py",
+      "clonedf/db.js",
+      "clonedf/db.php",
+      "clonedf/db_1.php",
+      "clonedf/db_2.php",
+      "clonedf/db_3.php",
+      "clonedf/db_4.php",
+      "clonedf/design.php",
+      "clonedf/design.py",
+      "clonedf/design_1.php",
+      "clonedf/design_1.py",
+      "clonedf/design_10.php",
+      "clonedf/design_10.py",
+      "clonedf/design_11.php",
+      "clonedf/design_12.php",
+      "clonedf/design_13.php",
+      "clonedf/design_14.php",
+      "clonedf/design_15.php",
+      "clonedf/design_16.php",
+      "clonedf/design_17.php",
+      "clonedf/design_18.php",
+      "clonedf/design_19.php",
+      "clonedf/design_2.php",
+      "clonedf/design_2.py",
+      "clonedf/design_20.php",
+      "clonedf/design_21.php",
+      "clonedf/design_22.php",
+      "clonedf/design_23.php",
+      "clonedf/design_24.php",
+      "clonedf/design_3.php",
+      "clonedf/design_3.py",
+      "clonedf/design_4.php",
+      "clonedf/design_4.py",
+      "clonedf/design_5.php",
+      "clonedf/design_5.py",
+      "clonedf/design_6.php",
+      "clonedf/design_6.py",
+      "clonedf/design_7.php",
+      "clonedf/design_7.py",
+      "clonedf/design_8.php",
+      "clonedf/design_8.py",
+      "clonedf/design_9.php",
+      "clonedf/design_9.py",
+      "clonedf/home.php",
+      "clonedf/index.js",
+      "clonedf/items.json",
+      "clonedf/items_1.json",
+      "clonedf/package.json",
+      "clonedf/package_1.json",
+      "clonedf/package_2.json",
+      "clonedf/package_3.json",
+      "clonedf/payloadGen.py",
+      "clonedf/pp-classic.js",
+      "clonedf/snowflakes.js",
+      "clonedf/users.json",
+      "clonedf/xss-ethical-hackers-day.php",
+      "clonedf/xss-string-outbreak.php",
+      "clonedf/xss_classic_35.java"
+    ]
+  },
+  "time": {
+    "rules": [],
+    "rules_parse_time": 1.1804680824279785,
+    "profiling_times": {
+      "config_time": 4.350458860397339,
+      "core_time": 2.1481549739837646,
+      "ignores_time": 0.0010340213775634766,
+      "total_time": 6.500080108642578
+    },
+    "parsing_time": {
+      "total_time": 0.4385347366333008,
+      "per_file_time": {
+        "mean": 0.003986679423939098,
+        "std_dev": 4.547907311527808e-05
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "scanning_time": {
+      "total_time": 3.323251247406006,
+      "per_file_time": {
+        "mean": 0.010070458325472742,
+        "std_dev": 0.0005152477389799797
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "matching_time": {
+      "total_time": 1.0442132949829102,
+      "per_file_and_rule_time": {
+        "mean": 0.001372159388939435,
+        "std_dev": 5.65216019170252e-06
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_rules_on_files": []
+    },
+    "tainting_time": {
+      "total_time": 0.2700309753417969,
+      "per_def_and_rule_time": {
+        "mean": 0.00028757292368668475,
+        "std_dev": 1.223310898831738e-07
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_rules_on_defs": []
+    },
+    "targets": [],
+    "total_bytes": 0,
+    "max_memory_bytes": 1113419840
+  },
+  "engine_requested": "OSS",
+  "skipped_rules": []
+}
