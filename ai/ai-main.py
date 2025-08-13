@@ -4,7 +4,7 @@ from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
-grok_api_key = os.getenv("GROK_API_KEY")
+os.environ["GROK_API_KEY"] = os.getenv("GROK_API_KEY", "")
 
 try:
     client = Groq()
@@ -115,3 +115,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
