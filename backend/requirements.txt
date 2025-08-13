@@ -1,0 +1,5 @@
+Flask==2.3.2
+Flask-MySQLdb==1.0.1
+Flask-Cors==3.0.10
+requests==2.31.0
+mysqlclient==2.1.1

@@ -4,6 +4,8 @@ from flask_cors import CORS
 import MySQLdb.cursors
 import re
 import hashlib
+import re
+import requests
 
 app = Flask(__name__)
 CORS(app)  # Enable requests from React frontend
@@ -61,6 +63,34 @@ def login():
         return jsonify({'message': 'Logged in successfully!', 'user': {'email': user['email'], 'name': user['name']}}), 200
     else:
         return jsonify({'error': 'Incorrect email/password!'}), 401
+    
+@app.route('/api/add_repository', methods=['POST'])
+def add_repository():
+    data = request.json
+    repo_url = data.get('repoUrl', '').strip()
+
+    if not repo_url:
+        return jsonify({'error': 'Repository URL is required'}), 400
+
+    # Regex validation (as before)
+    github_regex = r'^https://github\.com/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)/?$'
+    match = re.match(github_regex, repo_url)
+    if not match:
+        return jsonify({'error': 'Invalid GitHub repository URL'}), 400
+
+    # Extract owner and repo for API check
+    owner, repo = match.group(1), match.group(2)
+    api_url = f"https://api.github.com/repos/{owner}/{repo}"
+    resp = requests.get(api_url, timeout=5)
+    if resp.status_code != 200:
+        return jsonify({'error': 'Repository does not exist or is private'}), 400
+
+    # ... your DB/store logic here ...
+    return jsonify({'message': 'Repository added successfully!'}), 201
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
