@@ -1,129 +1,173 @@
 # Anzen - AI Code Vulnerability Checker
 
-A modern, AI-powered web application that scans GitHub repositories for security vulnerabilities and provides detailed remediation guidance.
+A modern, AI-powered web application that scans GitHub repositories for security vulnerabilities and provides detailed remediation guidance using Semgrep and Groq AI.
 
 ## 🚀 Features
 
-- **User Authentication**: Secure sign-up and login system
+- **User Authentication**: Secure sign-up and login system with session management
 - **Repository Management**: Add, scan, and manage GitHub repositories
-- **AI-Powered Scanning**: Automated vulnerability detection using AI models
-- **Detailed Reports**: Comprehensive vulnerability reports with severity levels
-- **Dark Mode**: Full dark mode support with system preference detection
-- **Responsive Design**: Optimized for all devices from mobile to desktop
-- **Real-time Updates**: Live scanning status and progress tracking
+- **AI-Powered Analysis**: Automated vulnerability detection using Semgrep + Groq AI
+- **Detailed Reports**: Comprehensive vulnerability reports with severity levels and remediation
+- **Real-time Scanning**: Live scanning status and progress tracking
+- **Dark Mode UI**: Professional dark theme optimized for security professionals
+- **Responsive Design**: Works seamlessly across all devices
 
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **React 18** - Modern React with hooks and functional components
-- **React Router** - Client-side routing and navigation
-- **Tailwind CSS** - Utility-first CSS framework with dark mode support
-- **Lucide React** - Beautiful, customizable icons
-- **Vite** - Fast build tool and development server
+- **React 18** with hooks and modern patterns
+- **React Router** for navigation
+- **Tailwind CSS** with dark mode
+- **Lucide React** icons
+- **Vite** for fast development
 
-### Backend (Integration Ready)
-- **Flask** - Lightweight Python web framework
-- **Google Cloud Firestore** - NoSQL document database
-- **Python AI Models** - Custom vulnerability detection models
-- **GitHub API** - Repository cloning and management
+### Backend
+- **Flask** Python web framework
+- **MySQL** database for user data and scan results
+- **Semgrep** for static code analysis
+- **Groq AI** (Llama 3) for vulnerability analysis
+- **GitPython** for repository cloning
 
-## 📦 Installation
+## 📦 Quick Start
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/anzen.git
-   cd anzen
-   ```
+### Prerequisites
+- Python 3.8+
+- Node.js 16+
+- MySQL server
+- Git
+- Semgrep CLI (`pip install semgrep`)
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### 1. Database Setup
+```sql
+CREATE DATABASE vulnguard;
+-- Tables will be created automatically on first run
+```
 
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+### 2. Backend Setup
+```bash
+cd backend
+pip install -r requirements.txt
 
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
+# Update database credentials in app.py:
+# MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB
 
-## 🔧 Available Scripts
+python app.py
+```
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## 🎨 Design Features
+### 4. Configure AI Service
+Update `ai/ai-main.py` with your Groq API key:
+```python
+api_key = "your_groq_api_key_here"
+```
 
-- **Apple-level Design Aesthetics** - Clean, sophisticated visual presentation
-- **Micro-interactions** - Smooth animations and hover effects
-- **Consistent Color System** - Professional blue (#3B82F6) primary with semantic colors
-- **Typography Hierarchy** - Clear visual hierarchy with proper spacing
-- **Responsive Grid System** - Adapts seamlessly across all viewport sizes
-- **Dark Mode Support** - Automatic system preference detection with manual toggle
+## 🎯 Demo Flow
 
-## 📱 Responsive Breakpoints
+1. **Sign Up/Login** - Create account or login
+2. **Add Repository** - Enter GitHub repository URL
+3. **Automatic Scanning** - System clones, scans with Semgrep, analyzes with AI
+4. **View Results** - Detailed vulnerability report with remediation suggestions
+5. **Rescan** - Re-analyze repositories for updated results
 
-- **Mobile**: < 640px
-- **Tablet**: 640px - 1024px
-- **Desktop**: > 1024px
+## 🔧 API Endpoints
 
-## 🔐 Security Features
+- `POST /api/register` - User registration
+- `POST /api/login` - User authentication
+- `POST /api/logout` - Session cleanup
+- `POST /api/add_repository` - Add and scan repository
+- `GET /api/repositories` - List user repositories
+- `GET /api/repository_details` - Get detailed vulnerability report
 
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend │    │  Flask Backend  │    │   MySQL DB      │
+│                 │    │                 │    │                 │
+│  • Authentication│◄──►│  • API Routes   │◄──►│  • Users        │
+│  • Dashboard    │    │  • Session Mgmt │    │  • Repositories │
+│  • Repository   │    │  • Scan Pipeline│    │  • Vulnerabilities│
+│    Management   │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                              │
+                              ▼
+                       ┌─────────────────┐
+                       │ Scanning Pipeline│
+                       │                 │
+                       │ • Git Clone     │
+                       │ • Semgrep Scan  │
+                       │ • AI Analysis   │
+                       │ • Cleanup       │
+                       └─────────────────┘
+```
+
+## 🔒 Security Features
+
+- **Session-based Authentication** - Secure server-side sessions
 - **Input Validation** - GitHub URL validation and sanitization
-- **Error Handling** - Comprehensive error states and user feedback
-- **Loading States** - Clear progress indicators for all async operations
-- **Secure Authentication** - Mock authentication ready for backend integration
+- **Temporary File Handling** - Automatic cleanup of cloned repositories
+- **Error Handling** - Comprehensive error states and logging
+- **CORS Configuration** - Properly configured cross-origin requests
 
-## 🚀 Deployment
+## 🎨 UI/UX Highlights
 
-The frontend is ready for deployment to any static hosting service:
+- **Professional Dark Theme** - Optimized for security professionals
+- **Responsive Design** - Mobile-first approach
+- **Loading States** - Clear progress indicators
+- **Error Handling** - User-friendly error messages
+- **Micro-interactions** - Smooth animations and transitions
 
-- **Netlify** - Recommended for automatic deployments
-- **Vercel** - Great for React applications
-- **GitHub Pages** - Free hosting for public repositories
-- **AWS S3** - Scalable cloud hosting
+## 📊 Vulnerability Analysis
 
-## 📚 Project Structure
+The system provides:
+- **Severity Classification** - High, Medium, Low priority levels
+- **False Positive Analysis** - AI-powered assessment of findings
+- **Code Remediation** - Specific fix suggestions for each vulnerability
+- **File Location** - Exact file and line number references
+- **Scan History** - Track changes over time
 
-```
-src/
-├── components/          # Reusable UI components
-│   └── Navbar.jsx      # Navigation component
-├── contexts/           # React contexts
-│   └── ThemeContext.jsx # Dark mode theme provider
-├── pages/              # Page components
-│   ├── Login.jsx       # Authentication pages
-│   ├── Signup.jsx
-│   ├── Dashboard.jsx   # Main dashboard
-│   ├── AddRepository.jsx
-│   └── RepositoryDetail.jsx
-├── App.jsx             # Main application component
-├── main.jsx           # Application entry point
-└── index.css          # Global styles and Tailwind imports
-```
+## 🚀 Deployment Ready
 
-## 🔗 Backend Integration
+- **Environment Configuration** - Easy setup for different environments
+- **Docker Support** - Containerization ready
+- **Logging** - Comprehensive logging for debugging
+- **Health Checks** - API health monitoring endpoints
 
-See [Backend Integration Guide](./docs/BACKEND_INTEGRATION.md) for detailed instructions on connecting the Flask backend.
+## 🎯 Hackathon Demo Script
+
+1. **Show Landing** - Professional security-focused UI
+2. **User Registration** - Quick signup process
+3. **Add Repository** - Paste any public GitHub repo
+4. **Live Scanning** - Watch real-time scanning progress
+5. **Results Analysis** - Detailed vulnerability breakdown
+6. **AI Insights** - Show AI-powered remediation suggestions
+7. **VS Code Extension** - Mention the companion extension
+
+## 🏆 Competitive Advantages
+
+- **AI-Powered Analysis** - Goes beyond basic static analysis
+- **User-Friendly Interface** - Accessible to developers of all levels
+- **Comprehensive Reporting** - Detailed, actionable insights
+- **Fast Scanning** - Optimized pipeline for quick results
+- **Extensible Architecture** - Easy to add new analysis tools
+
+## 📝 License
+
+MIT License - see LICENSE file for details.
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-## 📄 License
+---
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Tailwind CSS** for the excellent utility-first CSS framework
-- **Lucide** for the beautiful icon set
-- **React Team** for the amazing framework
-- **Vite** for the lightning-fast build tool
+**Built for security professionals, by security professionals.** 🛡️

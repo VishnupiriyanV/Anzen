@@ -8,26 +8,71 @@ import MySQLdb.cursors
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from flask_mysqldb import MySQL
-import logging # Import the logging module
+import logging
+import tempfile
+import shutil
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Flask & DB config
 app = Flask(__name__)
-CORS(app, supports_credentials=True) # Ensure this allows credentials (cookies)
+CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 
 # IMPORTANT: Replace this with a strong, random, and unique secret key.
-# This is crucial for securing Flask sessions.
-app.secret_key = "your_strong_random_secret_key_here_please_change_this!" 
+app.secret_key = "hackathon_demo_secret_key_2024_anzen_security_scanner!" 
 
-# MySQL configuration
+# MySQL configuration - Update these for your setup
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'vulnguard' # Ensure this matches your database name
+app.config['MYSQL_DB'] = 'vulnguard'
 
 mysql = MySQL(app)
+
+# Create tables if they don't exist
+def init_db():
+    try:
+        cursor = mysql.connection.cursor()
+        
+        # Create users table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(255) NOT NULL,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password_hash VARCHAR(255) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        # Create vulnerabilities table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS vulnerabilities (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                repo_url TEXT NOT NULL,
+                title TEXT NOT NULL,
+                description TEXT,
+                file_path TEXT,
+                line_number INT,
+                severity VARCHAR(50),
+                cve VARCHAR(100),
+                remediation TEXT,
+                false_positive_analysis TEXT,
+                scan_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        """)
+        
+        mysql.connection.commit()
+        logging.info("Database tables initialized successfully")
+    except Exception as e:
+        logging.error(f"Error initializing database: {e}")
+
+# Initialize database on startup
+with app.app_context():
+    init_db()
 
 # ---------------- AUTH FUNCTIONS ----------------
 
@@ -45,7 +90,7 @@ def register():
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         return jsonify({'error': 'Invalid email format'}), 400
 
-    # Password hashing (consider stronger algorithms like bcrypt for production)
+    # Password hashing
     password_hash = hashlib.sha256(password.encode()).hexdigest()
 
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -60,7 +105,7 @@ def register():
     )
     mysql.connection.commit()
     
-    # After successful registration, log the user in by setting session
+    # After successful registration, log the user in
     user_id = cursor.lastrowid
     session['user_id'] = user_id
     session['username'] = username
@@ -108,8 +153,6 @@ def logout():
 
 # ---------------- REPO SCANNING ----------------
 
-url = ""
-
 @app.route('/api/add_repository', methods=['POST'])
 def add_repository():
     """Add and scan repository"""
@@ -119,8 +162,8 @@ def add_repository():
             logging.warning("Unauthorized attempt to add repository.")
             return jsonify({'error': 'Unauthorized'}), 401
 
-        user_id = session['user_id'] # Get user_id from the session
-        user_email = session['email'] # Get user_email from the session for logging/DB if needed
+        user_id = session['user_id']
+        user_email = session['email']
 
         data = request.json
         repo_url = data.get('repoUrl', '').strip()
@@ -131,7 +174,6 @@ def add_repository():
 
         # Validate GitHub URL format
         github_regex = r'^https://github\.com/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)/?$'
-        url = repo_url
         match = re.match(github_regex, repo_url)
         if not match:
             logging.warning("Repository add failed: Invalid GitHub URL format for %s by user %s", repo_url, user_email)
@@ -142,7 +184,7 @@ def add_repository():
         # Check if repo exists on GitHub
         api_url = f"https://api.github.com/repos/{owner}/{repo_name}"
         try:
-            resp = requests.get(api_url, timeout=5)
+            resp = requests.get(api_url, timeout=10)
             if resp.status_code != 200:
                 logging.warning("Repository add failed: GitHub repo %s does not exist or is private (status %s) for user %s", repo_url, resp.status_code, user_email)
                 return jsonify({'error': 'Repository does not exist or is private'}), 400
@@ -150,78 +192,80 @@ def add_repository():
             logging.error("Repository add failed: Could not connect to GitHub API for %s by user %s. Error: %s", repo_url, user_email, str(req_ex))
             return jsonify({'error': 'Could not connect to GitHub API. Please check your internet connection or try again later.'}), 500
 
-        # Define paths for external scripts (adjust as per your actual directory structure)
-        # Using 'main-git.py' as per previous discussions, assuming 'main-git-v.py' was a typo or variant.
-        # If 'main-git-v.py' is indeed a different script, adjust the path accordingly.
+        # Create a temporary working directory
+        with tempfile.TemporaryDirectory() as temp_dir:
+            old_cwd = os.getcwd()
+            os.chdir(temp_dir)
+            
+            try:
+                # Define paths for scripts
+                main_git_script_path = os.path.join(old_cwd, "main-git.py")
+                ai_main_script_path = os.path.join(old_cwd, "ai", "ai-main.py")
+                score_gen_path = os.path.join(old_cwd, "score_gen.py")
 
-        parent_dir = os.path.dirname(os.path.dirname(__file__))
-        main_path = os.path.join(parent_dir, "main-git.py")
-        main_git_script_path = main_path
-        ai_main_script_path = parent_dir + "ai/ai-main.py"
-        score_gen_path = parent_dir + "score_gen.py"
+                # Step 1: Run main-git.py with repo url
+                logging.info("Running main-git.py for repo: %s (User: %s)", repo_url, user_email)
+                main_git_process = subprocess.run(
+                    ["python3", main_git_script_path, repo_url], 
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logging.info("main-git.py completed. Stdout: %s", main_git_process.stdout)
 
-        # Step 1: Run main-git.py with repo url
-        logging.info("Running main-git.py for repo: %s (User: %s)", repo_url, user_email)
-        main_git_process = subprocess.run(
-            ["python3", main_git_script_path, repo_url], 
-            check=True,
-            capture_output=True, # Capture output for debugging
-            text=True # Decode output as text
-        )
-        logging.info("main-git.py completed. Stdout: %s", main_git_process.stdout)
+                # Check if semgrep_results.json exists
+                semgrep_results_path = os.path.join(temp_dir, "semgrep_results.json")
+                if not os.path.exists(semgrep_results_path):
+                    logging.error("Semgrep scan failed: semgrep_results.json not found after main-git.py execution for repo %s (User: %s). Stderr: %s", repo_url, user_email, main_git_process.stderr)
+                    return jsonify({'error': 'Semgrep scan failed to produce results. Check if Semgrep is installed.'}), 500
 
-        # Check if semgrep_results.json exists after main-git.py
-        if not os.path.exists("semgrep_results.json"):
-            logging.error("Semgrep scan failed: semgrep_results.json not found after main-git.py execution for repo %s (User: %s). Stderr: %s", repo_url, user_email, main_git_process.stderr)
-            return jsonify({'error': 'Semgrep scan failed to produce results.json. Check backend logs.'}), 500
+                # Step 2: Run ai-main.py
+                logging.info("Running ai-main.py (User: %s)", user_email)
+                ai_main_process = subprocess.run(
+                    ["python3", ai_main_script_path], 
+                    check=True, 
+                    capture_output=True, 
+                    text=True
+                )
+                logging.info("ai-main.py completed. Stdout: %s", ai_main_process.stdout)
 
-        # Step 2: Run ai-main.py
-        logging.info("Running ai-main.py (User: %s)", user_email)
-        ai_main_process = subprocess.run(
-            ["python3", ai_main_script_path], 
-            check=True, 
-            capture_output=True, 
-            text=True
-        )
-        logging.info("ai-main.py completed. Stdout: %s", ai_main_process.stdout)
+                # Check if analyzed results exist
+                analyzed_file_path = os.path.join(temp_dir, "semgrep_results_analyzed.json")
+                if not os.path.exists(analyzed_file_path):
+                    logging.error("AI analysis failed: %s not found after ai-main.py execution for repo %s (User: %s). Stderr: %s", analyzed_file_path, repo_url, user_email, ai_main_process.stderr)
+                    return jsonify({'error': 'AI analysis failed to produce analyzed results.'}), 500
 
-        # Step 2.5: Run score_gen.py
-        logging.info("Running score_gen.py (User: %s)", user_email)
-        score_main_process = subprocess.run(
-            ["python3", score_gen_path], 
-            check=True, 
-            capture_output=True, 
-            text=True
-        )
-        logging.info("ai-main.py completed. Stdout: %s", ai_main_process.stdout)
+                # Step 3: Load AI analyzed results
+                with open(analyzed_file_path, "r") as f:
+                    ai_results = json.load(f)
+                logging.info("Successfully read analysis data from %s for repo %s (User: %s)", analyzed_file_path, repo_url, user_email)
 
-        # Check if semgrep_results_analyzed.json exists after ai-main.py
-        analyzed_file_path = "semgrep_results_analyzed.json"
-        if not os.path.exists(analyzed_file_path):
-            logging.error("AI analysis failed: %s not found after ai-main.py execution for repo %s (User: %s). Stderr: %s", analyzed_file_path, repo_url, user_email, ai_main_process.stderr)
-            return jsonify({'error': 'AI analysis failed to produce analyzed results.json. Check backend logs.'}), 500
+            finally:
+                os.chdir(old_cwd)
 
-        # Step 3: Load AI analyzed results
-        with open(analyzed_file_path, "r") as f:
-            ai_results = json.load(f)
-        logging.info("Successfully read analysis data from %s for repo %s (User: %s)", analyzed_file_path, repo_url, user_email)
-
-        # Step 4: Save to DB (using the 'vulnerabilities' table)
+        # Step 4: Save to DB
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         
-        # Clear existing vulnerabilities for this repo and user before inserting new ones
-        # This ensures that rescans update the data correctly.
+        # Clear existing vulnerabilities for this repo and user
         cursor.execute("DELETE FROM vulnerabilities WHERE user_id = %s AND repo_url = %s", (user_id, repo_url))
         logging.info("Cleared existing vulnerabilities for repo %s (User: %s)", repo_url, user_email)
         
+        # Insert new vulnerabilities
         for finding in ai_results.get('results', []):
             title = finding.get('extra', {}).get('message', 'No Title Provided')
             description = finding.get('extra', {}).get('llm_false_positive_analysis', 'No False Positive Analysis provided.')
             remediation = finding.get('extra', {}).get('llm_code_remediation', 'No remediation provided.')
             file_path = finding.get('path', 'N/A')
             line_number = finding.get('start', {}).get('line', 0)
-            severity = finding.get('extra', {}).get('severity', 'unknown')
-            cve = finding.get('cve_id') if 'cve_id' in finding else None # Assuming 'cve_id' from Semgrep output
+            
+            # Get severity from metadata or default to unknown
+            severity = 'unknown'
+            if 'extra' in finding and 'metadata' in finding['extra']:
+                impact = finding['extra']['metadata'].get('impact', '').lower()
+                if impact in ['high', 'medium', 'low']:
+                    severity = impact
+            
+            cve = finding.get('cve_id') if 'cve_id' in finding else None
 
             cursor.execute("""
                 INSERT INTO vulnerabilities (user_id, repo_url, title, description, file_path, line_number, severity, cve, remediation, false_positive_analysis)
@@ -231,31 +275,23 @@ def add_repository():
         mysql.connection.commit()
         logging.info("Analysis results saved to DB for user %s, repo %s", user_email, repo_url)
         
-        # Clean up temporary files
-        if os.path.exists("semgrep_results.json"):
-            os.remove("semgrep_results.json")
-            logging.info("Cleaned up semgrep_results.json")
-        if os.path.exists(analyzed_file_path):
-            os.remove(analyzed_file_path)
-            logging.info("Cleaned up %s", analyzed_file_path)
-        
         return jsonify({'message': 'Repository scanned and saved successfully!'}), 201
 
     except subprocess.CalledProcessError as e:
         logging.error("Subprocess execution failed for repo %s (User: %s). Command: %s. Return Code: %s. Stdout: %s. Stderr: %s", 
                       repo_url, user_email, e.cmd, e.returncode, e.stdout, e.stderr)
-        return jsonify({'error': f'Scan or AI process failed. Details: {e.stderr.strip()}'}), 500
+        return jsonify({'error': f'Scan or AI process failed. Details: {e.stderr.strip() if e.stderr else "Unknown error"}'}), 500
     except FileNotFoundError as e:
         logging.error("Required script or file not found: %s for repo %s (User: %s). Error: %s", 
                       e.filename, repo_url, user_email, str(e))
-        return jsonify({'error': f'A required script or file was not found on the server. Please contact support. ({e.filename})'}), 500
+        return jsonify({'error': f'A required script or file was not found on the server. Please contact support.'}), 500
     except json.JSONDecodeError as e:
         logging.error("Error decoding JSON from analysis results for repo %s (User: %s). Error: %s", 
                       repo_url, user_email, str(e))
-        return jsonify({'error': f'Error processing analysis results: Invalid JSON output from analysis scripts. ({str(e)})'}), 500
+        return jsonify({'error': f'Error processing analysis results: Invalid JSON output from analysis scripts.'}), 500
     except Exception as ex:
         logging.exception("An unexpected error occurred during repository analysis for repo %s (User: %s). Error: %s", 
-                          repo_url, user_email, str(ex)) # Use exception for full traceback
+                          repo_url, user_email, str(ex))
         return jsonify({'error': f'An unexpected server error occurred: {str(ex)}'}), 500
 
 
@@ -295,17 +331,17 @@ def get_repositories():
         repo_name = repo_name_match.group(1) if repo_name_match else repo['repo_url'].split('/')[-1]
 
         formatted_repos.append({
-            'id': encode_url_for_frontend(repo['repo_url']), # Use encoded URL for frontend routing
+            'id': encode_url_for_frontend(repo['repo_url']),
             'name': repo_name,
             'url': repo['repo_url'],
-            'lastScan': repo['last_scan'].isoformat() if repo['last_scan'] else None, # Format datetime for JSON
+            'lastScan': repo['last_scan'].isoformat() if repo['last_scan'] else None,
             'vulnerabilities': {
                 'high': int(repo['high_count']),
                 'medium': int(repo['medium_count']),
                 'low': int(repo['low_count'])
             },
             'totalVulnerabilities': int(repo['total_vulnerabilities']),
-            'status': 'completed' # You might want a more dynamic status in the future (e.g., 'scanning', 'error')
+            'status': 'completed'
         })
         
     logging.info("Successfully fetched %d repositories for user %s", len(formatted_repos), user_email)
@@ -320,13 +356,13 @@ def get_repository_details():
 
     user_id = session['user_id']
     user_email = session['email']
-    repo_url_encoded = request.args.get('repo_url_encoded') # Get the encoded URL from frontend
+    repo_url_encoded = request.args.get('repo_url_encoded')
     
     if not repo_url_encoded:
         logging.warning("Repository details failed: Missing encoded repository URL for user %s", user_email)
         return jsonify({'error': 'Encoded Repository URL is required'}), 400
 
-    repo_url = decode_url_from_frontend(repo_url_encoded) # Decode the URL for DB query
+    repo_url = decode_url_from_frontend(repo_url_encoded)
     logging.info("Fetching details for repo: %s (User: %s)", repo_url, user_email)
 
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -342,7 +378,7 @@ def get_repository_details():
             cve, 
             remediation, 
             false_positive_analysis,
-            scan_date # Include scan_date for the last scan info
+            scan_date
         FROM vulnerabilities 
         WHERE repo_url = %s AND user_id = %s
         ORDER BY severity DESC, file_path, line_number
@@ -369,7 +405,7 @@ def get_repository_details():
         'id': repo_url_encoded,
         'name': repo_name,
         'url': repo_url,
-        'status': 'completed', # Assuming completed after fetching data
+        'status': 'completed',
         'lastScan': summary['latest_scan_date'].isoformat() if summary and summary['latest_scan_date'] else None,
         'vulnerabilities': {
             'high': int(summary['high_count']) if summary else 0,
@@ -398,8 +434,12 @@ def decode_url_from_frontend(encoded_url):
     return encoded_url.replace('__SLASH__', '/').replace('__DOT__', '.').replace('__COLON__', ':').replace('__PERCENT__', '%').replace('__QUESTION__', '?').replace('__AMP__', '&')
 
 
+# Health check endpoint
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy', 'message': 'Anzen API is running'}), 200
+
+
 # ====== Start Server ======
 if __name__ == '__main__':
-    # Use 0.0.0.0 to make the server accessible from other machines on the network
-    # Use debug=True for development (auto-reloads, shows debugger), set to False for production
     app.run(debug=True, host='127.0.0.1', port=5000)

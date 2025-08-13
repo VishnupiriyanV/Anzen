@@ -46,11 +46,12 @@ const RepositoryDetail = () => {
   }, [repoUrlEncoded]); // Rerun when repoUrlEncoded changes
 
   const handleRescan = async (repoUrl) => {
-    // Implement rescan logic here, similar to Dashboard.jsx's handleRescan
-    // For now, it will just log and set an error
     setError('');
+    
+    // Show loading state
+    setRepository(prev => prev ? { ...prev, status: 'scanning' } : null);
+    
     try {
-      // Assuming add_repository also triggers a rescan and updates the DB
       const response = await fetch('http://localhost:5000/api/add_repository', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -62,21 +63,30 @@ const RepositoryDetail = () => {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to rescan repository.');
       }
-      // After successful rescan, reload the data for this detail page
-      const updatedResponse = await fetch(`http://localhost:5000/api/repository_details?repo_url_encoded=${encodeURIComponent(repoUrlEncoded)}`, {
-        credentials: 'include'
-      });
-      const updatedData = await updatedResponse.json();
-      setRepository(updatedData.repository);
-      const vulnerabilitiesWithIds = updatedData.vulnerabilities.map((v, index) => ({
-        ...v,
-        id: `${v.file}-${v.line}-${index}`
-      }));
-      setVulnerabilities(vulnerabilitiesWithIds);
+      
+      // Wait a moment then reload the data
+      setTimeout(async () => {
+        try {
+          const updatedResponse = await fetch(`http://localhost:5000/api/repository_details?repo_url_encoded=${encodeURIComponent(repoUrlEncoded)}`, {
+            credentials: 'include'
+          });
+          const updatedData = await updatedResponse.json();
+          setRepository(updatedData.repository);
+          const vulnerabilitiesWithIds = updatedData.vulnerabilities.map((v, index) => ({
+            ...v,
+            id: `${v.file}-${v.line}-${index}`
+          }));
+          setVulnerabilities(vulnerabilitiesWithIds);
+        } catch (fetchError) {
+          console.error("Error refetching repository details:", fetchError);
+        }
+      }, 3000);
 
     } catch (err) {
       setError(err.message || 'Rescan failed. Please try again.');
       console.error("Error during rescan:", err);
+      // Revert status on error
+      setRepository(prev => prev ? { ...prev, status: 'error' } : null);
     }
   };
 

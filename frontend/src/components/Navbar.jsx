@@ -29,7 +29,7 @@ const Navbar = ({ user, onLogout }) => {
           <div className="hidden md:flex items-center">
             <div className="flex items-center space-x-4">
               <a
-                href="https://github.com/VishnupiriyanV/thupparivaalan/tree/main/anzen-lite"
+                href="https://github.com/your-username/anzen-lite-extension"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-white bg-[#0066b8] hover:bg-[#005ba4] active:bg-[#004793] rounded-md transition-all duration-200 shadow-sm hover:shadow-md"
@@ -75,7 +75,7 @@ const Navbar = ({ user, onLogout }) => {
         <div className="md:hidden bg-gray-800 border-t border-gray-700">
           <div className="px-4 py-3 space-y-3">
             <a
-              href="https://marketplace.visualstudio.com/items?itemName=anzen.anzen-lite"
+              href="https://github.com/your-username/anzen-lite-extension"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center px-3 py-2 text-base font-medium text-white bg-[#0066b8] hover:bg-[#005ba4] active:bg-[#004793] rounded-md transition-all duration-200 shadow-sm hover:shadow-md"

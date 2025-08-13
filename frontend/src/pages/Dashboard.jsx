@@ -50,30 +50,38 @@ const Dashboard = () => {
         repo.url === repoUrl ? { ...repo, status: 'scanning' } : repo
       )
     );
+    
+    setError(''); // Clear any previous errors
+    
     try {
-        // Call the backend rescan endpoint (create one in app.py if needed)
-        // For now, re-use add_repository for simplicity, assuming it triggers a rescan
         const response = await fetch('http://localhost:5000/api/add_repository', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ repoUrl }),
-            credentials: 'include' // <--- ADDED THIS LINE
+            credentials: 'include'
         });
 
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || 'Failed to rescan repository.');
         }
-        // After successful rescan, refetch repositories to update data
-        const updatedResponse = await fetch('http://localhost:5000/api/repositories', {
-          credentials: 'include' // <--- ADDED THIS LINE
-        });
-        const updatedData = await updatedResponse.json();
-        const formattedUpdatedData = updatedData.map(repo => ({
-            ...repo,
-            id: encodeURIComponent(repo.url)
-        }));
-        setRepositories(formattedUpdatedData);
+        
+        // Wait a moment then refetch repositories
+        setTimeout(async () => {
+          try {
+            const updatedResponse = await fetch('http://localhost:5000/api/repositories', {
+              credentials: 'include'
+            });
+            const updatedData = await updatedResponse.json();
+            const formattedUpdatedData = updatedData.map(repo => ({
+                ...repo,
+                id: encodeURIComponent(repo.url)
+            }));
+            setRepositories(formattedUpdatedData);
+          } catch (fetchError) {
+            console.error("Error refetching repositories:", fetchError);
+          }
+        }, 2000);
 
     } catch (err) {
         setError(err.message || 'Rescan failed. Please try again.');
