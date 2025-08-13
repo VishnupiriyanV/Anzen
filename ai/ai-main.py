@@ -12,7 +12,6 @@ except Exception as e:
     print(f"Error initializing Groq client: {e}")
     pass
 
-
 INPUT_FILENAME = 'semgrep_results.json'
 OUTPUT_FILENAME = 'semgrep_results_analyzed.json'
 
