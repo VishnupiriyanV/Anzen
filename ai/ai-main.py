@@ -3,16 +3,13 @@ import os
 from groq import Groq
 import subprocess
 
-os.environ["GROK_API_KEY"] = "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"
 
-# Initialize Groq client
-client = Groq(api_key=os.environ["GROK_API_KEY"])
-print("Groq client initialized successfully!")
 
 INPUT_FILENAME = 'semgrep_results.json'
 OUTPUT_FILENAME = 'semgrep_results_analyzed.json'
 
-def analyze_finding(result):
+def analyze_finding(client, result):
+    """Analyzes a single Semgrep finding using the Groq API."""
     check_id = result.get('check_id')
     path = result.get('path')
     start_line = result.get('start', {}).get('line')
@@ -35,7 +32,6 @@ def analyze_finding(result):
     )
 
     try:
-        
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -48,7 +44,6 @@ def analyze_finding(result):
         
         content = chat_completion.choices[0].message.content
         
-       
         false_positive_analysis = "Not found in response."
         remediation = "Not found in response."
 
@@ -71,12 +66,20 @@ def analyze_finding(result):
 
 
 def main():
-    """
-    Main function to load, process, and save the Semgrep results.
-    """
-    if not os.getenv("GROQ_API_KEY"):
-        print("ERROR: Groq API key is not configured.")
-        print("Please set the GROQ_API_KEY environment variable.")
+    
+    
+    api_key = "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" 
+
+    if api_key == "your_actual_api_key_here":
+        print("ERROR: Please replace 'your_actual_api_key_here' with your real Groq API key in the script.")
+        return
+
+    
+    try:
+        client = Groq(api_key=api_key)
+        print("Groq client initialized successfully!")
+    except Exception as e:
+        print(f"Failed to initialize Groq client: {e}")
         return
 
     try:
@@ -89,10 +92,11 @@ def main():
         print(f"Error: Could not decode JSON from the file '{INPUT_FILENAME}'.")
         return
 
-    for result in data.get('results', []):
+    results = data.get('results', [])
+    for result in results:
         print(f"Analyzing finding in: {result.get('path')}:{result.get('start', {}).get('line')}")
         
-        false_positive_analysis, remediation = analyze_finding(result)
+        false_positive_analysis, remediation = analyze_finding(client, result)
 
         if 'extra' not in result:
             result['extra'] = {}
@@ -108,7 +112,5 @@ def main():
         print(f"Error writing to file '{OUTPUT_FILENAME}': {e}")
         
 
-
 if __name__ == '__main__':
     main()
-
