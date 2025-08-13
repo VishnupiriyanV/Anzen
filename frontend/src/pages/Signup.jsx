@@ -52,7 +52,7 @@ const Signup = ({ onLogin }) => {
               <Shield className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Join VulnGuard to secure your code</p>
+            <p className="text-gray-600 dark:text-gray-300 mt-2">Join Anzen to secure your code</p>
           </div>
 
           {error && (

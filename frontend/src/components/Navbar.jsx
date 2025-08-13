@@ -24,7 +24,7 @@ const Navbar = ({ user, onLogout }) => {
               <div className="bg-blue-500 p-2 rounded-lg group-hover:bg-blue-600 transition-colors duration-200">
                 <Shield className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">VulnGuard</span>
+              <span className="text-xl font-bold text-white">Anzen</span>
             </Link>
           </div>
 

@@ -41,7 +41,7 @@ const Login = ({ onLogin }) => {
               <Shield className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome Back</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Sign in to your VulnGuard account</p>
+            <p className="text-gray-600 dark:text-gray-300 mt-2">Sign in to your Anzen account</p>
           </div>
 
           {error && (
