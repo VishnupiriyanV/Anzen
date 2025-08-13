@@ -108,6 +108,8 @@ def logout():
 
 # ---------------- REPO SCANNING ----------------
 
+url = ""
+
 @app.route('/api/add_repository', methods=['POST'])
 def add_repository():
     """Add and scan repository"""
@@ -129,6 +131,7 @@ def add_repository():
 
         # Validate GitHub URL format
         github_regex = r'^https://github\.com/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)/?$'
+        url = repo_url
         match = re.match(github_regex, repo_url)
         if not match:
             logging.warning("Repository add failed: Invalid GitHub URL format for %s by user %s", repo_url, user_email)
@@ -150,13 +153,17 @@ def add_repository():
         # Define paths for external scripts (adjust as per your actual directory structure)
         # Using 'main-git.py' as per previous discussions, assuming 'main-git-v.py' was a typo or variant.
         # If 'main-git-v.py' is indeed a different script, adjust the path accordingly.
-        main_git_script_path = r"D:\project\thupparivaalan\main-git.py" 
-        ai_main_script_path = r"D:\project\thupparivaalan\ai\ai-main.py"
+
+        parent_dir = os.path.dirname(os.path.dirname(__file__))
+        main_path = os.path.join(parent_dir, "main-git.py")
+        main_git_script_path = main_path
+        ai_main_script_path = parent_dir + "ai/ai-main.py"
+        score_gen_path = parent_dir + "score_gen.py"
 
         # Step 1: Run main-git.py with repo url
         logging.info("Running main-git.py for repo: %s (User: %s)", repo_url, user_email)
         main_git_process = subprocess.run(
-            ["python", main_git_script_path, repo_url], 
+            ["python3", main_git_script_path, repo_url], 
             check=True,
             capture_output=True, # Capture output for debugging
             text=True # Decode output as text
@@ -171,7 +178,17 @@ def add_repository():
         # Step 2: Run ai-main.py
         logging.info("Running ai-main.py (User: %s)", user_email)
         ai_main_process = subprocess.run(
-            ["python", ai_main_script_path], 
+            ["python3", ai_main_script_path], 
+            check=True, 
+            capture_output=True, 
+            text=True
+        )
+        logging.info("ai-main.py completed. Stdout: %s", ai_main_process.stdout)
+
+        # Step 2.5: Run score_gen.py
+        logging.info("Running score_gen.py (User: %s)", user_email)
+        score_main_process = subprocess.run(
+            ["python3", score_gen_path], 
             check=True, 
             capture_output=True, 
             text=True

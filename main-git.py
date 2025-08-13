@@ -2,6 +2,7 @@ import os
 import shutil
 from git import Repo
 import subprocess, json
+from backend.app import url
 
 # Paths
 cloned_dir = "./cloned"
@@ -17,7 +18,7 @@ for path in [cloned_dir, filtered_dir, output_file]:
             os.remove(path)
 
 # Clone into local directory
-repo_url = input("Enter repo URL: ").strip()
+repo_url = url
 Repo.clone_from(repo_url, cloned_dir)
 
 # Extensions to keep
