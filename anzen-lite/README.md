@@ -1,9 +1,9 @@
 # Anzen Lite
 
-Runs locally with Semgrep, a lite version of Anzen without AI features.
+Runs locally, a lite version of Anzen without AI features. Install using the VSIX file.
 
 ## Usage
-1. Install Semgrep:
+1. Install Dependency:
    ```bash
    pip install semgrep
    ```
