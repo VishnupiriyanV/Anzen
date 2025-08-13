@@ -4,7 +4,7 @@ from git import Repo
 
 # Clone into local directory
 repo_url = input()
-repo = Repo.clone_from(repo_url, "./cloned")
+repo = Repo.clone_from(repo_url, "./test")
 
 extensions = [".cs", ".go", ".java", ".js", ".kt", 
 ".kts", ".py", ".ts", ".c", ".cpp", ".cc", 
@@ -13,19 +13,13 @@ extensions = [".cs", ".go", ".java", ".js", ".kt",
 ".tf", ".tfvars", ".hcl", ".generic", 
 ".json", ".ex", ".exs", ".cls", ".trigger", ".dart"]
 
-# Create clonedf dir
-os.makedirs("./clonedf")
-
-# Pwd
-path = os.path.abspath(os.getcwd())
+# Create testf dir
+os.makedir("./testf")
 
 # Traversing the cloned directory
-for root, dirs, files in os.walk("./cloned"):
+for root, dirs, files in os.walk("."):
      for file in files:
-      name_ext = file.split(".")
-      print(name_ext)
-      if "." + name_ext[1] in extensions:
-         fpath = os.path.abspath(file)
-         shutil.move(fpath, path + clonedf)
-         
-shutil.rmtree(path + "cloned")
+      name, ext = file.splitext(".")
+      if "." + ext in extensions:
+         path = os.path.abspath(file)
+         shutil.move(path, )
