@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import Logo from '../components/Logo';
 
 const Signup = ({ onLogin }) => {
   const [name, setName] = useState('');
@@ -45,8 +46,8 @@ const Signup = ({ onLogin }) => {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
           {/* Logo and Title */}
           <div className="text-center mb-8">
-            <div className="mx-auto h-16 w-16 bg-blue-600 dark:bg-blue-500 rounded-2xl flex items-center justify-center mb-4">
-              <Shield className="h-8 w-8 text-white" />
+            <div className="flex justify-center mb-4">
+              <Logo size="icon" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h2>
             <p className="text-gray-600 dark:text-gray-300 mt-2">Join Anzen to secure your code</p>

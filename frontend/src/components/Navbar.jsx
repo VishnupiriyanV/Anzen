@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Shield, User, LogOut, Menu, X } from 'lucide-react';
+import { User, LogOut, Menu, X } from 'lucide-react';
+import Logo from './Logo';
 
 const Navbar = ({ user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,9 +22,7 @@ const Navbar = ({ user, onLogout }) => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/dashboard" className="flex items-center space-x-3 group">
-              <div className="bg-blue-500 p-2 rounded-lg group-hover:bg-blue-600 transition-colors duration-200">
-                <Shield className="h-6 w-6 text-white" />
-              </div>
+              <Logo size="lg" className="group-hover:opacity-90 transition-opacity duration-200" />
               <span className="text-xl font-bold text-white">Anzen</span>
             </Link>
           </div>
