@@ -6,11 +6,11 @@ import sys
 def semgrep_analyze(directory_path, output_file, config_rules):
     """
     Analyzes a directory using Semgrep with a specific ruleset and saves the results.
-    This corrected version runs Semgrep once per directory, which is much more efficient.
+    This corrected version runs Semgrep once per directory for maximum efficiency.
     """
     print(f"Analyzing directory '{directory_path}' with ruleset '{config_rules}'...")
 
-    # Semgrep can scan a directory directly. No need to walk the file tree in Python.
+    # Define the command to scan the entire directory at once.
     command = [
         "semgrep",
         "scan",
@@ -20,13 +20,13 @@ def semgrep_analyze(directory_path, output_file, config_rules):
     ]
 
     try:
-        # Execute the Semgrep command once for the entire directory.
+        # Execute the Semgrep command.
         result = subprocess.run(
             command,
             capture_output=True,
             text=True,
             encoding='utf-8',
-            check=False  # Don't raise an exception on non-zero exit codes
+            check=False  # We handle exit codes manually
         )
 
         # Semgrep exit codes: 0 = no findings, 1 = findings found, >1 = error
@@ -34,21 +34,22 @@ def semgrep_analyze(directory_path, output_file, config_rules):
             print(f"An error occurred while scanning '{directory_path}'. See details below.", file=sys.stderr)
             print(f"Return Code: {result.returncode}", file=sys.stderr)
             print(f"Stderr:\n{result.stderr}", file=sys.stderr)
-            return # Stop processing this config if an error occurs
+            return
 
-        # Load the JSON output to count issues and ensure it's valid.
+        # Attempt to load the output as JSON to verify its format.
         try:
             scan_results = json.loads(result.stdout)
         except json.JSONDecodeError:
-            print("Error: Semgrep did not return valid JSON.", file=sys.stderr)
+            print("Error: Semgrep did not return valid JSON. This can happen if the target", file=sys.stderr)
+            print("directory is empty or a network error prevented rules from downloading.", file=sys.stderr)
             print(f"Raw output:\n{result.stdout}", file=sys.stderr)
             return
             
-        # Write the complete JSON output to the file.
+        # Write the complete JSON output to the specified file.
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(scan_results, f, indent=4)
         
-        # Count the number of issues found from the results.
+        # Count the number of issues found in the report.
         issue_count = len(scan_results.get('results', []))
         print(f"Analysis complete. Found a total of {issue_count} issues.")
         print(f"Full report saved to '{output_file}'.")
