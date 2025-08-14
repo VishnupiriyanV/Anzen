@@ -25,7 +25,7 @@ Vulnerability Scanning – Code is analyzed using a multi-language security anal
 
 View Results – See detailed JSON output with vulnerability types, affected files, and severity levels.
 
-# Anzen Lite
+## Anzen Lite
 
 Extension for VS Code that runs locally, a lite version of Anzen without AI features. Install using the VSIX file.
 
