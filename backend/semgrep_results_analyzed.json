@@ -1,0 +1,509 @@
+{
+  "version": "1.132.1",
+  "results": [
+    {
+      "check_id": "typescript.react.security.react-insecure-request.react-insecure-request",
+      "path": "clonedf\\Signup.jsx",
+      "start": {
+        "line": 24,
+        "col": 32,
+        "offset": 909
+      },
+      "end": {
+        "line": 29,
+        "col": 9,
+        "offset": 1171
+      },
+      "extra": {
+        "message": "Unencrypted request over HTTP detected.",
+        "metadata": {
+          "vulnerability": "Insecure Transport",
+          "owasp": [
+            "A03:2017 - Sensitive Data Exposure",
+            "A02:2021 - Cryptographic Failures"
+          ],
+          "cwe": [
+            "CWE-319: Cleartext Transmission of Sensitive Information"
+          ],
+          "references": [
+            "https://www.npmjs.com/package/axios"
+          ],
+          "category": "security",
+          "technology": [
+            "react"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Mishandled Sensitive Information"
+          ],
+          "source": "https://semgrep.dev/r/typescript.react.security.react-insecure-request.react-insecure-request",
+          "shortlink": "https://sg.run/1n0b"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nI believe this finding is likely a false positive. The code snippet `requires login` is a single-line string literal that does not appear to be related to making an HTTP request. The code is written in JSX for React, and the `requires login` statement seems to be a declaration of a component requirement rather than a request to an external server.\n\n**",
+        "llm_code_remediation": "**\nGiven that this is likely a false positive, there is no need for remediation. However, if we were to assume that the finding is correct and there is an unencrypted request over HTTP being made in the code, we could remediate the issue by replacing the HTTP request with an HTTPS request. Since the code snippet does not show the actual request code, I will provide a hypothetical remediation example for the sake of completeness.\n\nHere's a hypothetical remediation for a drop-in replacement:\n```jsx\nimport axios from 'axios';\n\naxios.create({ baseURL: 'https://example.com' });\n```\nThis code snippet creates an Axios client instance with a base URL of `https://example.com`, ensuring that any subsequent requests made using this client will use HTTPS instead of HTTP. Note that this is a hypothetical example and may not be directly applicable to the original code snippet."
+      }
+    },
+    {
+      "check_id": "python.flask.security.injection.subprocess-injection.subprocess-injection",
+      "path": "clonedf\\app.py",
+      "start": {
+        "line": 405,
+        "col": 13,
+        "offset": 17143
+      },
+      "end": {
+        "line": 410,
+        "col": 14,
+        "offset": 17371
+      },
+      "extra": {
+        "message": "Detected user input entering a `subprocess` call unsafely. This could result in a command injection vulnerability. An attacker could use this vulnerability to execute arbitrary commands on the host, which allows them to download malware, scan sensitive data, or run any command they wish on the server. Do not let users choose the command to run. In general, prefer to use Python API versions of system commands. If you must use subprocess, use a dictionary to allowlist a set of commands.",
+        "metadata": {
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+          ],
+          "references": [
+            "https://semgrep.dev/docs/cheat-sheets/python-command-injection/"
+          ],
+          "confidence": "HIGH",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Command Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.injection.subprocess-injection.subprocess-injection",
+          "shortlink": "https://sg.run/5gW3"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the given code snippet, I do not think this is a likely false positive. The snippet appears to be checking for a login requirement, which is not related to subprocess injection. If it were a false positive, the code snippet would likely involve a call to subprocess.run() or similar, which is not present in this snippet.\n\n**",
+        "llm_code_remediation": "**\nSince the actual code is not shown, I can only assume that the report is accurate and the snippet mentioned in the code is responsible for subprocess injection. For a true positive, here is a secure code remediation:\n```python\nimport subprocess\n\nallowed_commands = {'ls', 'cat', 'cp', 'mv'}  # Define a set of allowed commands\ncommand = input(\"Enter a command: \")\n\nif command:\n    if command in allowed_commands:\n        subprocess.run(command.split())  # Run the allowed command\n    else:\n        print(\"Invalid command. Only allowed commands are: \", allowed_commands)\nelse:\n    print(\"Enter a valid command.\")\n```\nInstead of directly using `subprocess.run(input())`, we should always define a set of allowed commands and check if the user input matches any of those commands. This helps prevent command injection attacks by limiting the set of commands that can be executed.\n\nHowever, keep in mind that this is a basic example. A more robust solution should involve proper sanitization and validation of user input and strict permission controls to ensure that the process can only perform the intended actions."
+      }
+    },
+    {
+      "check_id": "python.lang.security.dangerous-subprocess-use.dangerous-subprocess-use",
+      "path": "clonedf\\app.py",
+      "start": {
+        "line": 406,
+        "col": 17,
+        "offset": 17176
+      },
+      "end": {
+        "line": 406,
+        "col": 102,
+        "offset": 17261
+      },
+      "extra": {
+        "message": "Detected subprocess function 'run' with user controlled data. A malicious actor could leverage this to perform command injection. You may consider using 'shlex.escape()'.",
+        "metadata": {
+          "owasp": [
+            "A01:2017 - Injection",
+            "A03:2021 - Injection"
+          ],
+          "cwe": [
+            "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+          ],
+          "asvs": {
+            "control_id": "5.3.8 OS Command Injection",
+            "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v53-output-encoding-and-injection-prevention-requirements",
+            "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+            "version": "4"
+          },
+          "references": [
+            "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+            "https://docs.python.org/3/library/subprocess.html",
+            "https://docs.python.org/3/library/shlex.html",
+            "https://semgrep.dev/docs/cheat-sheets/python-command-injection/"
+          ],
+          "category": "security",
+          "technology": [
+            "python"
+          ],
+          "confidence": "MEDIUM",
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Command Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.dangerous-subprocess-use.dangerous-subprocess-use",
+          "shortlink": "https://sg.run/NWxp"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "** Based on the provided code snippet, this is highly likely to be a false positive. The code snippet only contains a string \"requires login\" which is not related to subprocess use or user-controlled data. The \"run\" function is not being used with user-controlled data, which is the primary condition for the Semgrep rule to trigger.\n\n2. **",
+        "llm_code_remediation": "** If this is indeed a false positive and the actual code does involve subprocess use with user-controlled data, a secure remediation would be to use a safe mechanism to ensure that the passed user-controlled data is properly sanitized and escaped. A drop-in replacement for the snippet could be:\n\n```\nimport subprocess\nimport shlex\n\nsubprocess.run(shlex.split('your command string'))\n```\n\nOr, if you need more control over the process, you can use the `subprocess.Popen` constructor to specify the command and the arguments separately:\n\n```\nimport subprocess\n\nsubprocess.Popen(shlex.split('your command string'), shell=False)\n```\n\nIn both examples, `shlex.split` is used to split the command string into a list of arguments, which ensures that any shell metacharacters are properly escaped. Additionally, setting `shell=False` when creating the `subprocess.Popen` object also helps prevent shell injection."
+      }
+    },
+    {
+      "check_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "path": "clonedf\\app.py",
+      "start": {
+        "line": 693,
+        "col": 5,
+        "offset": 32591
+      },
+      "end": {
+        "line": 693,
+        "col": 53,
+        "offset": 32639
+      },
+      "extra": {
+        "message": "Detected Flask app with debug=True. Do not deploy to production with this flag enabled as it will leak sensitive information. Instead, consider using Flask configuration variables or setting 'debug' using system environment variables.",
+        "metadata": {
+          "cwe": [
+            "CWE-489: Active Debug Code"
+          ],
+          "owasp": "A06:2017 - Security Misconfiguration",
+          "references": [
+            "https://labs.detectify.com/2015/10/02/how-patreon-got-hacked-publicly-exposed-werkzeug-debugger/"
+          ],
+          "category": "security",
+          "technology": [
+            "flask"
+          ],
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "HIGH",
+          "impact": "MEDIUM",
+          "confidence": "HIGH",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Active Debug Code"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.audit.debug-enabled.debug-enabled",
+          "shortlink": "https://sg.run/dKrd"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\n\nBased on the provided code snippet, it's unlikely that this is a false positive. The code snippet seems to be a simple string indicating that the functionality requires a login, which is a basic authorization mechanism. The finding mentions a Flask app with debug=True, but the provided code snippet doesn't appear to be related to the Flask app or the debug flag.\n\n**2.",
+        "llm_code_remediation": "**\n\nAssuming this is a true positive and the code snippet is indeed part of the Flask app, the remediation would be to disable debug mode by setting the `debug` flag to `False` in the Flask app configuration.\n\nHere's a secure drop-in replacement for the snippet:\n\nInstead of:\n```\n```\nUse:\n```\napp.config['debug'] = False\n```\n\nOr, if you're using environment variables, set `FLASK_DEBUG=False` in your environment configuration.\n\nBy disabling debug mode, you'll avoid potential security risks associated with debug-enabled Flask apps."
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "path": "clonedf\\setup_demo.py",
+      "start": {
+        "line": 209,
+        "col": 5,
+        "offset": 6461
+      },
+      "end": {
+        "line": 209,
+        "col": 40,
+        "offset": 6496
+      },
+      "extra": {
+        "message": "These permissions `0o755` are widely permissive and grant access to more people than may be necessary. A good default is `0o644` which gives read and write access to yourself and read access to everyone else.",
+        "metadata": {
+          "category": "security",
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "cwe": [
+            "CWE-276: Incorrect Default Permissions"
+          ],
+          "technology": [
+            "python"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Improper Authorization"
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+          "shortlink": "https://sg.run/AXY4"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "** Based on the code snippet provided, I would say that this finding is likely a false positive. The code snippet only contains a comment `requires login`, which does not mention file permissions at all. It seems that this code is not related to file permissions, making it unlikely that the Semgrep scan is correctly identifying an insecure file permission issue.\n\n**",
+        "llm_code_remediation": "** Since this is likely a false positive, there is no need for remediation. However, if we assume that the finding is correct and the code is indeed dealing with file permissions, a secure code remediation could be:\n\n```\n# Assuming the original code was:\nfile_permissions = 0o755\n\n# Secure remediation:\nfile_permissions = 0o644\n```\n\nIn this remediation, we are simply changing the file permission to `0o644`, which grants read and write access to the owner, and read access to everyone else. This is a more secure default permission setting that minimizes the attack surface."
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "path": "clonedf\\setup_demo.py",
+      "start": {
+        "line": 220,
+        "col": 5,
+        "offset": 6735
+      },
+      "end": {
+        "line": 220,
+        "col": 41,
+        "offset": 6771
+      },
+      "extra": {
+        "message": "These permissions `0o755` are widely permissive and grant access to more people than may be necessary. A good default is `0o644` which gives read and write access to yourself and read access to everyone else.",
+        "metadata": {
+          "category": "security",
+          "owasp": [
+            "A01:2021 - Broken Access Control"
+          ],
+          "cwe": [
+            "CWE-276: Incorrect Default Permissions"
+          ],
+          "technology": [
+            "python"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Improper Authorization"
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+          "shortlink": "https://sg.run/AXY4"
+        },
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the provided code snippet, this finding is likely a false positive. The code `requires login` does not appear to be related to file permissions. Semgrep is scanning the file permissions of the surrounding file, likely due to the `File: clonedf\\setup_demo.py` and `Lines: 220-220` information. Since the code snippet itself does not involve file access or modification, the finding is likely unrelated to this specific code.\n\n**",
+        "llm_code_remediation": "**\nSince this is likely a false positive, no remediation is necessary for this code snippet. However, if the goal is to improve file permissions in the surrounding file `setup_demo.py`, here's a suggestion:\n\nInstead of setting file permissions to `0o755` (which grants execute permissions to the group and others), consider using a more restrictive permission, such as `0o644` (world-readable, owner-writeable). To do this, you would need to modify the file permissions outside of Python code, as this snippet only contains a comment and not any file-related operations."
+      }
+    },
+    {
+      "check_id": "generic.secrets.security.detected-telegram-bot-api-key.detected-telegram-bot-api-key",
+      "path": "clonedf\\tel-main.py",
+      "start": {
+        "line": 12,
+        "col": 23,
+        "offset": 247
+      },
+      "end": {
+        "line": 12,
+        "col": 69,
+        "offset": 293
+      },
+      "extra": {
+        "message": "Telegram Bot API Key detected",
+        "metadata": {
+          "cwe": [
+            "CWE-798: Use of Hard-coded Credentials"
+          ],
+          "source-rule-url": "https://github.com/dxa4481/truffleHogRegexes/blob/master/truffleHogRegexes/regexes.json",
+          "category": "security",
+          "technology": [
+            "secrets",
+            "telegram"
+          ],
+          "confidence": "LOW",
+          "owasp": [
+            "A07:2021 - Identification and Authentication Failures"
+          ],
+          "references": [
+            "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "audit"
+          ],
+          "likelihood": "LOW",
+          "impact": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Hard-coded Secrets"
+          ],
+          "source": "https://semgrep.dev/r/generic.secrets.security.detected-telegram-bot-api-key.detected-telegram-bot-api-key",
+          "shortlink": "https://sg.run/nd4b"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS",
+        "llm_false_positive_analysis": "**\nBased on the code snippet provided, I would lean towards considering this a likely false positive. The code line `requires login` seems to be a part of a Python script, likely using a framework like Flask or Django, but it doesn't seem to be related to a Telegram Bot API Key. The presence of `requires login` suggests that this line is part of an authorization mechanism, possibly requiring a username and/or password to access the page or functionality. In this context, it's unlikely that a Telegram Bot API Key would be hardcoded or accidentally included in this line of code.\n\n**",
+        "llm_code_remediation": "**\nAssuming this is a true positive and a Telegram Bot API Key is indeed hardcoded, a secure code remediation would be to remove or replace the hardcoded key with a more secure approach. One way to do this would be to store the API key in a secure manner, such as:\n\nInstead of:\n\n```python\nrequires login\n```\n\nUse:\n\n```python\ntelegram_bot_api_key = os.environ.get('TEL_BOT_API_KEY')\n```\n\nThis code sets an environment variable `TEL_BOT_API_KEY` and retrieves its value using `os.environ.get()`. This approach ensures that the sensitive API key is not hardcoded in the code and is instead stored outside of the code, reducing the risk of accidental exposure.\n\nIf the API key needs to be hardcoded for some reason, consider using an encoder or hashing mechanism to obfuscate the key, making it more difficult for attackers to extract.\n\nIn either case, it's essential to thoroughly review the surrounding code to ensure that the API key is not exposed or logged in any way, especially in production environments."
+      }
+    }
+  ],
+  "errors": [],
+  "paths": {
+    "scanned": [
+      "clonedf\\_metadata.json",
+      "clonedf\\AddRepository.jsx",
+      "clonedf\\ai-main.py",
+      "clonedf\\App.jsx",
+      "clonedf\\app.py",
+      "clonedf\\Dashboard.jsx",
+      "clonedf\\eslint.config.js",
+      "clonedf\\extension.js",
+      "clonedf\\jsconfig.json",
+      "clonedf\\Login.jsx",
+      "clonedf\\Logo.jsx",
+      "clonedf\\main-git.py",
+      "clonedf\\main.jsx",
+      "clonedf\\manifest.json",
+      "clonedf\\Navbar.jsx",
+      "clonedf\\package-lock.json",
+      "clonedf\\package.json",
+      "clonedf\\package_1.json",
+      "clonedf\\package_2.json",
+      "clonedf\\postcss.config.js",
+      "clonedf\\RepositoryDetail.jsx",
+      "clonedf\\score_gen.py",
+      "clonedf\\semgrep_results.json",
+      "clonedf\\semgrep_results_analyzed.json",
+      "clonedf\\setup_demo.py",
+      "clonedf\\Signup.jsx",
+      "clonedf\\tailwind.config.js",
+      "clonedf\\tel-main.py",
+      "clonedf\\ThemeContext.jsx",
+      "clonedf\\vite-env.d.ts",
+      "clonedf\\vite.config.js",
+      "clonedf\\VSCodeLogo.jsx"
+    ]
+  },
+  "time": {
+    "rules": [],
+    "rules_parse_time": 2.094974994659424,
+    "profiling_times": {
+      "config_time": 1.365875244140625,
+      "core_time": 6.398305892944336,
+      "ignores_time": 0.0014286041259765625,
+      "total_time": 7.766396999359131
+    },
+    "parsing_time": {
+      "total_time": 0.27684974670410156,
+      "per_file_time": {
+        "mean": 0.008651554584503174,
+        "std_dev": 0.00020791928209717978
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.0,
+        "count_ratio": 0.0
+      },
+      "very_slow_files": []
+    },
+    "scanning_time": {
+      "total_time": 3.2074944972991943,
+      "per_file_time": {
+        "mean": 0.033411401013533286,
+        "std_dev": 0.029157234676163494
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.5025774895160685,
+        "count_ratio": 0.010416666666666666
+      },
+      "very_slow_files": [
+        {
+          "fpath": "clonedf\\app.py",
+          "ftime": 1.6120145320892334
+        }
+      ]
+    },
+    "matching_time": {
+      "total_time": 1.6289072036743164,
+      "per_file_and_rule_time": {
+        "mean": 0.00699101804152067,
+        "std_dev": 0.0010907497248188588
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.4121297714973891,
+        "count_ratio": 0.008583690987124463
+      },
+      "very_slow_rules_on_files": [
+        {
+          "fpath": "clonedf\\app.py",
+          "rule_id": "python.aws-lambda.security.tainted-html-string.tainted-html-string",
+          "time": 0.24905705451965332
+        },
+        {
+          "fpath": "clonedf\\app.py",
+          "rule_id": "python.lang.security.audit.insecure-transport.requests.request-with-http.request-with-http",
+          "time": 0.42226409912109375
+        }
+      ]
+    },
+    "tainting_time": {
+      "total_time": 0.6354043483734131,
+      "per_def_and_rule_time": {
+        "mean": 0.0017456163416852007,
+        "std_dev": 6.163656504279835e-05
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.19746469054013033,
+        "count_ratio": 0.0027472527472527475
+      },
+      "very_slow_rules_on_defs": [
+        {
+          "fpath": "clonedf\\app.py",
+          "fline": 309,
+          "rule_id": "python.boto3.security.hardcoded-token.hardcoded-token",
+          "time": 0.12546992301940918
+        }
+      ]
+    },
+    "fixpoint_timeouts": [],
+    "targets": [],
+    "total_bytes": 0,
+    "max_memory_bytes": 1100707200
+  },
+  "engine_requested": "OSS",
+  "skipped_rules": []
+}

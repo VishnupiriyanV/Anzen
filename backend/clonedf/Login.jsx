@@ -17,16 +17,14 @@ const Login = ({ onLogin }) => {
     try {
         const response = await fetch('http://localhost:5000/api/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // Ensure credentials are included
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
+            credentials: 'include' // <--- IMPORTANT: This ensures session cookies are sent
         });
         const data = await response.json();
         if (response.ok) {
             // Assuming the backend returns user data including 'id', 'email', 'name', 'username'
-            onLogin({ id: data.user.id, email: data.user.email, name: data.user.name });
+            onLogin({ id: data.user.id, email: data.user.email, name: data.user.username || data.user.name });
         } else {
             throw new Error(data.error || 'Login failed');
         }

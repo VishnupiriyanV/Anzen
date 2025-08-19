@@ -1,5 +1,6 @@
-Flask==2.3.2
+Flask==2.0.1
 Flask-MySQLdb==1.0.1
 Flask-Cors==3.0.10
-requests==2.31.0
-mysqlclient==2.1.1
+mysqlclient==2.0.1
+requests==2.26.0
+Flask-Session==0.4.0

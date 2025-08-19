@@ -65,7 +65,6 @@ function App() {
             path="/login" 
             element={user ? <Navigate to="/dashboard" /> : <Login onLogin={login} />} 
           />
-          
           <Route 
             path="/signup" 
             element={user ? <Navigate to="/dashboard" /> : <Signup onLogin={login} />} 

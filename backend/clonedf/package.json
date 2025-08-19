@@ -1,0 +1,27 @@
+{
+  "name": "anzen-lite",
+  "displayName": "Anzen Lite",
+  "description": "Extension for VS Code that runs locally, a lite version of Anzen without AI features.",
+  "version": "0.0.1",
+  "icon": "icon.png",
+  "publisher": "Blag Flag",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "activationEvents": [
+    "onCommand:extension.runSemgrep"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.runSemgrep",
+        "title": "Anzen Lite"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "echo 'No compile step needed'"
+  },
+  "dependencies": {}
+}

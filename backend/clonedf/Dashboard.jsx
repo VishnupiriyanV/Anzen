@@ -1,71 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, GitBranch, AlertTriangle, CheckCircle, Clock, Eye, RefreshCw, Search } from 'lucide-react';
-
-// Custom hook for polling
-function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-        savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-        function tick() {
-            savedCallback.current();
-        }
-        if (delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay]);
-}
 
 const Dashboard = () => {
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
-  const [isPolling, setIsPolling] = useState(false);
-
-  const fetchRepositories = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/repositories', {
-        credentials: 'include'
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch repositories.');
-      }
-      const data = await response.json();
-      const formattedData = data.map(repo => ({
-        ...repo,
-        id: encodeURIComponent(repo.url)
-      }));
-      
-      const hasActiveScans = formattedData.some(repo => repo.status === 'scanning');
-      setIsPolling(hasActiveScans);
-      
-      setRepositories(formattedData);
-      
-    } catch (err) {
-      setError(err.message || 'Failed to load repositories.');
-      console.error("Error fetching repositories:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    fetchRepositories();
-  }, []);
+    const loadRepositories = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        // Fetch repositories for the logged-in user (Flask session handles user_id)
+        const response = await fetch('http://localhost:5000/api/repositories', {
+          credentials: 'include' // <--- ADDED THIS LINE
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch repositories.');
+        }
+        const data = await response.json();
+        // Frontend expects 'id' for Link, use 'url' from backend for unique key
+        const formattedData = data.map(repo => ({
+            ...repo,
+            id: encodeURIComponent(repo.url) // Use encoded URL as ID for routing
+        }));
+        setRepositories(formattedData);
+      } catch (err) {
+        setError(err.message || 'Failed to load repositories.');
+        console.error("Error fetching repositories:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useInterval(() => {
-    if (isPolling) {
-      fetchRepositories();
-    }
-  }, 5000); // Poll every 5 seconds if a scan is active
+    loadRepositories();
+  }, []); // Empty dependency array means this runs once on component mount
 
   const filteredRepositories = repositories.filter(repo =>
     repo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -73,39 +44,54 @@ const Dashboard = () => {
   );
 
   const handleRescan = async (repoUrl) => {
+    // Optimistically update status to 'scanning'
     setRepositories(repos =>
       repos.map(repo =>
         repo.url === repoUrl ? { ...repo, status: 'scanning' } : repo
       )
     );
     
-    setError('');
+    setError(''); // Clear any previous errors
     
     try {
-      const response = await fetch('http://localhost:5000/api/add_repository', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ repoUrl }),
-        credentials: 'include'
-      });
+        const response = await fetch('http://localhost:5000/api/add_repository', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ repoUrl }),
+            credentials: 'include'
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to rescan repository.');
-      }
-      
-      // Start polling immediately after a successful rescan request
-      setIsPolling(true);
-      fetchRepositories();
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to rescan repository.');
+        }
+        
+        // Wait a moment then refetch repositories
+        setTimeout(async () => {
+          try {
+            const updatedResponse = await fetch('http://localhost:5000/api/repositories', {
+              credentials: 'include'
+            });
+            const updatedData = await updatedResponse.json();
+            const formattedUpdatedData = updatedData.map(repo => ({
+                ...repo,
+                id: encodeURIComponent(repo.url)
+            }));
+            setRepositories(formattedUpdatedData);
+          } catch (fetchError) {
+            console.error("Error refetching repositories:", fetchError);
+          }
+        }, 2000);
 
     } catch (err) {
-      setError(err.message || 'Rescan failed. Please try again.');
-      console.error("Error during rescan:", err);
-      setRepositories(repos =>
-        repos.map(repo =>
-          repo.url === repoUrl ? { ...repo, status: 'error' } : repo
-        )
-      );
+        setError(err.message || 'Rescan failed. Please try again.');
+        console.error("Error during rescan:", err);
+        // Revert status on error
+        setRepositories(repos =>
+            repos.map(repo =>
+                repo.url === repoUrl ? { ...repo, status: 'error' } : repo
+            )
+        );
     }
   };
 

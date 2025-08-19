@@ -1,0 +1,15 @@
+{
+    "name": "Anzen - AI Code Vulnerability Checker",
+    "short_name": "Anzen",
+    "icons": [
+    {
+        "src": "/favicon.svg",
+        "sizes": "any",
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
+    }
+    ],
+    "theme_color": "#3B82F6",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

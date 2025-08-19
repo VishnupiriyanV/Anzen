@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, GitBranch, AlertTriangle, Clock, CheckCircle, ExternalLink, FileText, Shield, RefreshCw, Clipboard } from 'lucide-react';
+import { ArrowLeft, GitBranch, AlertTriangle, Clock, CheckCircle, ExternalLink, FileText, Shield, RefreshCw } from 'lucide-react';
 
 const RepositoryDetail = () => {
   const { repoUrlEncoded } = useParams(); // Get the URL from the route parameter
@@ -225,99 +225,52 @@ const RepositoryDetail = () => {
 
           {/* Vulnerability Filters */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6 transition-colors duration-300">
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-              <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Vulnerability Report</h2>
-                <div className="flex flex-wrap gap-3">
-                  <button
-                    onClick={() => setSelectedSeverity('all')}
-                    className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 ${
-                      selectedSeverity === 'all'
-                        ? 'bg-blue-600 dark:bg-blue-500 text-white border-blue-600 dark:border-blue-500'
-                        : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600'
-                    }`}
-                  >
-                    All ({vulnerabilities.length})
-                  </button>
-                  <button
-                    onClick={() => setSelectedSeverity('high')}
-                    className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 flex items-center ${
-                      selectedSeverity === 'high'
-                        ? 'bg-red-600 dark:bg-red-500 text-white border-red-600 dark:border-red-500'
-                        : 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 border-red-300 dark:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20'
-                    }`}
-                  >
-                    <AlertTriangle className="w-4 h-4 mr-2" />
-                    High ({repository?.vulnerabilities?.high})
-                  </button>
-                  <button
-                    onClick={() => setSelectedSeverity('medium')}
-                    className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 flex items-center ${
-                      selectedSeverity === 'medium'
-                        ? 'bg-orange-600 dark:bg-orange-500 text-white border-orange-600 dark:border-orange-500'
-                        : 'bg-white dark:bg-gray-700 text-orange-600 dark:text-orange-400 border-orange-300 dark:border-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20'
-                    }`}
-                  >
-                    <Clock className="w-4 h-4 mr-2" />
-                    Medium ({repository?.vulnerabilities?.medium})
-                  </button>
-                  <button
-                    onClick={() => setSelectedSeverity('low')}
-                    className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 flex items-center ${
-                      selectedSeverity === 'low'
-                        ? 'bg-yellow-600 dark:bg-yellow-500 text-white border-yellow-600 dark:border-yellow-500'
-                        : 'bg-white dark:bg-gray-700 text-yellow-600 dark:text-yellow-400 border-yellow-300 dark:border-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
-                    }`}
-                  >
-                    <Shield className="w-4 h-4 mr-2" />
-                    Low ({repository?.vulnerabilities?.low})
-                  </button>
-                </div>
-              </div>
-              
-              {/* New Score Display Block */}
-              <div className="mt-6 md:mt-0 flex-shrink-0">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 md:text-right">
-                      Security Score
-                  </h3>
-                  <div className="flex items-center justify-start md:justify-end">
-                      <div className="relative w-24 h-24">
-                          <svg className="w-full h-full" viewBox="0 0 100 100">
-                              {/* Background circle */}
-                              <circle
-                                  className="text-gray-200 dark:text-gray-700 transition-colors duration-300"
-                                  strokeWidth="10"
-                                  stroke="currentColor"
-                                  fill="transparent"
-                                  r="45"
-                                  cx="50"
-                                  cy="50"
-                              />
-                              {/* Progress circle */}
-                              <circle
-                                  className={`transition-colors duration-300 ${
-                                      repository?.score >= 80 ? 'text-green-500' :
-                                      repository?.score >= 50 ? 'text-yellow-500' :
-                                      'text-red-500'
-                                  }`}
-                                  strokeWidth="10"
-                                  strokeDasharray={2 * Math.PI * 45}
-                                  strokeDashoffset={2 * Math.PI * 45 - (2 * Math.PI * 45) * (repository?.score / 100)}
-                                  strokeLinecap="round"
-                                  stroke="currentColor"
-                                  fill="transparent"
-                                  r="45"
-                                  cx="50"
-                                  cy="50"
-                                  transform="rotate(-90 50 50)"
-                              />
-                          </svg>
-                          <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-900 dark:text-white">
-                              {repository?.score || 'N/A'}
-                          </span>
-                      </div>
-                  </div>
-              </div>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Vulnerability Report</h2>
+            
+            <div className="flex flex-wrap gap-3 mb-6">
+              <button
+                onClick={() => setSelectedSeverity('all')}
+                className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 ${
+                  selectedSeverity === 'all'
+                    ? 'bg-blue-600 dark:bg-blue-500 text-white border-blue-600 dark:border-blue-500'
+                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600'
+                }`}
+              >
+                All ({vulnerabilities.length})
+              </button>
+              <button
+                onClick={() => setSelectedSeverity('high')}
+                className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 flex items-center ${
+                  selectedSeverity === 'high'
+                    ? 'bg-red-600 dark:bg-red-500 text-white border-red-600 dark:border-red-500'
+                    : 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 border-red-300 dark:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20'
+                }`}
+              >
+                <AlertTriangle className="w-4 h-4 mr-2" />
+                High ({repository?.vulnerabilities?.high})
+              </button>
+              <button
+                onClick={() => setSelectedSeverity('medium')}
+                className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 flex items-center ${
+                  selectedSeverity === 'medium'
+                    ? 'bg-orange-600 dark:bg-orange-500 text-white border-orange-600 dark:border-orange-500'
+                    : 'bg-white dark:bg-gray-700 text-orange-600 dark:text-orange-400 border-orange-300 dark:border-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20'
+                }`}
+              >
+                <Clock className="w-4 h-4 mr-2" />
+                Medium ({repository?.vulnerabilities?.medium})
+              </button>
+              <button
+                onClick={() => setSelectedSeverity('low')}
+                className={`px-4 py-2 rounded-lg border font-medium transition-all duration-200 flex items-center ${
+                  selectedSeverity === 'low'
+                    ? 'bg-yellow-600 dark:bg-yellow-500 text-white border-yellow-600 dark:border-yellow-500'
+                    : 'bg-white dark:bg-gray-700 text-yellow-600 dark:text-yellow-400 border-yellow-300 dark:border-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
+                }`}
+              >
+                <Shield className="w-4 h-4 mr-2" />
+                Low ({repository?.vulnerabilities?.low})
+              </button>
             </div>
 
             {/* Vulnerability List */}
@@ -477,23 +430,15 @@ const RepositoryDetail = () => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Remediation</h3>
-                <div className="bg-gray-800 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-700 dark:border-gray-800">
-                  <div className="flex items-center justify-between px-4 py-2 border-b border-gray-700 dark:border-gray-800">
-                      <span className="text-sm font-medium text-gray-400 dark:text-gray-500">PHP</span>
-                      <button
-                          className="text-gray-400 hover:text-white transition-colors duration-200"
-                          onClick={() => navigator.clipboard.writeText(selectedVulnerability.remediation)}
-                          title="Copy code to clipboard"
-                      >
-                          <Clipboard className="w-4 h-4" />
-                      </button>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">{selectedVulnerability.remediation}</p>
+                
+                {selectedVulnerability.example && (
+                  <div className="bg-gray-900 dark:bg-gray-950 rounded-lg p-4">
+                    <pre className="text-green-400 dark:text-green-300 text-sm overflow-x-auto whitespace-pre-wrap">
+                      <code>{selectedVulnerability.example}</code>
+                    </pre>
                   </div>
-                  <pre className="text-sm p-4 overflow-x-auto whitespace-pre-wrap">
-                      <code className="text-green-400">
-                          {selectedVulnerability.remediation}
-                      </code>
-                  </pre>
-                </div>
+                )}
               </div>
                {/* New: False Positive Analysis */}
                {selectedVulnerability.false_positive_analysis && (
