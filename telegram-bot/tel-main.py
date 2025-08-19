@@ -9,8 +9,8 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 
-TELEGRAM_BOT_TOKEN = "7864378317:AAHb4ZMpZBupFeF-G3NzRB0hgMD3xvUGYT4"
-GROQ_API_KEY = "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"
+TELEGRAM_BOT_TOKEN = "Bot token"
+GROQ_API_KEY = "Give your API key"
 
 
 logging.basicConfig(
