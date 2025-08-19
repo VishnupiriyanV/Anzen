@@ -51,3 +51,5 @@ Send your GitHub repository link.
 Get a detailed vulnerability report in seconds.
 
 Supports 35+ languages.
+
+![Logo](logo.jpeg)
