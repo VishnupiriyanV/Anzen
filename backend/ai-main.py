@@ -68,7 +68,7 @@ def analyze_finding(client, result):
 def main():
     
     
-    api_key = "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" 
+    api_key = "add your API " 
 
     if api_key == "your_actual_api_key_here":
         print("ERROR: Please replace 'your_actual_api_key_here' with your real Groq API key in the script.")
