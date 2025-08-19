@@ -10,6 +10,7 @@ Anzen AI is a web application that analyzes source code repositories for securit
 - Automated Analysis – Uses advanced AI-powered scanning for security issues.
 - JSON Output – Results are returned as structured JSON for further processing or integration.
 - No Installation Required – Works directly from your browser via a simple web interface.
+- Can access through Extenstion in Visual Studio and Telegram Bot
 
 
 ## Run Locally
