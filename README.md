@@ -1,55 +1,86 @@
+
 # Anzen AI
 
 Anzen AI is a web application that analyzes source code repositories for security vulnerabilities.
-It supports 35+ programming languages and works directly with GitHub repositories.
 
 ## Features
 
-Repository Scanning – Provide a GitHub repository URL, and Anzen AI will fetch and scan the codebase.
+- Repository Scanning – Provide a GitHub repository URL, and Anzen AI will fetch and scan the codebase.
+- Multi-Language Support – Detect vulnerabilities in over 35 programming languages.
+- Automated Analysis – Uses advanced AI-powered scanning for security issues.
+- JSON Output – Results are returned as structured JSON for further processing or integration.
+- No Installation Required – Works directly from your browser via a simple web interface.
 
-Multi-Language Support – Detect vulnerabilities in over 35 programming languages.
 
-Automated Analysis – Uses advanced AI-powered scanning for security issues.
+## Run Locally
 
-JSON Output – Results are returned as structured JSON for further processing or integration.
+**To Deploy Frontend**
+Clone the project
 
-No Installation Required – Works directly from your browser via a simple web interface.
 
-## How It Works
+```bash
+  git clone https://github.com/VishnupiriyanV/Anzen.git
+```
 
-Enter Repository URL – Paste the GitHub repository link in the provided field.
 
-Automatic Cloning – The backend fetches the repository source.
+Go to the project directory
 
-Vulnerability Scanning – Code is analyzed using a multi-language security analysis engine.
+```bash
+  cd Anzen
+```
 
-View Results – See detailed JSON output with vulnerability types, affected files, and severity levels.
+**To Deploy Frontend**
 
-## Anzen Lite
+```bash
+    cd frontend
 
-Extension for VS Code that runs locally, a lite version of Anzen without AI features. Install using the VSIX file.
+```
 
-## Usage
-1. Install Dependency:
-   ```bash
-   pip install semgrep
-   ```
-2. Open a file in VS Code.
-3. Press `Cmd+Shift+P` → "Anzen Lite".
-4. Vulnerabilities will be highlighted in red.
+Install dependencies
 
-## Anzen AI Telegram Bot
+```bash
+  npm install
+```
 
-Scan your GitHub repositories for vulnerabilities directly from Telegram.
+To start the Frontend
 
-## Usage:
+```bash
+  npm run dev
+```
 
-Open the Anzenatorbot on Telegram.
+**To Deploy Backend**
 
-Send your GitHub repository link.
+Change directory
+```bash
+    cd backend
+```
 
-Get a detailed vulnerability report in seconds.
+Create a virtual environment
+```bash
+    python3 -m venv venv
+    .\venv\Scripts\activate
+```
 
-Supports 35+ languages.
+Run app.py
 
-![Logo](logo.jpeg)
+```bash
+    python3 app.py
+```
+
+
+## Tech Stack
+
+**Frontend:** React.js, TailwindCSS 
+
+**Backend:** Flask, Semgrep (Static Code Analysis), Grok API (False Positive Analysis and Code Remediation), SQLAlchemy
+
+**Database:** MySQL
+
+
+
+## Authors
+
+- [Vishal M](https://github.com/Valiant-Vishal)
+- [Deepthi Muthukumar](https://github.com/deepthimuthu77)
+- [Nishanth S](https://github.com/NishanthGit3)
+- [Vishnupiriyan V](https://github.com/VishnupiriyanV)
